@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:orientation="vertical"
+    android:background="@drawable/entrance"
+    android:alpha="0.4" />
+
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/shotef"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/strike"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="330dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="350dp">
+
+        <Button
+            android:id="@+id/btnIn"
+            android:layout_width="@dimen/btn"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSub"
+            android:text="@string/signIn"
+            android:textColor="@color/colorWhite" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/strike"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnUp"
+            android:layout_width="@dimen/btn"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSub"
+            android:text="@string/signUp"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+

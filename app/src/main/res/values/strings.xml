@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ShotefPlus</string>
+    <string name="signIn">SIGN IN</string>
+    <string name="signUp">SIGN UP</string>
+    <string name="reciept">קבלות</string>
+    <string name="suggestions">הצעות מחיר</string>
+    <string name="expenses">הוצאות</string>
+    <string name="ShowReports">הצגת דוחות</string>
+    <string name="GenerateReports">הפקת דוחות</string>
+    <string name="settings">הגדרות</string>
+
+</resources>
