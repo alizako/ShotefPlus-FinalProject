@@ -4,16 +4,16 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context="finals.shotefplus.MainActivity">
+    tools:context="finals.shotefplus.MainActivity"
+    tools:menu="menu.xml">
 
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <TableRow
             android:layout_width="match_parent"
@@ -22,51 +22,25 @@
 
 
             <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_column="1"
-                android:text="@string/reciept"
-                android:padding="3dp"
+                android:layout_weight="0.5"
                 android:background="@color/colorSub1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
                 android:gravity="center"
-                android:layout_weight="0.5"
-                />
-            <Button
-                android:text="@string/suggestions"
                 android:padding="3dp"
-                android:background="@color/colorSub2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
-                android:gravity="center"
-                android:layout_weight="0.5"/>
-            </TableRow>
+                android:text="@string/reciept"
+                android:textColor="@color/colorWhite" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
             <Button
-                android:layout_column="1"
-                android:text="@string/expenses"
-                android:padding="3dp"
-                android:background="@color/colorSub3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
-                android:gravity="center"
                 android:layout_weight="0.5"
-                />
-            <Button
-                android:text="@string/ShowReports"
-                android:padding="3dp"
-                android:background="@color/colorSub4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
+                android:background="@color/colorSub2"
                 android:gravity="center"
-                android:layout_weight="0.5"/>
+                android:padding="3dp"
+                android:text="@string/suggestions"
+                android:textColor="@color/colorWhite" />
         </TableRow>
 
         <TableRow
@@ -75,25 +49,52 @@
             android:layout_weight="3">
 
             <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_column="1"
-                android:text="@string/GenerateReports"
-                android:padding="3dp"
-                android:background="@color/colorSub5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
-                android:gravity="center"
                 android:layout_weight="0.5"
-                />
-            <Button
-                android:text="@string/settings"
+                android:background="@color/colorSub3"
+                android:gravity="center"
                 android:padding="3dp"
-                android:background="@color/colorSub6"
+                android:text="@string/expenses"
+                android:textColor="@color/colorWhite" />
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorWhite"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub4"
                 android:gravity="center"
-                android:layout_weight="0.5"/>
+                android:padding="3dp"
+                android:text="@string/ShowReports"
+                android:textColor="@color/colorWhite" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub5"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/GenerateReports"
+                android:textColor="@color/colorWhite" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub6"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/settings"
+                android:textColor="@color/colorWhite" />
         </TableRow>
 
 

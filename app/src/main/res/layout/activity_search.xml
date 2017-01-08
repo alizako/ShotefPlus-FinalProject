@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    tools:context="finals.shotefplus.SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/picSizeSign"
+        android:alpha="0.4"
+        android:background="@drawable/search"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/picSizeSign"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+
+        <Spinner
+            android:id="@+id/spnrPaymentType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerPaymentType"
+            android:prompt="@string/paymentType"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="6">
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnrWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerWork"
+            android:prompt="@string/work"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="6">
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnrCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerCustomer"
+            android:prompt="@string/customer"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="6">
+        </Spinner>
+
+        <EditText
+            android:id="@+id/etReceiptNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/receiptNum"
+            android:inputType="number"
+            android:layout_weight="6"/>
+
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:inputType="date"
+            android:layout_weight="6"/>
+
+        <!--<DatePicker
+            android:id="@+id/dpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:minDate="01/01/2000"
+            android:maxDate="01/01/2018">
+
+        </DatePicker>-->
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="@dimen/stndrtBtn"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/colorSub"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_marginLeft="@dimen/marginBtn"
+            android:text="@string/search"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="6"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

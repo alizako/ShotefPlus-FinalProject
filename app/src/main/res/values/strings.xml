@@ -1,12 +1,45 @@
 <resources>
     <string name="app_name">ShotefPlus</string>
-    <string name="signIn">SIGN IN</string>
-    <string name="signUp">SIGN UP</string>
+    <string name="signIn">התחבר</string>
+    <string name="signUp">הרשם</string>
     <string name="reciept">קבלות</string>
     <string name="suggestions">הצעות מחיר</string>
     <string name="expenses">הוצאות</string>
     <string name="ShowReports">הצגת דוחות</string>
     <string name="GenerateReports">הפקת דוחות</string>
     <string name="settings">הגדרות</string>
+    <string name="search">חיפוש</string>
+    <string name="searchResults">תוצאות חיפוש</string>
+
+    <string name="signUpLabel">רישום למערכת</string>
+    <string name="mainLabel">תפריט ראשי</string>
+
+    <string name="paymentType">סוג תשלום</string>
+    <string name="work">עבודה</string>
+    <string name="receiptNum">מספר קבלה</string>
+    <string name="customer">לקוח</string>
+    <string name="date">תאריך</string>
+
+
+
+
+    <!-- SPinners -->
+    <string-array name="spinnerPaymentType">
+        <item>סוג תשלום</item>
+        <item>שוטף + 30</item>
+        <item>שוטף + 60</item>
+        <item>שוטף + 90</item>
+        <item>שוטף + 120</item>
+    </string-array>
+
+    <string-array name="spinnerWork">
+        <item>עבודה</item>
+    </string-array>
+
+    <string-array name="spinnerCustomer">
+        <item>לקוח 1</item>
+        <item>לקוח 2</item>
+        <item>לקוח 3</item>
+    </string-array>
 
 </resources>

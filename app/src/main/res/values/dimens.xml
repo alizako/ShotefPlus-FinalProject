@@ -3,5 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="btn">300dp</dimen>
-    <dimen name="strike">20dp</dimen>
+    <dimen name="stripe">20dp</dimen>
+    <dimen name="stndrtBtn">150dp</dimen>
+    <dimen name="marginBtn">5dp</dimen>
+    <!--<dimen name="picTransperant">0.4</dimen>-->
+
+    <!-- Sign -->
+    <dimen name="picSizeSign">200dp</dimen>
 </resources>

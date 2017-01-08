@@ -8,18 +8,37 @@
         android:label=""
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity">
-        </activity>
-
-        <activity android:name=".EntranceActivity"
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/mainLabel" />
+        <activity
+            android:name=".EntranceActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/signUpLabel" />
+        <activity android:name=".SearchActivity"
+            android:label="@string/search" />
+        <activity android:name=".SearchResultsActivity"
+            android:label="@string/searchResults"  />
+
+        <activity android:name=".InsertReceiptActivity" />
+        <activity android:name=".ReceiptsActivity" />
+        <activity android:name=".InsertPriceOfferActivity" />
+        <activity android:name=".PriceOffersActivity" />
+        <activity android:name=".ExpensesActivity" />
+        <activity android:name=".InsertExpenseActivity" />
+        <activity android:name=".IncomesVsExpensesActivity" />
+        <activity android:name=".ReportsActivity" />
+
+
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

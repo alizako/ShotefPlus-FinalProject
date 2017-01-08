@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    tools:context="finals.shotefplus.SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/picSizeSign"
+        android:alpha="0.4"
+        android:background="@drawable/sign"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/picSizeSign"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+
+        <EditText
+            android:id="@+id/etBsns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="שם עסק"
+            android:inputType="textPersonName"
+            android:layout_weight="7"/>
+
+        <EditText
+            android:id="@+id/etTik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="מספר תיק חברה"
+            android:inputType="number"
+            android:layout_weight="7" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:hint="טלפון"
+            android:inputType="phone"
+            android:layout_weight="7"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:hint="דואל"
+            android:inputType="textEmailAddress"
+            android:layout_weight="7"/>
+
+        <EditText
+            android:id="@+id/etUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="שם משתמש"
+            android:inputType="text"
+            android:layout_weight="7"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="סיסמה"
+            android:inputType="text"
+            android:layout_weight="7"/>
+
+        <Button
+            android:id="@+id/btnUp"
+            android:layout_width="@dimen/stndrtBtn"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/colorSub"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_marginLeft="@dimen/marginBtn"
+            android:text="@string/signUp"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="7"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
