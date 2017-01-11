@@ -12,4 +12,5 @@
     <color name="colorSub5">#17534a</color>
     <color name="colorSub6">#123f38</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorHint">#808080</color>
 </resources>

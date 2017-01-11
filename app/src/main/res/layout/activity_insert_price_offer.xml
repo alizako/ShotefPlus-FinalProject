@@ -4,10 +4,122 @@
     android:id="@+id/activity_insert_price_offer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layoutDirection="rtl"
     tools:context="finals.shotefplus.InsertPriceOfferActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/picSizeSignSmall"
+        android:alpha="0.4"
+        android:background="@drawable/price_small"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/picSizeSignSmall"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:inputType="date"
+            android:layout_weight="7"/>
+        <Spinner
+            android:id="@+id/spnrCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerCustomer"
+            android:prompt="@string/customer"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="7">
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnrPaymentType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerPaymentType"
+            android:prompt="@string/paymentType"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="7">
+        </Spinner>
+
+
+        <EditText
+            android:id="@+id/etDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/workDetails"
+            android:inputType="text"
+            android:layout_weight="7"/>
+
+
+        <EditText
+            android:id="@+id/etSum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sumPayment"
+            android:inputType="number"
+            android:layout_weight="7"/>
+
+        <EditText
+            android:id="@+id/etSumMaam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sumPaymentMMaam"
+            android:inputType="number"
+            android:layout_weight="7"/>
+        <!--<DatePicker
+            android:id="@+id/dpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:minDate="01/01/2000"
+            android:maxDate="01/01/2018">
+
+        </DatePicker>-->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:weightSum="7">
+
+            <Button
+                android:id="@+id/btnAddAndSend"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@color/colorSub"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:text="@string/sendPDF"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"/>
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@color/colorSub"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:text="@string/insert"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

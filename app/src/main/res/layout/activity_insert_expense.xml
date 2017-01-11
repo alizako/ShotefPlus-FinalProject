@@ -1,13 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_insert_expense"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layoutDirection="rtl"
     tools:context="finals.shotefplus.InsertExpenseActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/picSizeSign"
+        android:alpha="0.4"
+        android:background="@drawable/expense"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/picSizeSign"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/etSum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sumExpense"
+            android:inputType="number"
+            android:layout_weight="6"/>
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:inputType="date"
+            android:layout_weight="6"/>
+
+        <Spinner
+            android:id="@+id/spnrPaymentType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerPaymentType"
+            android:prompt="@string/paymentType"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="6">
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnrWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerWork"
+            android:prompt="@string/workNum"
+            style="@android:style/Widget.Material.Spinner.Underlined"
+            android:layout_weight="6">
+        </Spinner>
+
+
+
+        <EditText
+            android:id="@+id/etDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sumDetails"
+            android:inputType="text"
+            android:layout_weight="6"/>
+
+        <!--<DatePicker
+            android:id="@+id/dpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:minDate="01/01/2000"
+            android:maxDate="01/01/2018">
+
+        </DatePicker>-->
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="@dimen/stndrtBtnWidth"
+            android:layout_height="@dimen/stndrtBtnHeight"
+            android:layout_gravity="left"
+            android:background="@color/colorSub"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_marginLeft="@dimen/marginBtn"
+            android:text="@string/insert"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="6"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

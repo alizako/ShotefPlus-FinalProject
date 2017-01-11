@@ -28,12 +28,15 @@
         <activity android:name=".SearchResultsActivity"
             android:label="@string/searchResults"  />
 
-        <activity android:name=".InsertReceiptActivity" />
+        <activity android:name=".InsertReceiptActivity"
+            android:label="@string/insertReceipt"/>
         <activity android:name=".ReceiptsActivity" />
-        <activity android:name=".InsertPriceOfferActivity" />
+        <activity android:name=".InsertPriceOfferActivity"
+            android:label="@string/insertPriceOffer"/>
         <activity android:name=".PriceOffersActivity" />
         <activity android:name=".ExpensesActivity" />
-        <activity android:name=".InsertExpenseActivity" />
+        <activity android:name=".InsertExpenseActivity"
+            android:label="@string/insertExpense" />
         <activity android:name=".IncomesVsExpensesActivity" />
         <activity android:name=".ReportsActivity" />
 

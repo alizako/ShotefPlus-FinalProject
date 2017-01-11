@@ -10,4 +10,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="finals.shotefplus.ReceiptsActivity">
 
+
+    <ImageButton
+        android:id="@+id/btnAdd"
+        android:layout_width="@dimen/ovalBtnSize"
+        android:layout_height="@dimen/ovalBtnSize"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/ovalBtnMargin"
+        android:layout_marginRight="@dimen/ovalBtnMargin"
+        android:background="@drawable/oval"
+        android:elevation="@dimen/ovalBtnElevation"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@android:color/white" />
+
 </RelativeLayout>

@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_sign_up"
+    android:id="@+id/activity_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context="finals.shotefplus.SignUpActivity">
+    tools:context="finals.shotefplus.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/spinnerWork"
-            android:prompt="@string/work"
+            android:prompt="@string/workNum"
             style="@android:style/Widget.Material.Spinner.Underlined"
             android:layout_weight="6">
         </Spinner>
@@ -84,8 +84,8 @@
 
         <Button
             android:id="@+id/btnSearch"
-            android:layout_width="@dimen/stndrtBtn"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/stndrtBtnWidth"
+            android:layout_height="@dimen/stndrtBtnHeight"
             android:layout_gravity="left"
             android:background="@color/colorSub"
             android:layout_marginBottom="@dimen/marginBtn"

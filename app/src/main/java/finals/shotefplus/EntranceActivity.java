@@ -22,7 +22,7 @@ public class EntranceActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callMainActivity();
+                signIn();
             }
         });
 
@@ -35,9 +35,8 @@ public class EntranceActivity extends AppCompatActivity {
 
     }
 
-    private void callMainActivity(){
-        //Intent intent = new Intent(EntranceActivity.this,MainActivity.class);
-        Intent intent = new Intent(EntranceActivity.this,SearchActivity.class);//tmp!!!
+    private void signIn(){
+        Intent intent = new Intent(EntranceActivity.this,MainActivity.class);
         startActivity(intent);
     }
 

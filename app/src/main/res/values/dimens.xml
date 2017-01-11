@@ -4,10 +4,18 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="btn">300dp</dimen>
     <dimen name="stripe">20dp</dimen>
-    <dimen name="stndrtBtn">150dp</dimen>
+    <dimen name="stndrtBtnWidth">150dp</dimen>
+    <dimen name="stndrtBtnHeight">30dp</dimen>
     <dimen name="marginBtn">5dp</dimen>
+    <dimen name="txtSizeMain">25sp</dimen>
     <!--<dimen name="picTransperant">0.4</dimen>-->
+
+    <!--Float Button-->
+    <dimen name="ovalBtnMargin">20dp</dimen>
+    <dimen name="ovalBtnSize">65dp</dimen>
+    <dimen name="ovalBtnElevation">10dp</dimen>
 
     <!-- Sign -->
     <dimen name="picSizeSign">200dp</dimen>
+    <dimen name="picSizeSignSmall">150dp</dimen>
 </resources>

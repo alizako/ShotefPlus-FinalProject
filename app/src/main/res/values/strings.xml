@@ -1,29 +1,40 @@
 <resources>
     <string name="app_name">ShotefPlus</string>
+
+<!-- Buttons-->
     <string name="signIn">התחבר</string>
     <string name="signUp">הרשם</string>
-    <string name="reciept">קבלות</string>
-    <string name="suggestions">הצעות מחיר</string>
+    <string name="insert">הוסף</string>
+    <string name="sendPDF">שלח ללקוח כ PDF</string>
+
+<!--Titles-->
+    <string name="receipt">קבלות</string>
+    <string name="insertReceipt">הוספת קבלה</string>
+    <string name="priceOffers">הצעות מחיר</string>
+    <string name="insertPriceOffer">הצעת מחיר</string>
     <string name="expenses">הוצאות</string>
+    <string name="insertExpense">הוספת הוצאה</string>
     <string name="ShowReports">הצגת דוחות</string>
     <string name="GenerateReports">הפקת דוחות</string>
     <string name="settings">הגדרות</string>
     <string name="search">חיפוש</string>
     <string name="searchResults">תוצאות חיפוש</string>
-
     <string name="signUpLabel">רישום למערכת</string>
     <string name="mainLabel">תפריט ראשי</string>
 
+    <!--Fields-->
     <string name="paymentType">סוג תשלום</string>
-    <string name="work">עבודה</string>
+    <string name="workNum">מספר עבודה</string>
     <string name="receiptNum">מספר קבלה</string>
     <string name="customer">לקוח</string>
     <string name="date">תאריך</string>
+    <string name="sumExpense">סכום הוצאה</string>
+    <string name="sumDetails">פרטי הוצאה</string>
+    <string name="workDetails">פרטי העסקה</string>
+    <string name="sumPayment">סהכ לתשלום</string>
+    <string name="sumPaymentMMaam">סהכ לתשלום כולל מעמ</string>
 
-
-
-
-    <!-- SPinners -->
+    <!-- Spinners -->
     <string-array name="spinnerPaymentType">
         <item>סוג תשלום</item>
         <item>שוטף + 30</item>
@@ -34,12 +45,14 @@
 
     <string-array name="spinnerWork">
         <item>עבודה</item>
+        <item>הוסף...</item>
     </string-array>
 
     <string-array name="spinnerCustomer">
         <item>לקוח 1</item>
         <item>לקוח 2</item>
         <item>לקוח 3</item>
+        <item>הוסף...</item>
     </string-array>
 
 </resources>
