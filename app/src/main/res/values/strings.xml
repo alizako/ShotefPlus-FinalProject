@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">ShotefPlus</string>
 
-<!-- Buttons-->
+    <!-- Buttons-->
     <string name="signIn">התחבר</string>
     <string name="signUp">הרשם</string>
     <string name="insert">הוסף</string>
     <string name="sendPDF">שלח ללקוח כ PDF</string>
 
-<!--Titles-->
+    <!--Titles-->
     <string name="receipt">קבלות</string>
     <string name="insertReceipt">הוספת קבלה</string>
     <string name="priceOffers">הצעות מחיר</string>
@@ -21,6 +21,8 @@
     <string name="searchResults">תוצאות חיפוש</string>
     <string name="signUpLabel">רישום למערכת</string>
     <string name="mainLabel">תפריט ראשי</string>
+    <string name="customers">לקוחות</string>
+    <string name="works">עבודות</string>
 
     <!--Fields-->
     <string name="paymentType">סוג תשלום</string>
@@ -33,6 +35,8 @@
     <string name="workDetails">פרטי העסקה</string>
     <string name="sumPayment">סהכ לתשלום</string>
     <string name="sumPaymentMMaam">סהכ לתשלום כולל מעמ</string>
+
+    <string name="notFound">לא הוכנס מלל</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">

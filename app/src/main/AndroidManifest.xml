@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label=""
+        android:label="Shotef Plus"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -23,25 +23,31 @@
         <activity
             android:name=".SignUpActivity"
             android:label="@string/signUpLabel" />
-        <activity android:name=".SearchActivity"
+        <activity
+            android:name=".SearchActivity"
             android:label="@string/search" />
-        <activity android:name=".SearchResultsActivity"
-            android:label="@string/searchResults"  />
-
-        <activity android:name=".InsertReceiptActivity"
-            android:label="@string/insertReceipt"/>
+        <activity
+            android:name=".SearchResultsActivity"
+            android:label="@string/searchResults" />
+        <activity
+            android:name=".InsertReceiptActivity"
+            android:label="@string/insertReceipt" />
         <activity android:name=".ReceiptsActivity" />
-        <activity android:name=".InsertPriceOfferActivity"
-            android:label="@string/insertPriceOffer"/>
+        <activity
+            android:name=".InsertPriceOfferActivity"
+            android:label="@string/insertPriceOffer" />
         <activity android:name=".PriceOffersActivity" />
         <activity android:name=".ExpensesActivity" />
-        <activity android:name=".InsertExpenseActivity"
+        <activity
+            android:name=".InsertExpenseActivity"
             android:label="@string/insertExpense" />
         <activity android:name=".IncomesVsExpensesActivity" />
         <activity android:name=".ReportsActivity" />
-
-
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".CustomersActivity"
+            android:label="@string/customers"/>
+        <activity android:name=".InsertCustomerActivity" />
+        <activity android:name=".WorksActivity" />
     </application>
 
 </manifest>

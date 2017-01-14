@@ -18,33 +18,32 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3">
-
-
-            <Button
-                android:id="@+id/btnReceipts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_column="1"
-                android:layout_weight="0.5"
-                android:background="@color/colorSub1"
-                android:drawableBottom="@drawable/invoice64"
-                android:gravity="center"
-                android:padding="3dp"
-                android:text="@string/receipt"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/txtSizeMain" />
+            android:layout_weight="4">
 
             <Button
                 android:id="@+id/btnOffers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@color/colorSub2"
+                android:background="@color/colorSub1"
                 android:drawableBottom="@drawable/report_pen64"
                 android:gravity="center"
                 android:padding="3dp"
                 android:text="@string/priceOffers"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/txtSizeMain" />
+
+
+            <Button
+                android:id="@+id/btnCustomers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub2"
+                android:drawableBottom="@drawable/group64"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/customers"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/txtSizeMain" />
         </TableRow>
@@ -52,15 +51,45 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:layout_weight="4">
+            <Button
+                android:id="@+id/btnReceipts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub3"
+                android:drawableBottom="@drawable/invoice64"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/receipt"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/txtSizeMain" />
+            <Button
+                android:id="@+id/btnWorks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub4"
+                android:drawableBottom="@drawable/work64"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/works"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/txtSizeMain" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
 
             <Button
                 android:id="@+id/btnExpenses"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_column="1"
+
                 android:layout_weight="0.5"
-                android:background="@color/colorSub3"
+                android:background="@color/colorSub5"
                 android:drawableBottom="@drawable/money_bag64"
                 android:gravity="center"
                 android:padding="3dp"
@@ -73,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@color/colorSub4"
+                android:background="@color/colorSub6"
                 android:drawableBottom="@drawable/magnifying64"
                 android:gravity="center"
                 android:padding="3dp"
@@ -85,15 +114,15 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:layout_weight="4">
 
             <Button
                 android:id="@+id/btnReports"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_column="1"
+
                 android:layout_weight="0.5"
-                android:background="@color/colorSub5"
+                android:background="@color/colorSub7"
                 android:drawableBottom="@drawable/report64"
                 android:gravity="center"
                 android:padding="3dp"
@@ -106,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@color/colorSub6"
+                android:background="@color/colorSub8"
                 android:drawableBottom="@drawable/settings64"
                 android:gravity="center"
                 android:padding="3dp"

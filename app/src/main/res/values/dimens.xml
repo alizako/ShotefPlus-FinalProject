@@ -7,7 +7,7 @@
     <dimen name="stndrtBtnWidth">150dp</dimen>
     <dimen name="stndrtBtnHeight">30dp</dimen>
     <dimen name="marginBtn">5dp</dimen>
-    <dimen name="txtSizeMain">25sp</dimen>
+    <dimen name="txtSizeMain">18sp</dimen>
     <!--<dimen name="picTransperant">0.4</dimen>-->
 
     <!--Float Button-->
@@ -18,4 +18,8 @@
     <!-- Sign -->
     <dimen name="picSizeSign">200dp</dimen>
     <dimen name="picSizeSignSmall">150dp</dimen>
+
+    <!--Fields-->
+    <dimen name="titleName">14sp</dimen>
+    <dimen name="summary">13dip</dimen>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class EntranceActivity extends AppCompatActivity {
 
@@ -36,8 +37,9 @@ public class EntranceActivity extends AppCompatActivity {
     }
 
     private void signIn(){
-        Intent intent = new Intent(EntranceActivity.this,MainActivity.class);
+        Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
         startActivity(intent);
+
     }
 
     private void signUp(){
