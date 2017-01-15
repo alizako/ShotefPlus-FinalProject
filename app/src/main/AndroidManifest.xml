@@ -9,10 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/mainLabel" />
         <activity
-            android:name=".EntranceActivity"
+            android:name=".activities.EntranceActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,33 +21,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:label="@string/signUpLabel" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:label="@string/search" />
         <activity
-            android:name=".SearchResultsActivity"
+            android:name=".activities.SearchResultsActivity"
             android:label="@string/searchResults" />
         <activity
-            android:name=".InsertReceiptActivity"
+            android:name=".activities.InsertReceiptActivity"
             android:label="@string/insertReceipt" />
-        <activity android:name=".ReceiptsActivity" />
+        <activity android:name=".activities.ReceiptsActivity"
+            android:label="@string/receipt"/>
         <activity
-            android:name=".InsertPriceOfferActivity"
+            android:name=".activities.InsertPriceOfferActivity"
             android:label="@string/insertPriceOffer" />
-        <activity android:name=".PriceOffersActivity" />
-        <activity android:name=".ExpensesActivity" />
+        <activity android:name=".activities.PriceOffersActivity"
+            android:label="@string/priceOffers"/>
+        <activity android:name=".activities.ExpensesActivity"
+            android:label="@string/expenses"/>
         <activity
-            android:name=".InsertExpenseActivity"
+            android:name=".activities.InsertExpenseActivity"
             android:label="@string/insertExpense" />
-        <activity android:name=".IncomesVsExpensesActivity" />
-        <activity android:name=".ReportsActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".CustomersActivity"
+        <activity android:name=".activities.IncomesVsExpensesActivity"
+            android:label=""/>
+        <activity android:name=".activities.ReportsActivity"
+            android:label=""/>
+        <activity android:name=".activities.SettingsActivity"
+            android:label="@string/settings"/>
+        <activity android:name=".activities.CustomersActivity"
             android:label="@string/customers"/>
-        <activity android:name=".InsertCustomerActivity" />
-        <activity android:name=".WorksActivity" />
+        <activity android:name=".activities.InsertCustomerActivity"
+            android:label="@string/insertCustomer"/>
+        <activity android:name=".activities.WorksActivity"
+            android:label="@string/works"/>
     </application>
 
 </manifest>

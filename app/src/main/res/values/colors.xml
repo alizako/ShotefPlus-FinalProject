@@ -15,6 +15,6 @@
     <color name="colorSub8">#123f38</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorHint">#808080</color>
-
+<color name="colorDevider">#BABABA</color>
     <color name="summary">#666666</color>
 </resources>

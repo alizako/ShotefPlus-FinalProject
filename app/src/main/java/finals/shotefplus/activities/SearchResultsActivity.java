@@ -1,13 +1,15 @@
-package finals.shotefplus;
+package finals.shotefplus.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class InsertCustomerActivity extends AppCompatActivity {
+import finals.shotefplus.R;
+
+public class SearchResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_customer);
+        setContentView(R.layout.activity_search_results);
     }
 }

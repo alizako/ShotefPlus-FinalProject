@@ -5,7 +5,8 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:textDirection="rtl">
 
     <!-- Name  -->
     <TextView
@@ -23,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
         android:orientation="horizontal"
         android:weightSum="1">
 

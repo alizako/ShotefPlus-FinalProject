@@ -22,6 +22,7 @@
     <string name="signUpLabel">רישום למערכת</string>
     <string name="mainLabel">תפריט ראשי</string>
     <string name="customers">לקוחות</string>
+    <string name="insertCustomer">הוספת לקוח</string>
     <string name="works">עבודות</string>
 
     <!--Fields-->
@@ -34,7 +35,7 @@
     <string name="sumDetails">פרטי הוצאה</string>
     <string name="workDetails">פרטי העסקה</string>
     <string name="sumPayment">סהכ לתשלום</string>
-    <string name="sumPaymentMMaam">סהכ לתשלום כולל מעמ</string>
+    <string name="sumPaymentMaam">סהכ לתשלום כולל מעמ</string>
 
     <string name="notFound">לא הוכנס מלל</string>
 

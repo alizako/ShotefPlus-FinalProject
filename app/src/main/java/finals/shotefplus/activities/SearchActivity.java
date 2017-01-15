@@ -1,13 +1,15 @@
-package finals.shotefplus;
+package finals.shotefplus.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class InsertPriceOfferActivity extends AppCompatActivity {
+import finals.shotefplus.R;
+
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_price_offer);
+        setContentView(R.layout.activity_search);
     }
 }

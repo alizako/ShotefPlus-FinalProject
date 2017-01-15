@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context="finals.shotefplus.InsertReceiptActivity">
+    tools:context="finals.shotefplus.activities.InsertReceiptActivity">
 
 
     <LinearLayout
@@ -92,7 +92,7 @@
             android:id="@+id/etSumMaam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sumPaymentMMaam"
+            android:hint="@string/sumPaymentMaam"
             android:inputType="number"
             android:layout_weight="10"/>
 

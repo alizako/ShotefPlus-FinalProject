@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context="finals.shotefplus.SearchActivity">
+    tools:context="finals.shotefplus.activities.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

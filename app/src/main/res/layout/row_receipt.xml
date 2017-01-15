@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:textDirection="rtl">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.98"
+            android:drawableLeft="@drawable/menu_dots24px"
+            android:drawableTint="@color/summary"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="vxdf"
+            android:textDirection="rtl"
+            android:textSize="@dimen/titleName"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgVw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:paddingTop="10dp"
+            android:src="@drawable/add_user2_32" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="0.1"
+            android:background="@color/colorDevider"
+            android:padding="10dp" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="0.9"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/txtReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.9"
+            android:drawableLeft="@drawable/textfile24"
+            android:paddingTop="10dp"
+            android:text="vxdf"
+            android:textSize="@dimen/titleName"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.9"
+            android:padding="10dp"
+            android:text="@string/notFound"
+            android:textColor="@color/summary"
+            android:textSize="@dimen/summary" />
+
+    </LinearLayout>
+
+</LinearLayout>

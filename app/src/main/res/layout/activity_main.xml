@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="finals.shotefplus.MainActivity"
+    tools:context="finals.shotefplus.activities.MainActivity"
     tools:menu="menu.xml">
 
 

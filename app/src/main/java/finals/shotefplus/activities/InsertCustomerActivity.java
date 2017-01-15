@@ -1,13 +1,15 @@
-package finals.shotefplus;
+package finals.shotefplus.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class InsertReceiptActivity extends AppCompatActivity {
+import finals.shotefplus.R;
+
+public class InsertCustomerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_receipt);
+        setContentView(R.layout.activity_insert_customer);
     }
 }

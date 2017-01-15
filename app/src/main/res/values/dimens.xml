@@ -11,7 +11,7 @@
     <!--<dimen name="picTransperant">0.4</dimen>-->
 
     <!--Float Button-->
-    <dimen name="ovalBtnMargin">20dp</dimen>
+    <dimen name="ovalBtnMargin">10dp</dimen>
     <dimen name="ovalBtnSize">65dp</dimen>
     <dimen name="ovalBtnElevation">10dp</dimen>
 

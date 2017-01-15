@@ -1,4 +1,4 @@
-package finals.shotefplus;
+package finals.shotefplus.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import finals.shotefplus.objects.Customer;
+import finals.shotefplus.R;
 
 /**
  * Created by Aliza on 14/01/2017.
@@ -74,11 +77,11 @@ public class CustomerListAdapter extends BaseAdapter {
 
 
         // name
-        name.setText(customer.getName());
+        name.setText(customer.getName()+" | "+"לקוח מס' "+ customer.getIdNum());
         //summary of details
         summary.setText(customer.getSummary());
         //isPriceOfferSent
-        isPriceOfferSent.setChecked(customer.getIsPriceOfferSent());
+        isPriceOfferSent.setChecked(customer.isPriceOfferSent());
 
 
         return convertView;
