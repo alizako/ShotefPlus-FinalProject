@@ -12,7 +12,7 @@ public class Customer {
     private long idNum = 0;
 
     private String name;
-    private boolean isPriceOfferSent;
+   // private boolean isPriceOfferSent;
     private String adrs;
     private String phoneNum;
     private String email;
@@ -23,7 +23,7 @@ public class Customer {
         idNumGlobal++;
         idNum=idNumGlobal;
         this.name = name;
-        this.isPriceOfferSent = isPriceOfferSent;
+    //    this.isPriceOfferSent = isPriceOfferSent;
         this.adrs = adrs;
         this.phoneNum = phoneNum;
         this.email = email;
@@ -42,13 +42,13 @@ public class Customer {
         this.name = name;
     }
 
-    public boolean isPriceOfferSent() {
+    /*public boolean isPriceOfferSent() {
         return isPriceOfferSent;
     }
 
     public void setPriceOfferSent(boolean priceOfferSent) {
         isPriceOfferSent = priceOfferSent;
-    }
+    }*/
 
     public String getAdrs() {
         return adrs;

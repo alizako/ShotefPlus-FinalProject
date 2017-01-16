@@ -12,35 +12,34 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import finals.shotefplus.objects.Customer;
 import finals.shotefplus.R;
+import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.PriceOffer;
 
 /**
- * Created by Aliza on 14/01/2017.
+ * Created by Aliza on 16/01/2017.
  */
 
-public class CustomerListAdapter extends BaseAdapter {
-
+public class PriceOfferListAdapter extends BaseAdapter {
 
     private Activity activity;
     private LayoutInflater inflater;
-    private List<Customer> customers;
-    //ImageLoader imageLoader ;
+    private List<PriceOffer> priceOfferList;
 
-
-    public CustomerListAdapter(Activity activity, List<Customer> customers) {
+    public PriceOfferListAdapter(Activity activity, List<PriceOffer> priceOfferList) {
         this.activity = activity;
-        this.customers = customers;
+        this.inflater = inflater;
+        this.priceOfferList = priceOfferList;
     }
 
     @Override
     public int getCount() {
-        return customers.size();
+        return priceOfferList.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return customers.get(location);
+        return priceOfferList.get(location);
     }
 
     @Override
@@ -54,14 +53,14 @@ public class CustomerListAdapter extends BaseAdapter {
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.row_customer, null);
+            convertView = inflater.inflate(R.layout.row_price_offer, null);
 
         // getting show data for the row
-        Customer customer = customers.get(position);
+        PriceOffer priceOffer = priceOfferList.get(position);
         TextView name = (TextView) convertView.findViewById(R.id.txtName);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.imgVw);
-//        CheckBox isPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.imgVw);
+        CheckBox isPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
 
 
 
@@ -76,15 +75,14 @@ public class CustomerListAdapter extends BaseAdapter {
         }*/
 
 
-        // name
-        name.setText(customer.getName()+" | "+"לקוח מס' "+ customer.getIdNum());
+        // name customer
+        name.setText("לקוח " + priceOffer.getCustomer().getName() + " | " + "מס' " + priceOffer.getCustomer().getIdNum());
         //summary of details
-        summary.setText(customer.getSummary());
+        summary.setText("הצעה " + priceOffer.getSumPaymentMaam() + " | " + priceOffer.getDate());
         //isPriceOfferSent
-     //   isPriceOfferSent.setChecked(customer.isPriceOfferSent());
+        isPriceOfferSent.setChecked(priceOffer.isPriceOfferSent());
 
 
         return convertView;
     }
 }
-

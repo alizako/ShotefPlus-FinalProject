@@ -10,12 +10,15 @@
     <dimen name="txtSizeMain">18sp</dimen>
     <!--<dimen name="picTransperant">0.4</dimen>-->
 
-    <!--Float Button-->
-    <dimen name="ovalBtnMargin">10dp</dimen>
-    <dimen name="ovalBtnSize">65dp</dimen>
-    <dimen name="ovalBtnElevation">10dp</dimen>
+    <!--Float Buttons-->
+    <dimen name="ovalBtnMargin">20dp</dimen>
+    <dimen name="ovalBtnSize">50dp</dimen>
+    <dimen name="btnElevation">10dp</dimen>
+    <dimen name="swipeBtnSize">60dp</dimen>
+    <dimen name="swipeBtnMargin">5dp</dimen>
 
     <!-- Sign -->
+    <dimen name="picSizeSignBig">240dp</dimen>
     <dimen name="picSizeSign">200dp</dimen>
     <dimen name="picSizeSignSmall">150dp</dimen>
 
