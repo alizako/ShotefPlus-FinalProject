@@ -21,7 +21,8 @@
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical|center_horizontal|center"
             android:padding="5dp"
-            android:src="@drawable/moneybag64_green" />
+            android:src="@drawable/coins48"
+            android:tint="@color/colorAccent"/>
     </LinearLayout>
 
     <LinearLayout

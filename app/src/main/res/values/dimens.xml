@@ -12,10 +12,11 @@
 
     <!--Float Buttons-->
     <dimen name="ovalBtnMargin">20dp</dimen>
-    <dimen name="ovalBtnSize">50dp</dimen>
+    <dimen name="ovalBtnSize">60dp</dimen>
     <dimen name="btnElevation">10dp</dimen>
     <dimen name="swipeBtnSize">60dp</dimen>
     <dimen name="swipeBtnMargin">5dp</dimen>
+    <dimen name="swipeBarHeight">40dp</dimen>
 
     <!-- Sign -->
     <dimen name="picSizeSignBig">240dp</dimen>

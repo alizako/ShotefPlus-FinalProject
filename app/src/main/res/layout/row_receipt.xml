@@ -36,7 +36,8 @@
             android:layout_height="match_parent"
             android:gravity="right"
             android:paddingTop="10dp"
-            android:src="@drawable/add_user2_32" />
+            android:src="@drawable/add_user2_32"
+            android:tint="@color/colorAccent"/>
     </LinearLayout>
 
     <LinearLayout

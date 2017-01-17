@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_alignParentTop="true"
+    android:background="@color/lightGrey"
+    android:orientation="horizontal"
+    android:textDirection="rtl"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.95"
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:paddingRight="5dp"
+        android:textDirection="rtl"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|start"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical|bottom"
+            android:text="פילטר"
+            android:textColor="@color/summary"
+            android:textSize="@dimen/titleName"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|start"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical|top"
+            android:text="ללא פילטר"
+            android:textColor="@color/summary"
+            android:textSize="@dimen/summary" />
+
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/txtNext"
+        android:layout_width="@dimen/swipeBarHeight"
+        android:layout_height="@dimen/swipeBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:drawableRight="@drawable/filter32"
+        android:drawableTint="@color/summary"
+        android:gravity="start|center"
+        android:layout_margin="20dp"/>
+</LinearLayout>

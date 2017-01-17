@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#040f4a</color>
-    <color name="colorPrimaryDark">#151e60</color>
-    <color name="colorAccent">#39cdb7</color>
+    <color name="colorPrimary">#214055</color>
+    <color name="colorPrimaryDark">#2f5062</color>
+    <color name="colorAccent">#4abab4</color>
     <color name="colorAccentOld">#FF4081</color>
-    <color name="colorSub">#39cdb7</color>
-    <color name="colorSub1">#44b4a3</color>
-    <color name="colorSub2">#40aa9a</color>
-    <color name="colorSub3">#388a7e</color>
-    <color name="colorSub4">#287469</color>
-    <color name="colorSub5">#207165</color>
-    <color name="colorSub6">#1b5e53</color>
-    <color name="colorSub7">#17534a</color>
-    <color name="colorSub8">#123f38</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorSub">#4abab4</color>
+    <color name="colorSub1">#99b4b0</color>
+    <color name="colorSub2">#799b9d</color>
+    <color name="colorSub3">#6d8f94</color>
+    <color name="colorSub4">#4f757b</color>
+    <color name="colorSub5">#486c74</color>
+    <color name="colorSub6">#325562</color>
+    <color name="colorSub7">#2f5062</color>
+    <color name="colorSub8">#214055</color>
+
     <color name="colorHint">#808080</color>
-<color name="colorDevider">#BABABA</color>
+    <color name="colorDevider">#BABABA</color>
     <color name="summary">#666666</color>
+    <color name="lightGrey">#eff0f0</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
 </resources>

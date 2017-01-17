@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="right|center"
-            android:src="@drawable/add_user2_32" />
+            android:src="@drawable/add_user2_32"
+            android:tint="@color/colorAccent"/>
 
 
     </LinearLayout>
