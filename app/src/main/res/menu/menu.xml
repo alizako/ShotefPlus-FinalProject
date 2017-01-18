@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:showAsAction="always">
 
     <item
         android:id="@+id/search"
         android:icon="@drawable/icnsearch"
         android:title="Search"
-        app:showAsAction="ifRoom|collapseActionView"
-
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
         />
 
-</menu>
+    <item
+        android:id="@+id/dotsMenu1"
+        android:title="hhh"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/dotsMenu2"
+        android:title="ggg"
+        app:showAsAction="never"
+        />
+
+    </menu>
+

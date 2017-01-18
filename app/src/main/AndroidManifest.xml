@@ -10,52 +10,77 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/mainLabel" />
+            android:label="@string/mainLabel"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
+
+        </activity>
         <activity
             android:name=".activities.EntranceActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Search results activity -->
+        <activity android:name=".activities.SearchResultsActivity"
+            android:parentActivityName="finals.shotefplus.activities.MainActivity"
+            android:label="@string/searchResults">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
         <activity
             android:name=".activities.SignUpActivity"
             android:label="@string/signUpLabel" />
         <activity
             android:name=".activities.SearchActivity"
             android:label="@string/search" />
-        <activity
-            android:name=".activities.SearchResultsActivity"
-            android:label="@string/searchResults" />
+
+
         <activity
             android:name=".activities.InsertReceiptActivity"
             android:label="@string/insertReceipt" />
-        <activity android:name=".activities.ReceiptsActivity"
-            android:label="@string/receipt"/>
+        <activity
+            android:name=".activities.ReceiptsActivity"
+            android:label="@string/receipt" />
         <activity
             android:name=".activities.InsertPriceOfferActivity"
             android:label="@string/insertPriceOffer" />
-        <activity android:name=".activities.PriceOffersActivity"
-            android:label="@string/priceOffers"/>
-        <activity android:name=".activities.ExpensesActivity"
-            android:label="@string/expenses"/>
+        <activity
+            android:name=".activities.PriceOffersActivity"
+            android:label="@string/priceOffers" />
+        <activity
+            android:name=".activities.ExpensesActivity"
+            android:label="@string/expenses" />
         <activity
             android:name=".activities.InsertExpenseActivity"
             android:label="@string/insertExpense" />
-        <activity android:name=".activities.IncomesVsExpensesActivity"
-            android:label=""/>
-        <activity android:name=".activities.ReportsActivity"
-            android:label=""/>
-        <activity android:name=".activities.SettingsActivity"
-            android:label="@string/settings"/>
-        <activity android:name=".activities.CustomersActivity"
-            android:label="@string/customers"/>
-        <activity android:name=".activities.InsertCustomerActivity"
-            android:label="@string/insertCustomer"/>
-        <activity android:name=".activities.WorksActivity"
-            android:label="@string/works"/>
+        <activity
+            android:name=".activities.IncomesVsExpensesActivity"
+            android:label="" />
+        <activity
+            android:name=".activities.ReportsActivity"
+            android:label="" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/settings" />
+        <activity
+            android:name=".activities.CustomersActivity"
+            android:label="@string/customers" />
+        <activity
+            android:name=".activities.InsertCustomerActivity"
+            android:label="@string/insertCustomer" />
+        <activity
+            android:name=".activities.WorksActivity"
+            android:label="@string/works" />
     </application>
 
 </manifest>
