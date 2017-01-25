@@ -17,7 +17,9 @@ public class Customer {
     private String phoneNum;
     private String email;
     private List<Work> workList;
-    private List<Receipt> receiptList;
+    //private List<Receipt> receiptList;
+    private String customerType; // ESEK, PRATI
+    private String customerContactName;
 
     public Customer(String name, boolean isPriceOfferSent, String adrs, String phoneNum, String email) {
         idNumGlobal++;
@@ -82,13 +84,13 @@ public class Customer {
         this.workList = workList;
     }
 
-    public List<Receipt> getReceiptList() {
+   /* public List<Receipt> getReceiptList() {
         return receiptList;
     }
 
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;
-    }
+    }*/
 
     public String getSummary() {
         return adrs + " | " +

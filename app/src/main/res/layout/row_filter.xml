@@ -44,9 +44,9 @@
 
     </LinearLayout>
 
-    <TextView
+   <!-- <TextView
 
-        android:id="@+id/txtNext"
+        android:id="@+id/txtFilter"
         android:layout_width="@dimen/swipeBarHeight"
         android:layout_height="@dimen/swipeBarHeight"
         android:layout_alignParentTop="true"
@@ -54,5 +54,18 @@
         android:drawableRight="@drawable/filter32"
         android:drawableTint="@color/summary"
         android:gravity="start|center"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"/>-->
+    <ImageButton
+        android:id="@+id/imgbtnFilter"
+        android:layout_width="@dimen/swipeBarHeight"
+        android:layout_height="@dimen/swipeBarHeight"
+        android:layout_gravity="center_vertical"
+        android:gravity="start|center"
+        android:layout_alignParentTop="true"
+        android:drawableTint="@color/summary"
+        android:drawableRight="@drawable/filter32"
+        android:layout_margin="20dp"
+        android:foreground="@drawable/filter32"
+        android:background="@android:color/transparent"
+        android:foregroundTint="@color/colorHint" />
 </LinearLayout>

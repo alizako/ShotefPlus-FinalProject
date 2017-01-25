@@ -10,18 +10,22 @@ public class Receipt {
     private static long idNumGlobal = 0;
     private long idNum = 0;
     private String date;
-    private Customer customer;
+    //private Customer customer;
+    private Work work; //+Customer
     private String workDetails;
-    private int paymentType;
+    private int paymentType;//cash, credit card...
+    private int paymentMethod; //+30,+60..120
     private double sumPayment;
     private double sumPaymentMaam;
+    private boolean isPaymentReceived;
+    private boolean isPaymentCanceled;
 
 
     public Receipt(Customer customer, int paymentType, String workDetails, String date,
                    double sumPayment, double sumPaymentMaam) {
         idNumGlobal++;
         idNum=idNumGlobal;
-        this.customer = customer;
+       // this.customer = customer;
         this.paymentType = paymentType;
         this.workDetails = workDetails;
         this.sumPayment = sumPayment;
@@ -33,6 +37,13 @@ public class Receipt {
         return idNum;
     }
 
+    public Work getWork() {
+        return work;
+    }
+
+    public void setWork(Work work) {
+        this.work = work;
+    }
 
     public String getDate() {
         return date;
@@ -42,13 +53,13 @@ public class Receipt {
         this.date = date;
     }
 
-    public Customer getCustomer() {
+   /* public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
+    }*/
 
     public int getPaymentType() {
         return paymentType;

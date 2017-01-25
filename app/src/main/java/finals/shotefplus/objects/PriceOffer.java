@@ -10,12 +10,17 @@ public class PriceOffer {
     private static long idNumGlobal = 0;
     private long idNum = 0;
     private String date;
-    private Customer customer;
+    private String location;
+    private String dueDate;
+    private Customer customer;//contact: name, phone, type,
+    private String workDetails;
+    private long quantity;
     //    private int paymentType;
     private double sumPayment;
-    private double sumPaymentMaam;
-    private String workDetails;
+    private boolean isSumPaymentMaam; // is payment includes Maam
+    private String comments;
     private boolean isPriceOfferSent;
+    private boolean isPriceOfferApproved; // if yes-> need to add to work list
 
     public PriceOffer(Customer customer, double sumPayment, double sumPaymentMaam,
                       String workDetails,String date,boolean isPriceOfferSent ) {
@@ -23,7 +28,7 @@ public class PriceOffer {
         idNum=idNumGlobal;
         this.customer = customer;
         this.sumPayment = sumPayment;
-        this.sumPaymentMaam = sumPaymentMaam;
+       // this.sumPaymentMaam = sumPaymentMaam;
         this.workDetails = workDetails;
         this.isPriceOfferSent = isPriceOfferSent;
     }
@@ -55,13 +60,13 @@ public class PriceOffer {
         this.sumPayment = sumPayment;
     }
 
-    public double getSumPaymentMaam() {
+    /*public double getSumPaymentMaam() {
         return sumPaymentMaam;
     }
 
     public void setSumPaymentMaam(double sumPaymentMaam) {
         this.sumPaymentMaam = sumPaymentMaam;
-    }
+    }*/
 
     public String getWorkDetails() {
         return workDetails;

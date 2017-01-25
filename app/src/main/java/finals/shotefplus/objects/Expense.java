@@ -10,7 +10,7 @@ public class Expense {
     private static long idNum = 0;
     private String date;
     private Work work;
-    private int paymentType;
+    //private int paymentType;
     private double sumPayment;
     private String sumDetails;
 
@@ -18,7 +18,7 @@ public class Expense {
         idNum++;
         this.date = date;
         this.work = work;
-        this.paymentType = paymentType;
+       // this.paymentType = paymentType;
         this.sumPayment = sumPayment;
         this.sumDetails = sumDetails;
     }
@@ -39,13 +39,13 @@ public class Expense {
         this.work = work;
     }
 
-    public int getPaymentType() {
+    /*public int getPaymentType() {
         return paymentType;
     }
 
     public void setPaymentType(int paymentType) {
         this.paymentType = paymentType;
-    }
+    }*/
 
     public double getSumPayment() {
         return sumPayment;

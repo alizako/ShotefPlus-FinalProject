@@ -57,8 +57,8 @@ public class ReceiptListAdapter extends BaseAdapter {
         TextView txtReceipt = (TextView) convertView.findViewById(R.id.txtReceipt);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
 
-        txtName.setText(receipt.getCustomer().getName() + " | " +
-                receipt.getCustomer().getIdNum());
+       /* txtName.setText(receipt.getCustomer().getName() + " | " +
+                receipt.getCustomer().getIdNum());*/
         txtReceipt.setText("קבלה "+receipt.getIdNum());
         //summary of details
         summary.setText(receipt.getDate()+ " | " +

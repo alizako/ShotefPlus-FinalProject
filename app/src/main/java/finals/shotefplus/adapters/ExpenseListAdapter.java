@@ -64,7 +64,7 @@ public class ExpenseListAdapter extends BaseAdapter {
                             expense.getSumPayment());
         //summary of details
         summary.setText(expense.getDate()+ " | " +
-                "סוג תשלום "+expense.getPaymentType() + " | " +
+               /* "סוג תשלום "+expense.getPaymentType() + " | " +*/
                 "עבודה מס' "+ expense.getWork().getIdNum());
 
         return convertView;

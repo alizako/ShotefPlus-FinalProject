@@ -1,11 +1,13 @@
 package finals.shotefplus.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,14 +25,74 @@ public class ReceiptsActivity extends AppCompatActivity {
     ListView lvReceipts;
     private List<Receipt> receiptList;
     private ReceiptListAdapter adapter;
-
-
+    View filter;
     ImageButton btnAdd;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipts);
 
+        initFilter();
+        initList();
+
+
+        btnAdd = (ImageButton) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ReceiptsActivity.this,InsertReceiptActivity.class));
+            }
+        });
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                boolean isPaid = data.getBooleanExtra("cbPaid", false);
+                boolean isNotPaid = data.getBooleanExtra("cbNotPaid", false);
+                boolean isCash = data.getBooleanExtra("cbCash", false);
+                boolean isCheque = data.getBooleanExtra("cbCheque", false);
+                boolean isTrans = data.getBooleanExtra("cbTrans", false);
+                boolean isCredit = data.getBooleanExtra("cbCredit", false);
+                // get from DB
+                //set Filter text:
+                TextView txtDetails = (TextView) filter.findViewById(R.id.txtDetails);
+                txtDetails.setText(
+                        (isPaid ? "שולם | " : "") +
+                                (isNotPaid ? "לא שולם | " : "") +
+                                (isCash ? "מזומן | " : "") +
+                                (isCheque ? "המחאה |" : "")+
+                                (isTrans ? "העברה |" : "")+
+                                (isCredit ? "אשראי |" : "")
+
+                );
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
+
+    private void initFilter() {
+        filter = findViewById(R.id.barFilter);
+        ImageButton imgBtnFilter = (ImageButton) filter.findViewById(R.id.imgbtnFilter);
+        imgBtnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReceiptsActivity.this, FilterReceiptActivity.class);
+                //startActivity(new Intent(PriceOffersActivity.this, FilterPriceOfferActivity.class));
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    private void initList() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         lvReceipts = (ListView) findViewById(R.id.listViewReceipts);
@@ -51,15 +113,8 @@ public class ReceiptsActivity extends AppCompatActivity {
 
         adapter = new ReceiptListAdapter(ReceiptsActivity.this,receiptList);
         lvReceipts.setAdapter(adapter);
-
-
-
-        btnAdd = (ImageButton) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ReceiptsActivity.this,InsertReceiptActivity.class));
-            }
-        });
     }
+
+
+
 }

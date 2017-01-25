@@ -26,4 +26,10 @@
     <!--Fields-->
     <dimen name="titleName">14sp</dimen>
     <dimen name="summary">13dip</dimen>
+
+    <!--Dialog-->
+    <dimen name="stndrtDialogHeight">100dp</dimen>
+    <dimen name="stndrtDialogHeightBig">150dp</dimen>
+    <dimen name="marginDialog">10dp</dimen>
+
 </resources>

@@ -12,13 +12,13 @@
         />
 
     <item
-        android:id="@+id/dotsMenu1"
-        android:title="hhh"
+        android:id="@+id/dotsMenu1Profile"
+        android:title="פרופיל משתמש"
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/dotsMenu2"
-        android:title="ggg"
+        android:id="@+id/dotsMenu2Exit"
+        android:title="יציאה"
         app:showAsAction="never"
         />
 

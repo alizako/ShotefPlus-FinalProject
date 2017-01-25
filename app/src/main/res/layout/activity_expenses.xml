@@ -14,19 +14,11 @@
         android:layout_alignParentTop="true"
         />
 
-    <include
-        android:id="@+id/barFilter"
-        layout="@layout/row_filter"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="false"
-        android:layout_below="@+id/barMonth"/>
-
     <ListView
         android:id="@+id/listViewExpenses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/barFilter"
+        android:layout_below="@+id/barMonth"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"

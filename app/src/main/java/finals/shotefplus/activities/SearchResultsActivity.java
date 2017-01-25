@@ -23,9 +23,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         // Enabling Back navigation on Action Bar icon
         actionBar.setDisplayHomeAsUpEnabled(true);
-
         txtQuery = (TextView) findViewById(R.id.txtQuery);
-
         handleIntent(getIntent());
     }
 

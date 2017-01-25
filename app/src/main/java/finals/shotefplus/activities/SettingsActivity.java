@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         txtTitle = (TextView) rowSetting4.findViewById(R.id.txtTitle);
         txtDetails = (TextView) rowSetting4.findViewById(R.id.txtDetails);
-        txtTitle.setText("הגדרת סוגי תשלום");
+        txtTitle.setText("הגדרת צורת תשלום");
         txtDetails.setText("מזומן  |  צ'ק  |  העברה  | אשראי");
 
         txtTitle = (TextView) rowSetting5.findViewById(R.id.txtTitle);

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_filter_price_offer"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/stndrtDialogHeight"
+    android:layout_margin="@dimen/marginDialog"
+    android:layoutDirection="rtl"
+    app:theme="@style/NoActionBarDialog"
+    tools:context="finals.shotefplus.activities.FilterPriceOfferActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="תאריך הפקה"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+
+            <CheckBox
+                android:id="@+id/cbSent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="האם נשלח ללקוח"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbNotApproved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="לא אושר לביצוע"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+
+            <CheckBox
+                android:id="@+id/cbApproved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="אושר לביצוע"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="איש קשר"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginBtn"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="end"
+                android:layout_weight="0.9"
+                android:background="@android:color/transparent"
+                android:text="@string/cancel"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorSub"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="end"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:text="@string/doFilter"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorSub"
+                android:textStyle="bold" />
+            <!--android:background="@color/colorSub"-->
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

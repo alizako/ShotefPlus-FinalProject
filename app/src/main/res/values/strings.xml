@@ -6,6 +6,8 @@
     <string name="signUp">הרשם</string>
     <string name="insert">הוסף</string>
     <string name="sendPDF">שלח ללקוח כ PDF</string>
+    <string name="doFilter">בצע סינון</string>
+    <string name="cancel">ביטול</string>
 
     <!--Titles-->
     <string name="receipt">קבלות</string>
@@ -38,6 +40,7 @@
     <string name="sumPaymentMaam">סהכ לתשלום כולל מעמ</string>
 
     <string name="notFound">לא הוכנס מלל</string>
+    <string name="filter">סינון</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">
