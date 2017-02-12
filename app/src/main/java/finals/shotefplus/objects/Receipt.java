@@ -13,7 +13,7 @@ public class Receipt {
     //private Customer customer;
     private Work work; //+Customer
     private String workDetails;
-    private int paymentType;//cash, credit card...
+    private int paymentType;//1-cash, 2-credit card, 3-cheque,4-transfer...
     private int paymentMethod; //+30,+60..120
     private double sumPayment;
     private double sumPaymentMaam;
@@ -21,8 +21,8 @@ public class Receipt {
     private boolean isPaymentCanceled;
 
 
-    public Receipt(Customer customer, int paymentType, String workDetails, String date,
-                   double sumPayment, double sumPaymentMaam) {
+    public Receipt(int paymentMethod,int paymentType,  String workDetails, String date,
+                   double sumPayment, double sumPaymentMaam, Work work) {
         idNumGlobal++;
         idNum=idNumGlobal;
        // this.customer = customer;
@@ -31,6 +31,7 @@ public class Receipt {
         this.sumPayment = sumPayment;
         this.sumPaymentMaam = sumPaymentMaam;
         this.date=date;
+        this.work=work;
     }
 
     public long getIdNum() {
@@ -93,5 +94,18 @@ public class Receipt {
         this.sumPaymentMaam = sumPaymentMaam;
     }
 
+    public String getStringPaymentType (int paymentType){
+        switch (paymentType) {
+            case 1:
+                return "מזומן";
+            case 2:
+                return "אשראי";
+            case 3:
+                return "המחאה";
+            case 4:
+                return "העברה";
+        }
+        return "";
+    }
 
 }

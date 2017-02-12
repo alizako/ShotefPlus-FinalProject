@@ -44,32 +44,29 @@
         <Spinner
             android:id="@+id/spnrCustomer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:entries="@array/spinnerCustomer"
             android:prompt="@string/customer"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="10">
+            style="@android:style/Widget.Material.Spinner.Underlined">
         </Spinner>
 
 
         <Spinner
             android:id="@+id/spnrPaymentType"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:entries="@array/spinnerPaymentType"
             android:prompt="@string/paymentType"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="10">
+            style="@android:style/Widget.Material.Spinner.Underlined">
         </Spinner>
 
         <Spinner
             android:id="@+id/spnrWork"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:entries="@array/spinnerWork"
             android:prompt="@string/workNum"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="10">
+            style="@android:style/Widget.Material.Spinner.Underlined">
         </Spinner>
 
         <EditText

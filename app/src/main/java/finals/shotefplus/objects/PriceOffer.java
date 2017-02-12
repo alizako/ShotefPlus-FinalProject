@@ -28,6 +28,7 @@ public class PriceOffer {
         idNum=idNumGlobal;
         this.customer = customer;
         this.sumPayment = sumPayment;
+        this.date=date;
        // this.sumPaymentMaam = sumPaymentMaam;
         this.workDetails = workDetails;
         this.isPriceOfferSent = isPriceOfferSent;

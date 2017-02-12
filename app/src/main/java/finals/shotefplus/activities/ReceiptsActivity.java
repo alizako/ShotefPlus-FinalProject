@@ -19,7 +19,9 @@ import finals.shotefplus.R;
 import finals.shotefplus.adapters.CustomerListAdapter;
 import finals.shotefplus.adapters.ReceiptListAdapter;
 import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.PriceOffer;
 import finals.shotefplus.objects.Receipt;
+import finals.shotefplus.objects.Work;
 
 public class ReceiptsActivity extends AppCompatActivity {
     ListView lvReceipts;
@@ -95,21 +97,37 @@ public class ReceiptsActivity extends AppCompatActivity {
     private void initList() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
+       // String date = dateFormat.format(new Date());
+
         lvReceipts = (ListView) findViewById(R.id.listViewReceipts);
         receiptList = new ArrayList<Receipt>();
-        receiptList.add(new Receipt(
-                new Customer("Aliza",false,"dddfgdf","05555555","dsf@gggg"),
-                30, "פירוטטטט",dateFormat.format(date), 3000, 3007
-        ));
-        receiptList.add(new Receipt(
-                new Customer("ששון",false,"בהבעע עיכי","05555555","dsf@gggg"),
-                60, "פירוטטטט", dateFormat.format(date),1000, 1007.3
-        ));
 
-        receiptList.add(new Receipt(
-                new Customer("ADAM",false,"עעג כעיכע","05555555","dsf@gggg"),
-                90, "פירוטטטט",dateFormat.format(date), 2222, 2229.6
-        ));
+
+        receiptList.add(new Receipt(0,1, "פלייר",dateFormat.format(date),500, 585,
+                new Work(
+                new PriceOffer(
+                        new Customer("Ely", true, "הרצליה", "056-9998877", "ely@gmail.com"),
+                   500, 585, "פלייר", dateFormat.format(date), true),
+                false,false,1))
+        );
+
+        receiptList.add(new Receipt(30,2, "עיצוב לוגו",dateFormat.format(date),1200, 1220,
+                new Work(
+                        new PriceOffer(
+                                new Customer("Moran", true, "גילה ירושלים", "055-5533554", "moran@gmail.com"),
+                                1200, 1220, "עיצוב לוגו", dateFormat.format(date), true),
+                        false,false,2))
+        );
+
+        receiptList.add(new Receipt(30,3, "כריכת ספר",dateFormat.format(date),100, 117,
+                new Work(
+                        new PriceOffer(
+                                new Customer("Shimon", true, "מבשרת ציון", "050-5463723", "shimi@gmail.com"),
+                                3000, 3040, "כריכת ספר", dateFormat.format(date), true),
+                        false,false,3))
+        );
+
+
 
         adapter = new ReceiptListAdapter(ReceiptsActivity.this,receiptList);
         lvReceipts.setAdapter(adapter);

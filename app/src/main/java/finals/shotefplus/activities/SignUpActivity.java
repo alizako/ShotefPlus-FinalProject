@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import finals.shotefplus.R;
 
@@ -27,6 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void callMainActivity(){
+        Toast.makeText(this,R.string.signUpToast , Toast.LENGTH_LONG).show();
         Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
         startActivity(intent);
     }

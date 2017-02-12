@@ -57,12 +57,13 @@ public class ReceiptListAdapter extends BaseAdapter {
         TextView txtReceipt = (TextView) convertView.findViewById(R.id.txtReceipt);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
 
-       /* txtName.setText(receipt.getCustomer().getName() + " | " +
-                receipt.getCustomer().getIdNum());*/
+       txtName.setText(receipt.getWork().getPriceOffer().getCustomer().getName() + " | " +
+               receipt.getWork().getPriceOffer().getCustomer().getIdNum());
         txtReceipt.setText("קבלה "+receipt.getIdNum());
         //summary of details
         summary.setText(receipt.getDate()+ " | " +
-                +receipt.getSumPaymentMaam());
+                +receipt.getSumPaymentMaam() + " | " +
+        " שולם ב" + receipt.getStringPaymentType(receipt.getPaymentType()));
 
         return convertView;
 

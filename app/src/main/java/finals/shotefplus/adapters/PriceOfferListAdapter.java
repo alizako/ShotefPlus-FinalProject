@@ -78,7 +78,7 @@ public class PriceOfferListAdapter extends BaseAdapter {
         // name customer
         name.setText("לקוח " + priceOffer.getCustomer().getName() + " | " + "מס' " + priceOffer.getCustomer().getIdNum());
         //summary of details
-        //summary.setText("הצעה " + priceOffer.getSumPaymentMaam() + " | " + priceOffer.getDate());
+        summary.setText("הצעה " + priceOffer.getWorkDetails() + " | " + priceOffer.getDate());
         //isPriceOfferSent
         isPriceOfferSent.setChecked(priceOffer.isPriceOfferSent());
 

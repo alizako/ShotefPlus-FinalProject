@@ -14,7 +14,8 @@ public class Expense {
     private double sumPayment;
     private String sumDetails;
 
-    public Expense(String date, Work work, int paymentType, double sumPayment, String sumDetails) {
+   // public Expense(String date, Work work, int paymentType, double sumPayment, String sumDetails) {
+   public Expense(String date, Work work,  double sumPayment, String sumDetails) {
         idNum++;
         this.date = date;
         this.work = work;

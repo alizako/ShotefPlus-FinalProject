@@ -50,10 +50,10 @@ public class ExpensesActivity extends AppCompatActivity {
         lvExpenses = (ListView) findViewById(R.id.listViewExpenses);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        Expense expense1= new Expense(dateFormat.format(date),new Work(), 30, 3000, "תיאור 1");
-        Expense expense2= new Expense(dateFormat.format(date),new Work(), 60, 2000, "תיאור 2");
-        Expense expense3= new Expense(dateFormat.format(date),new Work(), 90, 3020, "תיאור 3");
-        Expense expense4= new Expense(dateFormat.format(date),new Work(), 0, 100, "תיאור 4");
+        Expense expense1= new Expense(dateFormat.format(date),new Work(), 3000, "הדפסת 1000 עותקים פלייר");
+        Expense expense2= new Expense(dateFormat.format(date),new Work(),  200, "משלוח חו''ל");
+        Expense expense3= new Expense(dateFormat.format(date),new Work(),  302, "הדפסת הזמנות");
+        Expense expense4= new Expense(dateFormat.format(date),new Work(),  1000, "קניית תוכנה חדשה לביצוע דרישות לקוח");
 
         expenseList = new ArrayList<Expense>();
         expenseList.add(expense1);

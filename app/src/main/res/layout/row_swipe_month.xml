@@ -23,7 +23,7 @@
         android:layout_height="@dimen/swipeBarHeight"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:text="month | year"
+        android:text="Feb | 2017"
         android:textAlignment="center"
         android:textColor="@color/colorWhite" />
 

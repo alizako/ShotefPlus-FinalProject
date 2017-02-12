@@ -94,7 +94,7 @@
             android:weightSum="7">
 
             <Button
-                android:id="@+id/btnAddAndSend"
+                android:id="@+id/btnSendPdf"
                 android:layout_width="@dimen/stndrtBtnWidth"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

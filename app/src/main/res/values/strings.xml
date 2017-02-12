@@ -51,16 +51,36 @@
         <item>שוטף + 120</item>
     </string-array>
 
+    <string-array name="spinnerExpenseType">
+        <item>צורת תשלום</item>
+        <item>מזומן</item>
+        <item>אשראי</item>
+        <item>המחאה</item>
+        <item>העברה</item>
+    </string-array>
+
     <string-array name="spinnerWork">
         <item>עבודה</item>
+        <item>122</item>
+        <item>123</item>
+        <item>545</item>
+        <item>555</item>
         <item>הוסף...</item>
     </string-array>
 
     <string-array name="spinnerCustomer">
-        <item>לקוח 1</item>
-        <item>לקוח 2</item>
-        <item>לקוח 3</item>
+        <item>לקוח </item>
+        <item>לקוח Adam</item>
+        <item>לקוח Aliza</item>
+        <item>לקוח Ely</item>
+        <item>לקוח Joe</item>
+        <item>לקוח Moran</item>
         <item>הוסף...</item>
     </string-array>
+
+    <!--Toasts-->
+    <string name="signUpToast">רישום בוצע בהצלחה</string>
+    <string name="signInToast">התחברות בוצעה בהצלחה</string>
+
 
 </resources>

@@ -5,19 +5,29 @@
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/icnsearch"
+        android:icon="@drawable/search_icn_16"
         android:title="Search"
         app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView"
-        />
 
+        />
+    <!--app:actionViewClass="android.widget.SearchView"-->
     <item
         android:id="@+id/dotsMenu1Profile"
         android:title="פרופיל משתמש"
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/dotsMenu2Exit"
+        android:id="@+id/dotsMenu2About"
+        android:title="אודות"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/dotsMenu3Connect"
+        android:title="צור קשר"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/dotsMenu4Exit"
         android:title="יציאה"
         app:showAsAction="never"
         />

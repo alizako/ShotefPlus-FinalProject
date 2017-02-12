@@ -15,6 +15,7 @@ public class Work {
     private long receiptNum;
     private boolean isWorkCanceled;
 
+
     public long getIdNum() {
         return idNum;
     }
@@ -22,5 +23,58 @@ public class Work {
     public Work() {
         idNumGlobal++;
         idNum = idNumGlobal;
+    }
+    public Work( PriceOffer priceOffer, boolean isWorkCanceled,
+               boolean isWorkDone, long receiptNum) {
+        idNumGlobal++;
+        idNum = idNumGlobal;
+        this.priceOffer=priceOffer;
+        this.isWorkCanceled=isWorkCanceled;
+        this.isWorkDone=isWorkDone;
+        this.receiptNum=receiptNum;
+    }
+
+    public void setIdNum(long idNum) {
+        this.idNum = idNum;
+    }
+
+    public PriceOffer getPriceOffer() {
+        return priceOffer;
+    }
+
+    public void setPriceOffer(PriceOffer priceOffer) {
+        this.priceOffer = priceOffer;
+    }
+
+    public List<Expense> getExpenseList() {
+        return expenseList;
+    }
+
+    public void setExpenseList(List<Expense> expenseList) {
+        this.expenseList = expenseList;
+    }
+
+    public boolean isWorkDone() {
+        return isWorkDone;
+    }
+
+    public void setWorkDone(boolean workDone) {
+        isWorkDone = workDone;
+    }
+
+    public long getReceiptNum() {
+        return receiptNum;
+    }
+
+    public void setReceiptNum(long receiptNum) {
+        this.receiptNum = receiptNum;
+    }
+
+    public boolean isWorkCanceled() {
+        return isWorkCanceled;
+    }
+
+    public void setWorkCanceled(boolean workCanceled) {
+        isWorkCanceled = workCanceled;
     }
 }

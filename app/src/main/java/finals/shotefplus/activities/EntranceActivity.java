@@ -37,7 +37,7 @@ public class EntranceActivity extends AppCompatActivity {
     }
 
     private void signIn(){
-        Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
+        Intent intent = new Intent(EntranceActivity.this, SignInActivity.class);
         startActivity(intent);
 
     }

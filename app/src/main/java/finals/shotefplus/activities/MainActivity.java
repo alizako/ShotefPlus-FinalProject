@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import finals.shotefplus.MPcharts.PieChartActivity;
 import finals.shotefplus.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,IncomesVsExpensesActivity.class));
+                /*startActivity(new Intent(MainActivity.this,PieChartActivity.class));
+                try{
+                    startActivity(new Intent(MainActivity.this,PieChartActivity.class));
+                }
+                catch (Exception ex){
+
+                }*/
+
             }
         });
         btnReports.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +106,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Take appropriate action for each action item click
+        switch (item.getItemId()) {
+
+            case R.id.search:
+                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+                return true;
+            case R.id.dotsMenu1Profile:
+                //show profile
+                return true;
+            case R.id.dotsMenu2About:
+                //show profile
+                return true;
+            case R.id.dotsMenu3Connect:
+                //show profile
+                return true;
+            case R.id.dotsMenu4Exit:
+                //exit app
+                startActivity(new Intent(MainActivity.this, EntranceActivity.class)); //Go back to home page
+                finish();
+                Toast.makeText(this,"התנתקת מהמערכת בהצלחה" , Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
+
+
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        /*SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
@@ -123,9 +163,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
-        });
+        });*/
 
-        return true;//super.onCreateOptionsMenu(menu);
+       // return true;//super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
