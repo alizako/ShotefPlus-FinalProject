@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import finals.shotefplus.MPcharts.PieChartActivity;
 import finals.shotefplus.R;
+import finals.shotefplus.objects.Expense;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,12 +31,16 @@ public class MainActivity extends AppCompatActivity {
     Button btnSettings;
     Button btnWorks;
     Button btnCustomers;
+    private FirebaseAuth firebaseAuth;//defining firebaseauth object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Toast.makeText(this,"ERROR:" , Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //initializing firebase auth object
+        firebaseAuth = FirebaseAuth.getInstance();
 
         btnReceipts = (Button) findViewById(R.id.btnReceipts);
         btnOffers = (Button) findViewById(R.id.btnOffers);
@@ -101,10 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,CustomersActivity.class));
             }
         });
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -118,20 +122,32 @@ public class MainActivity extends AppCompatActivity {
                 //show profile
                 return true;
             case R.id.dotsMenu2About:
-                //show profile
+                //about
                 return true;
             case R.id.dotsMenu3Connect:
-                //show profile
+                //connect
                 return true;
             case R.id.dotsMenu4Exit:
                 //exit app
-                startActivity(new Intent(MainActivity.this, EntranceActivity.class)); //Go back to home page
-                finish();
-                Toast.makeText(this,"התנתקת מהמערכת בהצלחה" , Toast.LENGTH_LONG).show();
+                signOut();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void signOut(){
+        try {
+            firebaseAuth.signOut();
+            startActivity(new Intent(MainActivity.this, EntranceActivity.class)); //Go back to home page
+            finish();
+            Toast.makeText(this, "התנתקת מהמערכת בהצלחה", Toast.LENGTH_LONG).show();
+        }
+        catch (Exception ex){
+            Toast.makeText(this, "שגיאה במערכת", Toast.LENGTH_LONG).show();
+            System.exit(0);
+        }
+
     }
 
     @Override

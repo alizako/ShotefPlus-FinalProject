@@ -5,6 +5,7 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:layout_margin="5dp"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:textDirection="rtl">
 
@@ -14,9 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imgVw"
+        android:layout_gravity="right"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="right"
         android:textSize="@dimen/titleName"
         android:textStyle="bold" />
 
@@ -54,7 +55,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right|center"
             android:src="@drawable/add_user2_32"
-            android:tint="@color/colorAccent"/>
+            android:tint="@color/colorAccent" />
 
 
     </LinearLayout>

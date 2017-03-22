@@ -7,11 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
+import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
 import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.PriceOffer;
@@ -25,11 +29,16 @@ public class PriceOfferListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<PriceOffer> priceOfferList;
+    PriceOffer priceOffer;
+    private FirebaseAuth firebaseAuth;
+
 
     public PriceOfferListAdapter(Activity activity, List<PriceOffer> priceOfferList) {
         this.activity = activity;
         this.inflater = inflater;
         this.priceOfferList = priceOfferList;
+        //initializing firebase auth object
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -55,34 +64,44 @@ public class PriceOfferListAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.row_price_offer, null);
 
-        // getting show data for the row
-        PriceOffer priceOffer = priceOfferList.get(position);
+        priceOffer = priceOfferList.get(position);
         TextView name = (TextView) convertView.findViewById(R.id.txtName);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imgVw);
-        CheckBox isPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
+        final CheckBox cbIsPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
+        cbIsPriceOfferSent.setTag(position); //MUST!!
 
-
-
-        /*// image-  Picasso does Automatic memory and disk caching:
-        if (customer.getImgUrl().equals("")) {
-            Picasso.with(convertView.getContext()).
-                    load(R.drawable.img_not_fnd).into(imageView);
-        }
-        else{
-            Picasso.with(convertView.getContext()).
-                    load(customer.getImgUrl()).into(imageView);
-        }*/
+        cbIsPriceOfferSent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // final boolean isChecked = cbIsPriceOfferSent.isChecked();
+                // Do something here.
+                int pos = ((int)cbIsPriceOfferSent.getTag());
+                priceOffer = priceOfferList.get(pos);
+                priceOffer.setPriceOfferSent(cbIsPriceOfferSent.isChecked());
+                FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                        .updatePriceOffer(priceOffer, priceOffer.getIdNum());
+            }
+        });
 
 
         // name customer
-        name.setText("לקוח " + priceOffer.getCustomer().getName() + " | " + "מס' " + priceOffer.getCustomer().getIdNum());
-        //summary of details
-        summary.setText("הצעה " + priceOffer.getWorkDetails() + " | " + priceOffer.getDate());
-        //isPriceOfferSent
-        isPriceOfferSent.setChecked(priceOffer.isPriceOfferSent());
+        //name.setText("לקוח " + priceOffer.getCustomer().getName() + " | " + "מס' " + priceOffer.getCustomer().getIdNum());
+        name.setText("לקוח " + priceOffer.getCustomer().getName());
 
+        //summary of details
+        summary.setText("הצעה: " + priceOffer.getWorkDetails() + ""+  priceOffer.getSumPayment()+ "ש''ח "+"\n" +
+                "תאריך יעד: " + priceOffer.dueDateToString() + "\n" +
+                "מיקום: " +((!priceOffer.getLocation().equals(""))?priceOffer.getLocation():"לא הוכנס מיקום") + "\n" +
+                ((priceOffer.isPriceOfferApproved()) ? "אושרה לביצוע" : "טרם אושרה לביצוע"));
+        // summary.setText("הצעה " + priceOffer.getWorkDetails() + " | " + priceOffer.getDate());
+        //isPriceOfferSent
+        cbIsPriceOfferSent.setChecked(priceOffer.isPriceOfferSent());
 
         return convertView;
+    }
+
+    private void updateFireBase(PriceOffer priceOffer) {
+        String key = priceOffer.getIdNum();
+
     }
 }

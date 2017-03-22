@@ -18,75 +18,97 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/picSizeSign"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical">
 
 
         <EditText
             android:id="@+id/etBsns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:hint="שם עסק"
-            android:inputType="textPersonName"
-            android:layout_weight="7"/>
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/etTik"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:hint="מספר תיק חברה"
-            android:inputType="number"
-            android:layout_weight="7" />
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:drawableLeft="@android:drawable/ic_menu_call"
             android:hint="טלפון"
-            android:inputType="phone"
-            android:layout_weight="7"/>
+            android:inputType="phone" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:drawableLeft="@android:drawable/sym_action_email"
             android:hint="דואל"
-            android:inputType="textEmailAddress"
-            android:layout_weight="7"/>
+            android:inputType="textEmailAddress" />
 
-        <EditText
+        <!--<EditText
             android:id="@+id/etUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="שם משתמש"
             android:inputType="text"
-            android:layout_weight="7"/>
+            android:layout_weight="7"/>-->
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:hint="סיסמה"
-            android:inputType="text"
-            android:layout_weight="7"/>
+            android:inputType="textVisiblePassword" />
 
-        <Button
-            android:id="@+id/btnUp"
-            android:layout_width="@dimen/stndrtBtnWidth"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="@color/colorSub"
-            android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_marginLeft="@dimen/marginBtn"
-            android:text="@string/signUp"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:layout_weight="7"/>
+            android:layout_weight="6"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbRmmbr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="right|center"
+                android:text="זכור אותי על מכשיר זה"
+                android:textColor="@color/colorHint"
+                android:layout_weight="0.5" />
+
+            <Button
+                android:id="@+id/btnUp"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="left|center"
+                android:layout_marginBottom="@dimen/marginBtn"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub"
+                android:text="@string/signUp"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

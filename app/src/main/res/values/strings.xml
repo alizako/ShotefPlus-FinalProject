@@ -32,7 +32,10 @@
     <string name="workNum">מספר עבודה</string>
     <string name="receiptNum">מספר קבלה</string>
     <string name="customer">לקוח</string>
+    <string name="location">מיקום</string>
+    <string name="quantity">כמות</string>
     <string name="date">תאריך</string>
+    <string name="dueDate">תאריך יעד</string>
     <string name="sumExpense">סכום הוצאה</string>
     <string name="sumDetails">פרטי הוצאה</string>
     <string name="workDetails">פרטי העסקה</string>
@@ -82,5 +85,9 @@
     <string name="signUpToast">רישום בוצע בהצלחה</string>
     <string name="signInToast">התחברות בוצעה בהצלחה</string>
 
+
+    <!-- Firebase -->
+    <string name="MainTable">Users</string>
+    <string name="UserProfileTable">UserProfile</string>
 
 </resources>

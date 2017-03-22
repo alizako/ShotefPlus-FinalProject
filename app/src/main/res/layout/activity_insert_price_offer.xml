@@ -17,64 +17,88 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/picSizeSignSmall"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date"
-            android:inputType="date"
-            android:layout_weight="7"/>
-        <Spinner
-            android:id="@+id/spnrCustomer"
+            android:layout_weight="8"
+            android:hint="@string/dueDate"
+            android:maxLength="10" />
+
+        <EditText
+            android:id="@+id/etLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/spinnerCustomer"
-            android:prompt="@string/customer"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="7">
-        </Spinner>
+            android:layout_weight="8"
+            android:hint="@string/location"
+            android:inputType="text" />
 
-        <Spinner
-            android:id="@+id/spnrPaymentType"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/spinnerPaymentType"
-            android:prompt="@string/paymentType"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="7">
-        </Spinner>
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="8"
+            android:weightSum="1"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
+            <EditText
+                android:id="@+id/etCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:hint="@string/customer"
+                android:inputType="text"
+                android:gravity="bottom"
+                />
+
+            <ImageButton
+                android:id="@+id/imgBtnCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/add_user2_32"
+                android:gravity="bottom"/>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="8"
             android:hint="@string/workDetails"
-            android:inputType="text"
-            android:layout_weight="7"/>
+            android:inputType="text" />
 
+        <EditText
+            android:id="@+id/etQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:hint="@string/quantity"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/etSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="8"
             android:hint="@string/sumPayment"
-            android:inputType="number"
-            android:layout_weight="7"/>
+            android:inputType="number" />
 
-        <EditText
-            android:id="@+id/etSumMaam"
+        <CheckBox
+            android:id="@+id/cbSumMaam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sumPaymentMaam"
-            android:inputType="number"
-            android:layout_weight="7"/>
+            android:layout_weight="8"
+            android:hint="@string/sumPaymentMaam" />
         <!--<DatePicker
             android:id="@+id/dpDate"
             android:layout_width="match_parent"
@@ -86,40 +110,38 @@
         </DatePicker>-->
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:layout_marginBottom="@dimen/marginBtn"
-            android:weightSum="7">
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:weightSum="8">
 
             <Button
                 android:id="@+id/btnSendPdf"
                 android:layout_width="@dimen/stndrtBtnWidth"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:background="@color/colorSub"
                 android:layout_marginLeft="@dimen/marginBtn"
+                android:background="@color/colorSub"
                 android:text="@string/sendPDF"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite" />
+
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="@dimen/stndrtBtnWidth"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:background="@color/colorSub"
                 android:layout_marginLeft="@dimen/marginBtn"
+                android:background="@color/colorSub"
                 android:text="@string/insert"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                />
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
 
 
-
     </LinearLayout>
-
 
 
 </RelativeLayout>

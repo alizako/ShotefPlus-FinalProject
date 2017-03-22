@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1025026784231",
+    "firebase_url": "https://shotefplus-72799.firebaseio.com",
+    "project_id": "shotefplus-72799",
+    "storage_bucket": "shotefplus-72799.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025026784231:android:feb5c03a22b43213",
+        "android_client_info": {
+          "package_name": "finals.shotefplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025026784231-b98ngabt9l4vf1ci2v97og0atiksdmbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "finals.shotefplus",
+            "certificate_hash": "1536c7c6e58152c067730362cede040a86ed9a15"
+          }
+        },
+        {
+          "client_id": "1025026784231-dm4rhr5i93b8mnkuo1o0pv7ga8idnrno.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgW9Wz5O24R7gqCu5XF-olH7kJ-YrlGmU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025026784231-dm4rhr5i93b8mnkuo1o0pv7ga8idnrno.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

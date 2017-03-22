@@ -24,12 +24,12 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/etUser"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:hint="שם משתמש"
-            android:inputType="text" />
+            android:hint="דואל"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -39,19 +39,52 @@
             android:hint="סיסמה"
             android:inputType="text" />
 
-        <Button
-            android:id="@+id/btnIn"
-            android:layout_width="@dimen/stndrtBtnWidth"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_marginLeft="@dimen/marginBtn"
-            android:layout_weight="3"
-            android:background="@color/colorSub"
-            android:text="@string/signIn"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite" />
+        <!-- <Button
+             android:id="@+id/btnIn"
+             android:layout_width="@dimen/stndrtBtnWidth"
+             android:layout_height="wrap_content"
+             android:layout_gravity="left"
+             android:layout_marginBottom="@dimen/marginBtn"
+             android:layout_marginLeft="@dimen/marginBtn"
+             android:layout_weight="3"
+             android:background="@color/colorSub"
+             android:text="@string/signIn"
+             android:textAlignment="center"
+             android:textColor="@color/colorWhite" />-->
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbRmmbr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.5"
+                android:gravity="right|center"
+                android:text="זכור אותי על מכשיר זה"
+                android:textColor="@color/colorHint" />
+
+            <Button
+                android:id="@+id/btnIn"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/marginBtn"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:layout_weight="0.5"
+                android:background="@color/colorSub"
+                android:gravity="left|center"
+                android:text="@string/signIn"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

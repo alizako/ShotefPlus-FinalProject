@@ -4,39 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/swipeBarHeight"
     android:layout_alignParentTop="true"
-    android:background="@color/colorAccent">
+    android:background="@color/colorAccent"
+    android:layout_rowWeight="3">
+
 
     <TextView
         android:id="@+id/txtNext"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/swipeBarHeight"
-        android:layout_alignParentTop="true"
         android:drawableRight="@drawable/arrow_right32"
         android:gravity="end|center"
         android:text="Next"
         android:textAlignment="textEnd"
-        android:textColor="@color/colorWhite" />
-
-    <TextView
-        android:id="@+id/txtMonth"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/swipeBarHeight"
+        android:textColor="@color/colorWhite"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="Feb | 2017"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/txtPrev"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/swipeBarHeight"
-        android:layout_alignParentTop="true"
         android:drawableLeft="@drawable/arrow_left32"
         android:drawableTint="@color/colorWhite"
         android:gravity="start|center"
         android:text="Prev"
         android:textAlignment="textStart"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/txtMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/swipeBarHeight"
+        android:gravity="center"
+        android:text="Feb | 2017"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

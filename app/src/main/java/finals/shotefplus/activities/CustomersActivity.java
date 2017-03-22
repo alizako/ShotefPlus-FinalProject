@@ -37,14 +37,14 @@ public class CustomersActivity extends AppCompatActivity {
 
         lvCustomers = (ListView) findViewById(R.id.listViewCustomers);
         //Customer c= new Customer("Aliza",false,"dddfgdf","05555555","dsf@gggg");
-        customers = new ArrayList<Customer>();
-        customers.add(new Customer("Adam", false, "כפר אדומים", "050-5555535", "adam@gmail.com"));
-        customers.add(new Customer("Aliza", false, "עמק רפאים ירושלים", "052-8657571", "aliza@gmail.com"));
-        customers.add(new Customer("Ely", true, "הרצליה", "056-9998877", "ely@gmail.com"));
-        customers.add(new Customer("Joe A", false, "אבן גבירול תל אביב-יפו", "050-6662223", "joe.a@gmail.com"));
-        customers.add(new Customer("Moran", true, "גילה ירושלים", "055-5533554", "moran@gmail.com"));
-        customers.add(new Customer("Sasson", false, "מלחה ירושלים", "052-5555555", "sasson@gmail.com"));
-        customers.add(new Customer("Shimon", true, "מבשרת ציון", "050-5463723", "shimi@gmail.com"));
+        /*customers = new ArrayList<Customer>();
+        customers.add(new Customer("Adam","כפר אדומים", "050-5555535", "adam@gmail.com"));
+        customers.add(new Customer("Aliza","עמק רפאים ירושלים", "052-8657571", "aliza@gmail.com"));
+        customers.add(new Customer("Ely","הרצליה", "056-9998877", "ely@gmail.com"));
+        customers.add(new Customer("Joe A", "אבן גבירול תל אביב-יפו", "050-6662223", "joe.a@gmail.com"));
+        customers.add(new Customer("Moran", "גילה ירושלים", "055-5533554", "moran@gmail.com"));
+        customers.add(new Customer("Sasson",  "מלחה ירושלים", "052-5555555", "sasson@gmail.com"));
+        customers.add(new Customer("Shimon",  "מבשרת ציון", "050-5463723", "shimi@gmail.com"));*/
 
 
 

@@ -9,8 +9,7 @@ import java.util.List;
 public class Customer {
 
     private static long idNumGlobal = 0;
-    private long idNum = 0;
-
+    private String idNum;
     private String name;
    // private boolean isPriceOfferSent;
     private String adrs;
@@ -21,17 +20,32 @@ public class Customer {
     private String customerType; // ESEK, PRATI
     private String customerContactName;
 
-    public Customer(String name, boolean isPriceOfferSent, String adrs, String phoneNum, String email) {
-        idNumGlobal++;
-        idNum=idNumGlobal;
+
+    public Customer(String idNum, String name, String adrs,
+                    String phoneNum, String email, List<Work> workList,
+                    String customerType, String customerContactName) {
+        this.idNum = idNum;
         this.name = name;
-    //    this.isPriceOfferSent = isPriceOfferSent;
         this.adrs = adrs;
         this.phoneNum = phoneNum;
         this.email = email;
+        this.workList = workList;
+        this.customerType = customerType;
+        this.customerContactName = customerContactName;
     }
 
-    public long getIdNum() {
+    public Customer() {
+        this.idNum = "";
+        this.name = "";
+        this.adrs = "";
+        this.phoneNum = "";
+        this.email = "";
+        //this.workList = new List<Work>() ;
+        this.customerType = "";
+        this.customerContactName = "";
+    }
+
+    public String getIdNum() {
         return idNum;
     }
 

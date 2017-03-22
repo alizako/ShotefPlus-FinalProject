@@ -103,10 +103,10 @@ public class ReceiptsActivity extends AppCompatActivity {
         receiptList = new ArrayList<Receipt>();
 
 
-        receiptList.add(new Receipt(0,1, "פלייר",dateFormat.format(date),500, 585,
+        /*receiptList.add(new Receipt(0,1, "פלייר",dateFormat.format(date),500, 585,
                 new Work(
                 new PriceOffer(
-                        new Customer("Ely", true, "הרצליה", "056-9998877", "ely@gmail.com"),
+                        new Customer("Ely",  "הרצליה", "056-9998877", "ely@gmail.com"),
                    500, 585, "פלייר", dateFormat.format(date), true),
                 false,false,1))
         );
@@ -114,7 +114,7 @@ public class ReceiptsActivity extends AppCompatActivity {
         receiptList.add(new Receipt(30,2, "עיצוב לוגו",dateFormat.format(date),1200, 1220,
                 new Work(
                         new PriceOffer(
-                                new Customer("Moran", true, "גילה ירושלים", "055-5533554", "moran@gmail.com"),
+                                new Customer("Moran",  "גילה ירושלים", "055-5533554", "moran@gmail.com"),
                                 1200, 1220, "עיצוב לוגו", dateFormat.format(date), true),
                         false,false,2))
         );
@@ -122,10 +122,10 @@ public class ReceiptsActivity extends AppCompatActivity {
         receiptList.add(new Receipt(30,3, "כריכת ספר",dateFormat.format(date),100, 117,
                 new Work(
                         new PriceOffer(
-                                new Customer("Shimon", true, "מבשרת ציון", "050-5463723", "shimi@gmail.com"),
+                                new Customer("Shimon", "מבשרת ציון", "050-5463723", "shimi@gmail.com"),
                                 3000, 3040, "כריכת ספר", dateFormat.format(date), true),
                         false,false,3))
-        );
+        );*/
 
 
 
