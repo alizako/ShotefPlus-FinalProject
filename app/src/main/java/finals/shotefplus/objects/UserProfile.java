@@ -11,6 +11,13 @@ public class UserProfile {
     private String email;
     private String password;
 
+    public UserProfile() {
+        this.businessName = "";
+        this.tik = "";
+        this.phone = "";
+        this.email = "";
+    }
+
     public UserProfile(String businessName, String tik, String phone, String email) {
         this.businessName = businessName;
         this.tik = tik;

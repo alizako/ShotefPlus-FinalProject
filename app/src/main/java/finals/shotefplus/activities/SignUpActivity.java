@@ -30,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button btnSignUp;
     private FirebaseAuth firebaseAuth;//defining firebaseauth object
     private static final String PREFS_NAME = "SIGNING-IN";
+    private static final int PSWD_LEN = 6;
     private ProgressDialog dialog;
 
     @Override
@@ -75,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(password) || password.length() < 6) {
+        if (TextUtils.isEmpty(password) || password.length() < PSWD_LEN) {
             Toast.makeText(this, "Please enter correct password", Toast.LENGTH_LONG).show();
             return;
         }

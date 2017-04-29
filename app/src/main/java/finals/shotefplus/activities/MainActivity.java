@@ -1,5 +1,6 @@
 package finals.shotefplus.activities;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnWorks;
     Button btnCustomers;
     private FirebaseAuth firebaseAuth;//defining firebaseauth object
+    static final int REQ_PROFILE = 1;
+    static final int RESULT_EXP= 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.dotsMenu1Profile:
                 //show profile
+                showProfile();
                 return true;
             case R.id.dotsMenu2About:
                 //about
@@ -136,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showProfile() {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivityForResult(intent, REQ_PROFILE);
+    }
+
     private void signOut(){
         try {
             firebaseAuth.signOut();
@@ -149,6 +158,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_PROFILE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_LONG).show();
+            }
+            if(resultCode == RESULT_EXP){
+                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

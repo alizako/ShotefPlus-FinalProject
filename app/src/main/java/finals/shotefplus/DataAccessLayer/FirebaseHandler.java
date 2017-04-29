@@ -69,6 +69,13 @@ public class FirebaseHandler {
     }
 
     //******************** Update Objects ********************//
+    public void updateUserProfile(UserProfile userProfile) {
+
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("UserProfile").setValue(userProfile);
+        //mDatabase.child("Users").child(userId).child("PriceOffers").push().setValue(priceOffer);
+    }
+
     public void updatePriceOffer(PriceOffer priceOffer, String key) {
 
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
@@ -77,6 +84,15 @@ public class FirebaseHandler {
     }
 
     //******************** Get Objects ********************//
+    public FirebaseDatabase getUserProfile() {
+
+        return mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("UserProfile").getDatabase();
+        //return new PriceOffer();
+
+    }
+
+
     public PriceOffer getPriceOffer(String key) {
 
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).

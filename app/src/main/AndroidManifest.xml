@@ -14,9 +14,12 @@
             android:name=".activities.MainActivity"
             android:label="@string/mainLabel"
             android:screenOrientation="portrait">
-            <!--<meta-data
+
+            <!--
+                <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".SearchResultsActivity" />-->
+                android:value=".SearchResultsActivity" />
+            -->
         </activity>
         <activity
             android:name=".activities.EntranceActivity"
@@ -31,15 +34,19 @@
         <activity
             android:name=".activities.SearchResultsActivity"
             android:label="@string/searchResults">
-            <!--android:parentActivityName=".activities.MainActivity"-->
 
-            <!--<intent-filter>
+            <!-- android:parentActivityName=".activities.MainActivity" -->
+
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />-->
+                android:resource="@xml/searchable" />
+            -->
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
@@ -83,8 +90,9 @@
         <activity
             android:name=".activities.WorksActivity"
             android:label="@string/works" />
-        <activity android:name=".activities.SignInActivity"
-            android:label="@string/signIn"/>
+        <activity
+            android:name=".activities.SignInActivity"
+            android:label="@string/signIn" />
 
         <!-- Filters -->
         <activity
@@ -99,7 +107,9 @@
             android:name=".activities.FilterReceiptActivity"
             android:label="@string/filter"
             android:theme="@style/NoActionBarDialog" />
-
+        <activity android:name=".activities.UserProfileActivity"
+            android:label="@string/userProfile"
+            android:theme="@style/NoActionBarDialog" />
     </application>
 
 </manifest>

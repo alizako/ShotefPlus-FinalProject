@@ -8,6 +8,7 @@
     <string name="sendPDF">שלח ללקוח כ PDF</string>
     <string name="doFilter">בצע סינון</string>
     <string name="cancel">ביטול</string>
+    <string name="update">עדכן</string>
 
     <!--Titles-->
     <string name="receipt">קבלות</string>
@@ -26,6 +27,7 @@
     <string name="customers">לקוחות</string>
     <string name="insertCustomer">הוספת לקוח</string>
     <string name="works">עבודות</string>
+    <string name="userProfile">פרופיל משתמש</string>
 
     <!--Fields-->
     <string name="paymentType">סוג תשלום</string>
