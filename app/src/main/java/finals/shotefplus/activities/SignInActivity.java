@@ -100,6 +100,7 @@ public class SignInActivity extends AppCompatActivity {
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
+                            dialog.dismiss();
                             //FirebaseCrash.report(exce);//report(new Exception(Exc));
                             //display some message here
                             Toast.makeText(SignInActivity.this, "Registration Error", Toast.LENGTH_LONG).show();

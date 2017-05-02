@@ -229,7 +229,8 @@ public class PriceOffersActivity extends AppCompatActivity {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
         final String dueDate = dateFormat.format(date);
-        dbRef.orderByChild("dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff").addValueEventListener(new ValueEventListener() {
+        dbRef.orderByChild("dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff")
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 priceOfferList = new ArrayList<PriceOffer>();

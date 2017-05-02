@@ -28,6 +28,10 @@
     <string name="insertCustomer">הוספת לקוח</string>
     <string name="works">עבודות</string>
     <string name="userProfile">פרופיל משתמש</string>
+    <string name="changeCredential">שינוי סיסמא ו/או דואל</string>
+    <string name="msgTemplate">תבנית להודעה</string>
+    <string name="mailTemplate">תבנית לדואל</string>
+    <string name="businessType">הגדרת עסק</string>
 
     <!--Fields-->
     <string name="paymentType">סוג תשלום</string>

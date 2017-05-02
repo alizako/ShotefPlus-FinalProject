@@ -94,6 +94,26 @@
             android:name=".activities.SignInActivity"
             android:label="@string/signIn" />
 
+        <!-- Dialogs -->
+        <activity
+            android:name=".activities.UserProfileActivity"
+            android:label="@string/userProfile"
+            android:theme="@style/NoActionBarDialog" />
+        <activity
+            android:name=".activities.ChangeRegistrationInfoActivity"
+            android:label="@string/changeCredential"
+            android:theme="@style/NoActionBarDialog" />
+        <activity
+            android:name=".activities.MsgTemplateActivity"
+            android:label="@string/msgTemplate"
+            android:theme="@style/NoActionBarDialog" />
+        <activity
+            android:name=".activities.MailTemplateActivity"
+            android:label="@string/mailTemplate"
+            android:theme="@style/NoActionBarDialog" />
+        <activity android:name=".activities.BusinessTypeActivity"
+            android:label="@string/businessType"
+            android:theme="@style/NoActionBarDialog" />
         <!-- Filters -->
         <activity
             android:name=".activities.FilterPriceOfferActivity"
@@ -107,9 +127,7 @@
             android:name=".activities.FilterReceiptActivity"
             android:label="@string/filter"
             android:theme="@style/NoActionBarDialog" />
-        <activity android:name=".activities.UserProfileActivity"
-            android:label="@string/userProfile"
-            android:theme="@style/NoActionBarDialog" />
+
     </application>
 
 </manifest>

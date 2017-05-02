@@ -30,11 +30,18 @@
         android:layout_below="@+id/userProfile" />
 
     <include
-        android:id="@+id/emailContent"
+        android:id="@+id/forgetUser"
         layout="@layout/row_settings"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/changePass" />
+
+    <include
+        android:id="@+id/emailContent"
+        layout="@layout/row_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/forgetUser" />
 
     <include
         android:id="@+id/msgContent"

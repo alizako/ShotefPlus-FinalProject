@@ -62,7 +62,6 @@ public class FilterPriceOfferActivity extends AppCompatActivity {
         btnNoFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setResult(RESULT_CLEAN, new Intent());
                 finish();
             }

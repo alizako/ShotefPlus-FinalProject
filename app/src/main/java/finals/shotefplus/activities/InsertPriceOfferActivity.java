@@ -242,6 +242,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
         try {
 
+            //TODO: call insertCustomer instead code below
             customer = new Customer();
             customer.setName(((EditText) findViewById(R.id.etCustomer)).getText().toString().trim());
 

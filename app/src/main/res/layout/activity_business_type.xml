@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_filter_price_offer"
+    android:id="@+id/activity_user_profile"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/stndrtDialogHeightBig"
+    android:layout_height="@dimen/stndrtDialogHeight"
     android:layout_margin="@dimen/marginDialog"
     android:layoutDirection="rtl"
     app:theme="@style/NoActionBarDialog"
-    tools:context="finals.shotefplus.activities.FilterPriceOfferActivity">
+    tools:context="finals.shotefplus.activities.BusinessTypeActivity">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,60 +24,34 @@
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/rbNotApproved"
+                android:id="@+id/rbPatur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="לא אושר לביצוע"
+                android:layout_weight="2"
+                android:foregroundTint="@color/summary"
+                android:hint="עוסק פטור"
+                android:tag="patur"
                 android:textColor="@color/summary"
                 android:textSize="@dimen/summary" />
 
             <RadioButton
-                android:id="@+id/rbApproved"
+                android:id="@+id/rbMurshe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="אושר לביצוע"
+                android:layout_weight="2"
+                android:foregroundTint="@color/summary"
+                android:hint="עוסק מורשה"
+                android:tag="murshe"
                 android:textColor="@color/summary"
                 android:textSize="@dimen/summary" />
-
         </RadioGroup>
-
-
-        <CheckBox
-            android:id="@+id/cbSent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="האם נשלח ללקוח"
-            android:textColor="@color/summary"
-            android:textSize="@dimen/summary" />
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <CheckBox
-                android:id="@+id/cbContact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="איש קשר"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
-
-
-        </LinearLayout>-->
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginBtn"
-            android:layout_weight="4"
+            android:layout_weight="2"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -85,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/stndrtBtnHeight"
                 android:layout_gravity="end"
-                android:layout_weight="0.8"
+                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:text="@string/cancel"
                 android:textAlignment="textEnd"
@@ -93,30 +68,18 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btnNoFilter"
+                android:id="@+id/btnUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/stndrtBtnHeight"
                 android:layout_gravity="end"
                 android:layout_weight="0.1"
                 android:background="@android:color/transparent"
-                android:text="נקה סינון"
+                android:text="@string/update"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorSub"
                 android:textStyle="bold" />
 
 
-            <Button
-                android:id="@+id/btnFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/stndrtBtnHeight"
-                android:layout_gravity="end"
-                android:layout_weight="0.1"
-                android:background="@android:color/transparent"
-                android:text="@string/doFilter"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSub"
-                android:textStyle="bold" />
-            <!--android:background="@color/colorSub"-->
         </LinearLayout>
 
     </LinearLayout>
