@@ -60,12 +60,14 @@ public class ExpenseListAdapter extends BaseAdapter {
         TextView sumDetails = (TextView) convertView.findViewById(R.id.txtSumDetails);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
 
-        sumDetails.setText(expense.getSumDetails() + " | " +
-                            expense.getSumPayment());
+        sumDetails.setText((expense.getSumDetails().equals("") ? "" : expense.getSumDetails() + " | " ) +
+                            expense.getSumPayment()+ " ש''ח ");
         //summary of details
-        summary.setText(expense.getDate()+ " | " +
+        summary.setText(expense.dateToString()+ " | " +
                /* "סוג תשלום "+expense.getPaymentType() + " | " +*/
                 "עבודה מס' "+ expense.getWork().getIdNum());
+        //TODO: add below:
+        //+" - "+ expense.getWork().getPriceOffer().getWorkDetails());
 
         return convertView;
 

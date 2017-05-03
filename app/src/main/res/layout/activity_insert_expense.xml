@@ -18,58 +18,96 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/picSizeSign"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:weightSum="6">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/etSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:hint="@string/sumExpense"
-            android:inputType="number"
-            android:layout_weight="6"/>
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date"
-            android:inputType="date"
             android:layout_weight="6"
-            />
+            android:hint="@string/date"
+            android:inputType="date" />
 
         <Spinner
             android:id="@+id/spnrExpenseType"
+            style="@style/spinnerDropDownItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/spinnerSize"
+            android:layout_below="@+id/etDate"
+            android:layout_weight="6"
             android:entries="@array/spinnerExpenseType"
             android:prompt="@string/paymentType"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="6">
-        </Spinner>
+            android:spinnerMode="dropdown"
+            android:textColor="@color/summary"></Spinner>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="0.1"
+            android:background="@color/colorDevider"
+            android:padding="10dp" />
 
-        <Spinner
-            android:id="@+id/spnrWork"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/spinnerWork"
-            android:prompt="@string/workNum"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="6">
-        </Spinner>
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="6"
+            android:weightSum="1"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spnrWork"
+                style="@style/spinnerDropDownItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/spinnerSize"
+                android:layout_below="@+id/spnrExpenseType"
+                android:layout_weight="0.9"
+                android:entries="@array/spinnerWork"
+                android:prompt="@string/workNum"
+                android:spinnerMode="dropdown"
+                android:textColor="@color/summary"
+                android:gravity="bottom"></Spinner>
+
+
+            <ImageButton
+                android:id="@+id/imgBtnWork"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/add_folder32"
+                android:gravity="bottom"/>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="0.1"
+            android:background="@color/colorDevider"
+            android:padding="10dp" />
 
 
         <EditText
             android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:hint="@string/sumDetails"
-            android:inputType="text"
-            android:layout_weight="6"/>
+            android:inputType="text" />
 
         <!--<DatePicker
             android:id="@+id/dpDate"
@@ -84,15 +122,14 @@
         <Button
             android:id="@+id/btnAdd"
             android:layout_width="@dimen/stndrtBtnWidth"
-            android:layout_height="@dimen/stndrtBtnHeight"
+            android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:background="@color/colorSub"
             android:layout_marginBottom="@dimen/marginBtn"
             android:layout_marginLeft="@dimen/marginBtn"
+            android:background="@color/colorSub"
             android:text="@string/insert"
             android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:layout_weight="6"/>
+            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 

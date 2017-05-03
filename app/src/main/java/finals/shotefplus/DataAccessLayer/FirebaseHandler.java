@@ -36,6 +36,8 @@ public class FirebaseHandler {
         this.mDatabase =  FirebaseDatabase.getInstance().getReference();
     }
 
+
+
     //Singleton
     private static class SingletonFirebaseHandler {
         private static final FirebaseHandler INSTANCE = new FirebaseHandler();
@@ -58,8 +60,13 @@ public class FirebaseHandler {
     public void insertCustomer(Customer customer) {
         mDatabase.child("Users").child(userId).child("Customers").push().setValue(customer);
     }
-    public void insertExpense(Expense expense) {
-        mDatabase.child("Users").child(userId).child("Expenses").push().setValue(expense);
+    public String insertExpense(Expense expense) {
+        DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Expenses").push();//blank child
+        String key = tmp.getKey();
+        expense.setIdNum(key);
+        tmp.setValue(expense);
+        //return mDatabase.getKey();
+        return key;
     }
     public void insertReceipt(Receipt receipt) {
         mDatabase.child("Users").child(userId).child("Receipts").push().setValue(receipt);
@@ -122,6 +129,11 @@ public class FirebaseHandler {
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
                 child("PriceOffers").child(key).setValue(priceOffer);
         //mDatabase.child("Users").child(userId).child("PriceOffers").push().setValue(priceOffer);
+    }
+
+    public void updateExpense(Expense expense, String key) {
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("Expenses").child(key).setValue(expense);
     }
 
     public void updateBusinessType(String type) {

@@ -24,6 +24,8 @@
     <dimen name="picSizeSignSmall">150dp</dimen>
 
     <!--Fields-->
+    <dimen name="spinnerSize">55dp</dimen>
+    <dimen name="spinnerTextSize">20dp</dimen>
     <dimen name="titleName">14sp</dimen>
     <dimen name="summary">13dip</dimen>
 

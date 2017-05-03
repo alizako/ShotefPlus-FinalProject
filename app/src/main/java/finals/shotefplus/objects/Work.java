@@ -10,7 +10,7 @@ public class Work {
     private static long idNumGlobal = 0;
     private long idNum = 0;
     private PriceOffer priceOffer;
-    private List<Expense>expenseList;
+    private List<Expense>expenseList; //?????????????????????????? LOOP!!
     private boolean isWorkDone;
     private long receiptNum;
     private boolean isWorkCanceled;
