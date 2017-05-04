@@ -80,8 +80,12 @@ public class FirebaseHandler {
         //return mDatabase.getKey();
         return key;
     }
-    public void insertWork(Work work) {
-        mDatabase.child("Users").child(userId).child("Works").push().setValue(work);
+    public String insertWork(Work work) {
+        DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Works").push();//blank child
+        String key = tmp.getKey();
+        work.setIdNum(key);
+        tmp.setValue(work);
+        return key;
     }
 
     //******************** Update Objects ********************//
@@ -129,6 +133,11 @@ public class FirebaseHandler {
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
                 child("PriceOffers").child(key).setValue(priceOffer);
         //mDatabase.child("Users").child(userId).child("PriceOffers").push().setValue(priceOffer);
+    }
+
+    public void updateWork(Work work, String key) {
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("Works").child(key).setValue(work);
     }
 
     public void updateExpense(Expense expense, String key) {

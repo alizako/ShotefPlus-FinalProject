@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginBtn"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -59,9 +59,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/stndrtBtnHeight"
                 android:layout_gravity="end"
-                android:layout_weight="0.9"
+                android:layout_weight="0.8"
                 android:background="@android:color/transparent"
                 android:text="@string/cancel"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorSub"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNoFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="end"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:text="נקה סינון"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorSub"
                 android:textStyle="bold" />

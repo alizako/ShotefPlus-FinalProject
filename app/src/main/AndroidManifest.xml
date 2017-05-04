@@ -111,9 +111,14 @@
             android:name=".activities.MailTemplateActivity"
             android:label="@string/mailTemplate"
             android:theme="@style/NoActionBarDialog" />
-        <activity android:name=".activities.BusinessTypeActivity"
+        <activity
+            android:name=".activities.BusinessTypeActivity"
             android:label="@string/businessType"
             android:theme="@style/NoActionBarDialog" />
+        <activity android:name=".activities.PriceOfferToWork"
+            android:label="@string/PriceOfferToWork"
+            android:theme="@style/NoActionBarDialog"/>
+
         <!-- Filters -->
         <activity
             android:name=".activities.FilterPriceOfferActivity"

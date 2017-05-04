@@ -9,6 +9,7 @@
     <string name="doFilter">בצע סינון</string>
     <string name="cancel">ביטול</string>
     <string name="update">עדכן</string>
+    <string name="approve">אישור</string>
 
     <!--Titles-->
     <string name="receipt">קבלות</string>
@@ -32,6 +33,7 @@
     <string name="msgTemplate">תבנית להודעה</string>
     <string name="mailTemplate">תבנית לדואל</string>
     <string name="businessType">הגדרת עסק</string>
+    <string name="PriceOfferToWork">העברת הצעת המחיר לביצוע</string>
 
     <!--Fields-->
     <string name="paymentType">סוג תשלום</string>

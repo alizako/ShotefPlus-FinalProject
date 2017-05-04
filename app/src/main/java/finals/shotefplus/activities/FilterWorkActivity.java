@@ -11,8 +11,9 @@ import android.widget.CheckBox;
 import finals.shotefplus.R;
 
 public class FilterWorkActivity extends AppCompatActivity {
-    Button btnFilter;
+    Button btnFilter, btnCancel, btnNoFilter;
     CheckBox cbWorkDone, cbWorkCancelled;
+    static final int RESULT_CLEAN = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,24 @@ public class FilterWorkActivity extends AppCompatActivity {
             }
         });
 
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setResult(Activity.RESULT_CANCELED, new Intent());
+                finish();
+            }
+        });
+
+        btnNoFilter = (Button) findViewById(R.id.btnNoFilter);
+        btnNoFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CLEAN, new Intent());
+                finish();
+            }
+        });
 
     }
 }

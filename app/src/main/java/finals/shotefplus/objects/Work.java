@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Work {
     private static long idNumGlobal = 0;
-    private long idNum = 0;
+    //private long idNum = 0;
+    private String idNum;
     private PriceOffer priceOffer;
     private List<Expense>expenseList; //?????????????????????????? LOOP!!
     private boolean isWorkDone;
@@ -16,26 +17,32 @@ public class Work {
     private boolean isWorkCanceled;
 
 
-    public long getIdNum() {
+   /* public long getIdNum() {
         return idNum;
-    }
+    }*/
 
     public Work() {
-        idNumGlobal++;
-        idNum = idNumGlobal;
+        idNum = "";
+        this.priceOffer=new PriceOffer();
+        this.isWorkCanceled=false;
+        this.isWorkDone=false;
+        this.receiptNum=0;
     }
-    public Work( PriceOffer priceOffer, boolean isWorkCanceled,
+    public Work(String idNum, PriceOffer priceOffer, boolean isWorkCanceled,
                boolean isWorkDone, long receiptNum) {
-        idNumGlobal++;
-        idNum = idNumGlobal;
+        //idNumGlobal++;
+        this.idNum = idNum;
         this.priceOffer=priceOffer;
         this.isWorkCanceled=isWorkCanceled;
         this.isWorkDone=isWorkDone;
         this.receiptNum=receiptNum;
     }
 
-    public void setIdNum(long idNum) {
+    public void setIdNum(String idNum) {
         this.idNum = idNum;
+    }
+    public String getIdNum() {
+        return idNum;
     }
 
     public PriceOffer getPriceOffer() {

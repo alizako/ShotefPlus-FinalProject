@@ -28,14 +28,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
 import finals.shotefplus.adapters.PriceOfferListAdapter;
 import finals.shotefplus.objects.PriceOffer;
+import finals.shotefplus.objects.Work;
 
 public class PriceOffersActivity extends AppCompatActivity {
 
     ImageButton btnAdd;
     ListView lvPriceOffer;
+    PriceOffer priceOfferToWork;
     private List<PriceOffer> priceOfferList;
     private PriceOfferListAdapter adapter;
     View filter, barMonth;
@@ -46,6 +49,7 @@ public class PriceOffersActivity extends AppCompatActivity {
     DatabaseReference dbRef;
     static final int RESULT_CLEAN = 2;
     static final int REQ_UPD_CUSTOMER = 3;
+    static final int REQ_UPD_WORK =4;
     static final int REQ_ADD_CUSTOMER = 2;
     static final int REQ_FILTER = 1;
 
@@ -124,7 +128,26 @@ public class PriceOffersActivity extends AppCompatActivity {
         if (requestCode == REQ_UPD_CUSTOMER) {
             dataRefHandling();
         }
+        if (requestCode == REQ_UPD_WORK) {
+            if (resultCode == Activity.RESULT_OK) {
+                updateWork();
+                dataRefHandling();
+            }
+        }
+
     }//onActivityResult
+
+    private void updateWork() {
+        priceOfferToWork.setPriceOfferApproved(true);
+        //update price offer- approved
+        FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
+                updatePriceOffer(priceOfferToWork, priceOfferToWork.getIdNum());
+        Work work=new Work();
+        work.setPriceOffer(priceOfferToWork);
+        String currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                .insertWork(work);
+        //Toast.makeText(PriceOffersActivity.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
+    }
 
 
     private void initFilter() {
@@ -173,18 +196,24 @@ public class PriceOffersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PriceOffer priceOffer = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
-
                 Intent intent = new Intent(PriceOffersActivity.this, InsertPriceOfferActivity.class);
                 intent.putExtra("PriceOfferId", priceOffer.getIdNum());
                 startActivityForResult(intent,REQ_UPD_CUSTOMER);
-                //????
             }
         });
 
         lvPriceOffer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
+            public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id)
             {
+                priceOfferToWork = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
+
+                if (!priceOfferToWork.isPriceOfferApproved())//only price offer that didn't approved can get approve
+                {
+                    Intent intent = new Intent(PriceOffersActivity.this, PriceOfferToWork.class);
+                  //  intent.putExtra("PriceOfferId", priceOfferToWork.getIdNum());
+                    startActivityForResult(intent,REQ_UPD_WORK);
+                }
                //TODO- need to able the user to approve price offer- in order to add it to works list!!
                 return true;
             }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rowLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentTop="true"
@@ -9,9 +10,8 @@
     android:orientation="vertical"
     android:textDirection="rtl">
 
-    <!-- Name  -->
     <TextView
-        android:id="@+id/txtName"
+        android:id="@+id/txtWorkID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imgVw"
@@ -29,13 +29,13 @@
         android:weightSum="1">
 
         <CheckBox
-            android:id="@+id/cbSent"
+            android:id="@+id/cbWorkDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
             android:layoutDirection="rtl"
-            android:text="נשלח ללקוח"
-            android:textColor="@color/summary"/>
+            android:text="עבודה בוצעה"
+            android:textColor="@color/summary" />
 
         <!-- Summary -->
         <TextView
@@ -52,14 +52,13 @@
 
         <!-- Thumbnail Image -->
         <ImageView
-            android:id="@+id/imgVw"
+            android:id="@+id/imgVwCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="right|center"
-            android:src="@drawable/add_user2_32"
             android:tint="@color/colorAccent" />
-
+        <!--android:src="@drawable/cancel32"-->
 
     </LinearLayout>
 

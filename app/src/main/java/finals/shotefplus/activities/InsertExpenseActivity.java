@@ -202,7 +202,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
             String frstEntry = getResources().getString(R.string.workNum);
             if (!selected.equals(frstEntry)) {
                // spnrWork.getSelectedItem().toString()
-                work.setIdNum(Long.parseLong((spnrWork.getSelectedItem()).toString().trim()));
+                work.setIdNum((spnrWork.getSelectedItem()).toString().trim());
             }
 
             expense = new Expense();
