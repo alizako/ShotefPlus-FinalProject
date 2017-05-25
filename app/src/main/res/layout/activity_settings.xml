@@ -10,10 +10,13 @@
     <ImageView
         android:id="@+id/imgVw"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/picSizeSignBig"
+        android:layout_height="@dimen/picSizeSign"
         android:alpha="0.6"
         android:background="@drawable/settings"
-        android:orientation="vertical" />
+        android:foregroundGravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <include
         android:id="@+id/userProfile"
@@ -56,4 +59,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/msgContent" />
+
+    <include
+        android:id="@+id/permissions"
+        layout="@layout/row_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/businessType" />
+
+
+
 </RelativeLayout>

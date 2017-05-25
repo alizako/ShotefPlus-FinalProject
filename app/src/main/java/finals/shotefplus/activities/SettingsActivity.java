@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,12 +32,14 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     DatabaseReference dbRef;
     TextView txtTitle, txtDetails;
-    ImageView imgBtnUserProfile, imgBtnChangePass, imgBtnForgetUser, imgBtnEmailContent, imgBtnMsgContent, imgBtnBusinessType;
+    ImageView imgBtnUserProfile, imgBtnChangePass, imgBtnForgetUser,
+            imgBtnEmailContent, imgBtnMsgContent, imgBtnBusinessType, imgBtnPermissions;
     static final int REQ_PROFILE = 1;
     static final int REQ_REGISTER = 2;
     static final int REQ_MSG = 3;
     static final int REQ_MAIL = 4;
     static final int REQ_BSN = 5;
+
     static final int RESULT_EXP = 2;
     private static final String PREFS_NAME = "SIGNING-IN";
     UserProfile userProfile;
@@ -58,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         View rowEmailContent = findViewById(R.id.emailContent);
         View rowMsgContent = findViewById(R.id.msgContent);
         View rowBusinessType = findViewById(R.id.businessType);
+        View rowPermissions = findViewById(R.id.permissions);
 
         imgBtnUserProfile = (ImageView) rowUserProfile.findViewById(R.id.imgbtn);
         imgBtnChangePass = (ImageView) rowChangePass.findViewById(R.id.imgbtn);
@@ -65,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         imgBtnEmailContent = (ImageView) rowEmailContent.findViewById(R.id.imgbtn);
         imgBtnMsgContent = (ImageView) rowMsgContent.findViewById(R.id.imgbtn);
         imgBtnBusinessType = (ImageView) rowBusinessType.findViewById(R.id.imgbtn);
-
+        imgBtnPermissions = (ImageView) rowPermissions.findViewById(R.id.imgbtn);
 
         txtTitle = (TextView) rowUserProfile.findViewById(R.id.txtTitle);
         txtDetails = (TextView) rowUserProfile.findViewById(R.id.txtDetails);
@@ -100,6 +105,10 @@ public class SettingsActivity extends AppCompatActivity {
         txtTitle.setText("הגדרת עסק");
         txtDetails.setText("פטור  |  מורשה");
 
+        txtTitle = (TextView) rowPermissions.findViewById(R.id.txtTitle);
+        txtDetails = (TextView) rowPermissions.findViewById(R.id.txtDetails);
+        txtTitle.setText("בדיקת הרשאות אפליקציה במכשיר זה");
+        txtDetails.setText("שיחה  |  הודעה  |  מצלמה");
 
         setEvents();
 
@@ -150,6 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
             }
         }
+
     }
 
 
@@ -237,6 +247,23 @@ public class SettingsActivity extends AppCompatActivity {
                 try {
                     Intent intent = new Intent(SettingsActivity.this, BusinessTypeActivity.class);
                     startActivityForResult(intent, REQ_BSN);
+                } catch (Exception ex) {
+                    Toast.makeText(SettingsActivity.this,
+                            "Sorry, Something weng wrong. Please try again later",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        imgBtnPermissions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.parse("package:" + getPackageName());
+                    intent.setData(uri);
+                    startActivity(intent);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
                             "Sorry, Something weng wrong. Please try again later",

@@ -1,11 +1,21 @@
 package finals.shotefplus.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,40 +26,102 @@ import finals.shotefplus.R;
 
 public class CustomersActivity extends AppCompatActivity {
 
+    private FirebaseAuth firebaseAuth;
+    DatabaseReference dbRef;
+    private ProgressDialog dialog;
     ImageButton btnAdd;
     ListView lvCustomers;
     private List<Customer> customers;
     private CustomerListAdapter adapter;
+    private List<Customer> customerList;
+    static final int REQ_UPD_CUSTOMER = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customers);
 
+        //init vars:
+        firebaseAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+
+        lvCustomers = (ListView) findViewById(R.id.listViewCustomers);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
+
+
+        try {
+            dialog = ProgressDialog.show(CustomersActivity.this,
+                    "",
+                    "טוען נתונים..",
+                    true);
+
+            dataRefHandling();
+
+        } catch (Exception e) {
+            dialog.dismiss();
+            Toast.makeText(CustomersActivity.this,
+                    "" + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+
+        setEvents();
+    }
+
+
+    /**********************************************************************************
+     * Events
+     **********************************************************************************/
+    private void setEvents() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CustomersActivity.this,InsertCustomerActivity.class));
+                startActivity(new Intent(CustomersActivity.this, InsertCustomerActivity.class));
             }
         });
 
+        lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Customer customer = (Customer) lvCustomers.getAdapter().getItem(position);
+                Intent intent = new Intent(CustomersActivity.this, InsertCustomerActivity.class);
+                intent.putExtra("customerIdNum", customer.getIdNum());
+                startActivityForResult(intent,REQ_UPD_CUSTOMER);
+            }
+        });
+    }
 
-        lvCustomers = (ListView) findViewById(R.id.listViewCustomers);
-        //Customer c= new Customer("Aliza",false,"dddfgdf","05555555","dsf@gggg");
-        /*customers = new ArrayList<Customer>();
-        customers.add(new Customer("Adam","כפר אדומים", "050-5555535", "adam@gmail.com"));
-        customers.add(new Customer("Aliza","עמק רפאים ירושלים", "052-8657571", "aliza@gmail.com"));
-        customers.add(new Customer("Ely","הרצליה", "056-9998877", "ely@gmail.com"));
-        customers.add(new Customer("Joe A", "אבן גבירול תל אביב-יפו", "050-6662223", "joe.a@gmail.com"));
-        customers.add(new Customer("Moran", "גילה ירושלים", "055-5533554", "moran@gmail.com"));
-        customers.add(new Customer("Sasson",  "מלחה ירושלים", "052-5555555", "sasson@gmail.com"));
-        customers.add(new Customer("Shimon",  "מבשרת ציון", "050-5463723", "shimi@gmail.com"));*/
+    /**********************************************************************************
+     * FireBase
+     **********************************************************************************/
+    private void dataRefHandling() {
 
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                customerList = new ArrayList<Customer>();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
+                    try {
+                        Customer customer = new Customer();
+                        customer = postSnapshot.getValue(Customer.class);
+                        customerList.add(customer);
+                    } catch (Exception ex) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                adapter = new CustomerListAdapter(CustomersActivity.this, customerList);
+                lvCustomers.setAdapter(adapter);
+                dialog.dismiss();
+            }
 
-        adapter = new CustomerListAdapter(CustomersActivity.this,customers);
-        lvCustomers.setAdapter(adapter);
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
 
     }
 }

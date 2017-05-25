@@ -109,7 +109,9 @@ public class InsertExpenseActivity extends AppCompatActivity {
         imgBtnWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InsertExpenseActivity.this, InsertCustomerActivity.class);
+                //TODO: Check with Adam
+              //  Intent intent = new Intent(InsertExpenseActivity.this, InsertCustomerActivity.class);
+                Intent intent = new Intent(InsertExpenseActivity.this, InsertPriceOfferActivity.class);
                 startActivityForResult(intent, REQ_ADD_WORK);
             }
         });

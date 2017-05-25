@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnCall"
+        android:icon="@drawable/phone_32"
+        android:title="@string/cCall" />
+
+    <item
+        android:id="@+id/mnMsg"
+        android:icon="@drawable/sms_32"
+        android:title="@string/cSms" />
+
+    <item
+        android:id="@+id/mnEmail"
+        android:icon="@drawable/inbox_32"
+        android:title="@string/cEmail" />
+   <!-- <item
+        android:id="@+id/mnDelete"
+        android:icon="@drawable/delete_32"
+        android:title="מחק לקוח" />-->
+</menu>

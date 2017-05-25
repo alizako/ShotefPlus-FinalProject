@@ -50,8 +50,21 @@
     <string name="sumPayment">סהכ לתשלום</string>
     <string name="sumPaymentMaam">סהכ לתשלום כולל מעמ</string>
 
+    <string name="customerName">שם לקוח</string>
+    <string name="contactName">שם איש קשר</string>
+    <string name="phoneNum">מספר טלפון</string>
+    <string name="email">דואל</string>
+    <string name="adrs">כתובת</string>
+    <string name="prvt">פרטי</string>
+    <string name="business">עסק</string>
+
     <string name="notFound">לא הוכנס מלל</string>
     <string name="filter">סינון</string>
+
+    <!-- Customer Meun-->
+    <string name="cCall">התקשר ללקוח</string>
+    <string name="cSms">שלח הודעה ללקוח</string>
+    <string name="cEmail">שלח דואל ללקוח</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">

@@ -35,4 +35,7 @@
     <dimen name="stndrtDialogHeightHuge">250dp</dimen>
     <dimen name="marginDialog">10dp</dimen>
 
+    <!--ImageView of settings -->
+    <dimen name="editSettingsBtn">50dp</dimen>
+
 </resources>

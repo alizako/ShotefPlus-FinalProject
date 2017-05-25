@@ -57,8 +57,13 @@ public class FirebaseHandler {
         // mDatabase.child("profile").child(userId).setValue(userProfile);
     }
 
-    public void insertCustomer(Customer customer) {
-        mDatabase.child("Users").child(userId).child("Customers").push().setValue(customer);
+    public String insertCustomer(Customer customer) {
+        DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Customers").push();//blank child
+        String key = tmp.getKey();
+        customer.setIdNum(key);
+        tmp.setValue(customer);
+        return key;
+        //mDatabase.child("Users").child(userId).child("Customers").push().setValue(customer);
     }
     public String insertExpense(Expense expense) {
         DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Expenses").push();//blank child
@@ -143,6 +148,11 @@ public class FirebaseHandler {
     public void updateExpense(Expense expense, String key) {
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
                 child("Expenses").child(key).setValue(expense);
+    }
+
+    public void updateCustomer(Customer customer, String key) {
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("Customers").child(key).setValue(customer);
     }
 
     public void updateBusinessType(String type) {

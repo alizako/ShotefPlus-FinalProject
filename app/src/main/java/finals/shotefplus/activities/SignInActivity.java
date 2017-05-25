@@ -105,7 +105,7 @@ public class SignInActivity extends AppCompatActivity {
                             //display some message here
                             Toast.makeText(SignInActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
                         }
-                        //  progressDialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
     }
