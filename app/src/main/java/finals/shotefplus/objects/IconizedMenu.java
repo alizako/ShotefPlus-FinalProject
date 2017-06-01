@@ -12,9 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 /**
- * Copied from android.support.v7.widget.PopupMenu.
- * "mPopup.setForceShowIcon(true);" in the constructor does the trick :)
- * 
+ * Exterior Library, thanks to:
  * @author maikvlcek
  * @since 5:00 PM - 1/27/14
  */

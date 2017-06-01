@@ -151,7 +151,9 @@ public class InsertCustomerActivity extends AppCompatActivity {
 
         try {
 
-            customer = new Customer();
+            if (! isUpdateMode)
+                customer = new Customer();
+
             customer.setName(etName.getText().toString());
             customer.setCustomerContactName(etContactName.getText().toString());
             customer.setPhoneNum(etPhone.getText().toString());
@@ -165,11 +167,12 @@ public class InsertCustomerActivity extends AppCompatActivity {
                 customer.setCustomerType(NONE_TYPE);
 
             if (isUpdateMode) {
+              //  customer.setIdNum(currentKey);
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .updateCustomer(customer, currentKey);
 
                 Toast.makeText(v.getContext(), "לקוח התעדכן", Toast.LENGTH_LONG).show();
-            } else {//add new expense
+            } else {//add new Customer
 
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date date = new Date();
@@ -177,7 +180,13 @@ public class InsertCustomerActivity extends AppCompatActivity {
 
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertCustomer(customer);
+                Intent intent= new Intent();
+                intent.putExtra("customerAddedIdNum", currentKey);
+                intent.putExtra("customerName", customer.getName());
+                setResult(RESULT_OK, intent);
+
                 Toast.makeText(v.getContext(), "לקוח התווסף", Toast.LENGTH_LONG).show();
+                finish();
             }
 
             finish(); //back to list

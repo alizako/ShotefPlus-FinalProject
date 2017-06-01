@@ -49,6 +49,7 @@
     <string name="workDetails">פרטי העסקה</string>
     <string name="sumPayment">סהכ לתשלום</string>
     <string name="sumPaymentMaam">סהכ לתשלום כולל מעמ</string>
+    <string name="paid">שולם</string>
 
     <string name="customerName">שם לקוח</string>
     <string name="contactName">שם איש קשר</string>
@@ -65,10 +66,25 @@
     <string name="cCall">התקשר ללקוח</string>
     <string name="cSms">שלח הודעה ללקוח</string>
     <string name="cEmail">שלח דואל ללקוח</string>
+    <string name="rDelete">מחק קבלה</string>
+    <string name="rContact">צור קשר</string>
+    <string name="rCustomer">עבור לאיש קשר</string>
+    <string name="rPaidCash">סמן שולם מזומן</string>
+    <string name="rPaidCredit">סמן שולם אשראי</string>
+    <string name="rPaidTrans">סמן שולם העברה</string>
+    <string name="rPaidCheque">סמן שולם המחאה</string>
+    <string name="rReceipt">פתח קבלה</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">
-        <item>סוג תשלום</item>
+        <item>-בחר צורת תשלום-</item>
+        <item>מזומן</item>
+        <item>אשראי</item>
+        <item>המחאה</item>
+        <item>העברה</item>
+    </string-array>
+    <string-array name="spinnerMethodType">
+        <item>-בחר סוג תשלום-</item>
         <item>שוטף + 30</item>
         <item>שוטף + 60</item>
         <item>שוטף + 90</item>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mnReceipt"
+        android:icon="@drawable/report_32"
+        android:title="@string/rReceipt" />
+    <item
+        android:id="@+id/mnCash"
+        android:icon="@drawable/checkmark_32"
+        android:title="@string/rPaidCash"/>
+    <item
+        android:id="@+id/mnCredit"
+        android:icon="@drawable/checkmark_32"
+        android:title="@string/rPaidCredit" />
+    <item
+        android:id="@+id/mnCheque"
+        android:icon="@drawable/checkmark_32"
+        android:title="@string/rPaidCheque" />
+    <item
+        android:id="@+id/mnTransfer"
+        android:icon="@drawable/checkmark_32"
+        android:title="@string/rPaidTrans" />
+    <item
+        android:id="@+id/mnDelete"
+        android:icon="@drawable/delete_32"
+        android:title="@string/rDelete" />
+    </menu>

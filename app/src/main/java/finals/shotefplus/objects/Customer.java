@@ -17,7 +17,7 @@ public class Customer {
     private String adrs;
     private String phoneNum;
     private String email;
-    private List<Work> workList;
+  //  private List<Work> workList;
     //private List<Receipt> receiptList;
     private String customerType; // 0-none 1- ESEK, 2- PRATI
     private String customerContactName;
@@ -36,7 +36,7 @@ public class Customer {
         this.adrs = adrs;
         this.phoneNum = phoneNum;
         this.email = email;
-        this.workList = workList;
+     //   this.workList = workList;
         this.customerType = customerType;
         this.customerContactName = customerContactName;
     }
@@ -100,13 +100,13 @@ public class Customer {
         this.email = email;
     }
 
-    public List<Work> getWorkList() {
+    /*public List<Work> getWorkList() {
         return workList;
     }
 
     public void setWorkList(List<Work> workList) {
         this.workList = workList;
-    }
+    }*/
 
    /* public List<Receipt> getReceiptList() {
         return receiptList;

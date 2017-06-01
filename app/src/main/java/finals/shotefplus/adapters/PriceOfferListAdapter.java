@@ -1,7 +1,9 @@
 package finals.shotefplus.adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,28 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
+import finals.shotefplus.activities.PriceOffersActivity;
 import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.Expense;
 import finals.shotefplus.objects.PriceOffer;
 
 /**
@@ -29,14 +44,17 @@ public class PriceOfferListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<PriceOffer> priceOfferList;
+    private List<Customer> customerList;
     PriceOffer priceOffer;
     private FirebaseAuth firebaseAuth;
+    DatabaseReference dbRef;
+    private boolean endFlag = false;
 
-
-    public PriceOfferListAdapter(Activity activity, List<PriceOffer> priceOfferList) {
+    public PriceOfferListAdapter(Activity activity, List<PriceOffer> priceOfferList, List<Customer> customerList) {
         this.activity = activity;
         this.inflater = inflater;
         this.priceOfferList = priceOfferList;
+        this.customerList = customerList;
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -65,8 +83,9 @@ public class PriceOfferListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_price_offer, null);
 
         priceOffer = priceOfferList.get(position);
-        TextView name = (TextView) convertView.findViewById(R.id.txtName);
-        TextView summary = (TextView) convertView.findViewById(R.id.summary);
+
+        final TextView name = (TextView) convertView.findViewById(R.id.txtName);
+        final TextView summary = (TextView) convertView.findViewById(R.id.summary);
         final CheckBox cbIsPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
         cbIsPriceOfferSent.setTag(position); //MUST!!
 
@@ -75,7 +94,7 @@ public class PriceOfferListAdapter extends BaseAdapter {
             public void onClick(View arg0) {
                 // final boolean isChecked = cbIsPriceOfferSent.isChecked();
                 // Do something here.
-                int pos = ((int)cbIsPriceOfferSent.getTag());
+                int pos = ((int) cbIsPriceOfferSent.getTag());
                 priceOffer = priceOfferList.get(pos);
                 priceOffer.setPriceOfferSent(cbIsPriceOfferSent.isChecked());
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
@@ -83,25 +102,27 @@ public class PriceOfferListAdapter extends BaseAdapter {
             }
         });
 
+        int i = 0;
+        while (i < customerList.size() && !customerList.get(i).getIdNum().equals(priceOffer.getCustomerIdNum())) {
+            i++;
+        }
+        if (i < customerList.size()) {
+            Customer customer = new Customer();
+            customer = customerList.get(i);
+            name.setText("לקוח " + customer.getName());
+        }
 
-        // name customer
-        //name.setText("לקוח " + priceOffer.getCustomer().getName() + " | " + "מס' " + priceOffer.getCustomer().getIdNum());
-        name.setText("לקוח " + priceOffer.getCustomer().getName());
-
-        //summary of details
-        summary.setText("הצעה: " + priceOffer.getWorkDetails() + ""+  priceOffer.getSumPayment()+ "ש''ח "+"\n" +
+        summary.setText("הצעה: " + priceOffer.getWorkDetails() + ""
+                + priceOffer.getSumPayment() + "ש''ח " + "\n" +
                 "תאריך יעד: " + priceOffer.dueDateToString() + "\n" +
-                "מיקום: " +((!priceOffer.getLocation().equals(""))?priceOffer.getLocation():"לא הוכנס מיקום") + "\n" +
+                "מיקום: " + ((!priceOffer.getLocation().equals("")) ?
+                priceOffer.getLocation() : "לא הוכנס מיקום") + "\n" +
                 ((priceOffer.isPriceOfferApproved()) ? "אושרה לביצוע" : "טרם אושרה לביצוע"));
-        // summary.setText("הצעה " + priceOffer.getWorkDetails() + " | " + priceOffer.getDate());
-        //isPriceOfferSent
         cbIsPriceOfferSent.setChecked(priceOffer.isPriceOfferSent());
 
+        convertView.setTag(endFlag);
         return convertView;
     }
 
-    private void updateFireBase(PriceOffer priceOffer) {
-        String key = priceOffer.getIdNum();
 
-    }
 }

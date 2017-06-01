@@ -20,6 +20,7 @@ import java.util.List;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
+import finals.shotefplus.objects.PriceOffer;
 import finals.shotefplus.objects.Work;
 
 /**
@@ -77,15 +78,12 @@ public class WorkListAdapter extends BaseAdapter {
         cbIsWorkDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // final boolean isChecked = cbIsPriceOfferSent.isChecked();
-                // Do something here.
-                if(work.isWorkCanceled()) {
+                int pos = ((int) cbIsWorkDone.getTag());
+                work = workList.get(pos);
+                if (work.isWorkCanceled()) {
                     cbIsWorkDone.setChecked(false);
                     Toast.makeText(context, "לא ניתן לאשר ביצוע עבודה שבוטלה", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    int pos = ((int) cbIsWorkDone.getTag());
-                    work = workList.get(pos);
+                } else {
                     work.setWorkDone(cbIsWorkDone.isChecked());
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                             .updateWork(work, work.getIdNum());
@@ -96,7 +94,6 @@ public class WorkListAdapter extends BaseAdapter {
         imgCancelWork.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int pos = ((int) cbIsWorkDone.getTag());
-
                 work = workList.get(pos);
 
                 if (work.isWorkDone())
@@ -113,7 +110,6 @@ public class WorkListAdapter extends BaseAdapter {
             }
         });
 
-
         //set values in rows:
         if (work.isWorkCanceled()) {
             txtWorkID.setText("שים לב - עבודה בוטלה");
@@ -125,10 +121,10 @@ public class WorkListAdapter extends BaseAdapter {
             rowLayout.setBackgroundColor(ResourcesCompat.getColor(context.getResources(), R.color.colorWhite, null));
         }
 
-        summary.setText("פרטים: " + work.getPriceOffer().getWorkDetails() + "" +
-                work.getPriceOffer().getSumPayment() + " ש''ח " + "\n" +
-                "תאריך יעד: " + work.getPriceOffer().dueDateToString() + "\n" +
-                "מיקום: " + ((!work.getPriceOffer().getLocation().equals("")) ? work.getPriceOffer().getLocation() : "לא הוכנס מיקום")
+        summary.setText("פרטים: " + work.getWorkDetails() + "\n" +
+                "סה''כ: " + work.getSumPayment() + " ש''ח " + "\n" +
+                "תאריך יעד: " + work.dueDateToString() + "\n" +
+                "מיקום: " + ((!work.getLocation().equals("")) ? work.getLocation() : "לא הוכנס מיקום")
         );
 
         cbIsWorkDone.setChecked(work.isWorkDone());

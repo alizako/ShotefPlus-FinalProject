@@ -1,22 +1,34 @@
 package finals.shotefplus.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import finals.shotefplus.R;
 import finals.shotefplus.adapters.CustomerListAdapter;
+import finals.shotefplus.adapters.PriceOfferListAdapter;
 import finals.shotefplus.adapters.ReceiptListAdapter;
 import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.PriceOffer;
@@ -26,35 +38,63 @@ import finals.shotefplus.objects.Work;
 public class ReceiptsActivity extends AppCompatActivity {
     ListView lvReceipts;
     private List<Receipt> receiptList;
+    private List<Customer> customerList;
     private ReceiptListAdapter adapter;
-    View filter;
+    View filter, barMonth;
     ImageButton btnAdd;
-
+    private FirebaseAuth firebaseAuth;
+    private ProgressDialog dialog;
+    DatabaseReference dbRef;
+    Date date;
+    private TextView txtNext, txtPrev, txtDate;
+    static final int REQ_UPD_CUSTOMER = 3;
+    static final int REQ_UPD_RECEIPT=4;
+    static final int REQ_FILTER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipts);
 
-        initFilter();
-        initList();
+        //init vars:
+        firebaseAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
 
 
+        // initList();
+
+        barMonth = findViewById(R.id.barMonth);
+        filter = findViewById(R.id.barFilter);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ReceiptsActivity.this,InsertReceiptActivity.class));
-            }
-        });
-    }
+        lvReceipts = (ListView) findViewById(R.id.listViewReceipts);
+        txtNext = (TextView) barMonth.findViewById(R.id.txtNext);
+        txtPrev = (TextView) barMonth.findViewById(R.id.txtPrev);
+        txtDate = (TextView) barMonth.findViewById(R.id.txtMonth);
 
+        date = new Date();
+        setCurrentDateBarMonth();
+        initFilter();
+
+        try {
+            dataRefHandling();
+
+        } catch (Exception e) {
+            dialog.dismiss();
+            Toast.makeText(ReceiptsActivity.this,
+                    "" + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+
+        setEvents();
+    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
+        if (requestCode == REQ_FILTER) {
             if (resultCode == Activity.RESULT_OK) {
                 boolean isPaid = data.getBooleanExtra("cbPaid", false);
                 boolean isNotPaid = data.getBooleanExtra("cbNotPaid", false);
@@ -69,8 +109,8 @@ public class ReceiptsActivity extends AppCompatActivity {
                         (isPaid ? "שולם | " : "") +
                                 (isNotPaid ? "לא שולם | " : "") +
                                 (isCash ? "מזומן | " : "") +
-                                (isCheque ? "המחאה |" : "")+
-                                (isTrans ? "העברה |" : "")+
+                                (isCheque ? "המחאה |" : "") +
+                                (isTrans ? "העברה |" : "") +
                                 (isCredit ? "אשראי |" : "")
 
                 );
@@ -78,6 +118,9 @@ public class ReceiptsActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+        if (requestCode == REQ_UPD_CUSTOMER) {
+            dataRefHandling();
         }
     }//onActivityResult
 
@@ -94,43 +137,134 @@ public class ReceiptsActivity extends AppCompatActivity {
         });
     }
 
-    private void initList() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-       // String date = dateFormat.format(new Date());
-
-        lvReceipts = (ListView) findViewById(R.id.listViewReceipts);
-        receiptList = new ArrayList<Receipt>();
+    private void setCurrentDateBarMonth() {
+        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        txtDate.setText(dateFormat.format(date));
+    }
 
 
-        /*receiptList.add(new Receipt(0,1, "פלייר",dateFormat.format(date),500, 585,
-                new Work(
-                new PriceOffer(
-                        new Customer("Ely",  "הרצליה", "056-9998877", "ely@gmail.com"),
-                   500, 585, "פלייר", dateFormat.format(date), true),
-                false,false,1))
-        );
+    /**********************************************************************************
+     * Events
+     **********************************************************************************/
 
-        receiptList.add(new Receipt(30,2, "עיצוב לוגו",dateFormat.format(date),1200, 1220,
-                new Work(
-                        new PriceOffer(
-                                new Customer("Moran",  "גילה ירושלים", "055-5533554", "moran@gmail.com"),
-                                1200, 1220, "עיצוב לוגו", dateFormat.format(date), true),
-                        false,false,2))
-        );
-
-        receiptList.add(new Receipt(30,3, "כריכת ספר",dateFormat.format(date),100, 117,
-                new Work(
-                        new PriceOffer(
-                                new Customer("Shimon", "מבשרת ציון", "050-5463723", "shimi@gmail.com"),
-                                3000, 3040, "כריכת ספר", dateFormat.format(date), true),
-                        false,false,3))
-        );*/
+    private void setEvents() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ReceiptsActivity.this, InsertReceiptActivity.class));
+            }
+        });
 
 
+        txtDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                date = new Date();
+                setCurrentDateBarMonth();
+                dataRefHandling();
+            }
+        });
+        txtNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                c.add(Calendar.MONTH, 1);
+                date = c.getTime();
+                setCurrentDateBarMonth();
+                dataRefHandling();
+            }
+        });
+        txtPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                c.add(Calendar.MONTH, -1);
+                date = c.getTime();
+                setCurrentDateBarMonth();
+                dataRefHandling();
+            }
+        });
 
-        adapter = new ReceiptListAdapter(ReceiptsActivity.this,receiptList);
-        lvReceipts.setAdapter(adapter);
+
+    }
+
+
+    /**********************************************************************************
+     * FireBase
+     **********************************************************************************/
+    private void dataRefHandling() {
+
+        dialog = ProgressDialog.show(ReceiptsActivity.this,
+              "", "טוען נתונים..", true);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        final String dateReceipt = dateFormat.format(date);
+        dbRef.orderByChild("dateReceipt")
+                .startAt(dateReceipt)
+                .endAt(dateReceipt + "\uf8ff")
+                .addValueEventListener(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(DataSnapshot snapshot) {
+                           receiptList = new ArrayList<Receipt>();
+                           customerList = new ArrayList<Customer>();
+                           final long[] pendingLoadCount = {snapshot.getChildrenCount()};
+
+                           for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                               try {
+                                   Receipt receipt = new Receipt();
+                                   receipt = postSnapshot.getValue(Receipt.class);
+                                   receiptList.add(receipt);
+
+                                   //get Customer of current priceOffer
+                                   final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
+                                           .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                                                   firebaseAuth.getCurrentUser().getUid() + "/Customers/" + receipt.getCustomerIdNum());
+                                   currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                       public void onDataChange(DataSnapshot dataSnapshot) {
+                                           Customer customer = new Customer();
+                                           customer = dataSnapshot.getValue(Customer.class);
+                                           if (customer != null) customerList.add(customer);
+                                           // we loaded a child, check if we're done
+                                           pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                                           if (pendingLoadCount[0] == 0) {
+                                               adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
+                                               lvReceipts.setAdapter(adapter);
+                                               dialog.dismiss();
+                                           }
+                                       }
+
+                                       @Override
+                                       public void onCancelled(DatabaseError firebaseError) {
+                                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                           dialog.dismiss();
+                                       }
+                                   });
+                                   //END of get Customer of current priceOffer
+
+
+                               } catch (Exception ex) {
+                                   Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                               }
+                           }
+                           if(pendingLoadCount[0] == 0) {
+                               adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
+                               lvReceipts.setAdapter(adapter);
+                               dialog.dismiss();
+                           }
+
+                       }
+
+                       @Override
+                       public void onCancelled(DatabaseError firebaseError) {
+                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                           dialog.dismiss();
+                       }
+                   }
+                );
+
     }
 
 

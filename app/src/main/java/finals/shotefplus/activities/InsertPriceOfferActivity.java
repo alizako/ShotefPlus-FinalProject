@@ -28,6 +28,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
@@ -41,12 +42,14 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     Button btnAdd, btnSendPdf;
     private Customer customer;
+    private Customer customerById;
     PriceOffer priceOffer;
     String currentKey;
     EditText etDate, etCustomer, etLocation, etDetails, etQuantity, etSum;
     CheckBox cbSumMaam;
     ImageButton imgBtnCustomer;
     boolean isUpdateMode = false;
+    String customerAddedIdNum;
     //private Firebase mRef;
 
     @Override
@@ -73,9 +76,8 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
         setEvents();
 
-
         Intent intent = getIntent();
-       // String priceOfferId = "";
+        // String priceOfferId = "";
         String priceOfferId = intent.getStringExtra("PriceOfferId");
         if (priceOfferId != null)//has value
         {
@@ -87,50 +89,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
     }
 
-    private void setValuesToFields(final String priceOfferId) {
-        DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
-        dbRef.orderByChild("idNum").startAt(priceOfferId).endAt(priceOfferId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-
-                            try {
-                                priceOffer = new PriceOffer();
-                                priceOffer = postSnapshot.getValue(PriceOffer.class);
-                                etDate.setText(priceOffer.dueDateToString());
-                                etLocation.setText(priceOffer.getLocation());
-                                etCustomer.setText(priceOffer.getCustomer().getName());
-                                etDetails.setText(priceOffer.getWorkDetails());
-                                etQuantity.setText(Long.toString(priceOffer.getQuantity()));
-                                etSum.setText(Double.toString(priceOffer.getSumPayment()));
-                                cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
-                                btnAdd.setText("עדכן");
-                            } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                        // dialog.dismiss();
-                    }
-                });
-
-
-        // FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).getPriceOffer(priceOfferId);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQ_ADD_CUSTOMER) {
             if (resultCode == Activity.RESULT_OK) {
+                customerAddedIdNum = data.getStringExtra("customerAddedIdNum");
                 etCustomer.setText(data.getStringExtra("customerName"));
             } else {
                 Toast.makeText(getBaseContext(), "ERROR: adding customer", Toast.LENGTH_LONG).show();
@@ -146,14 +110,13 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private boolean isFieldsValidate() {
         // ((EditText) findViewById(R.id.etDetails)).getText().toString().trim();
         boolean flagErr = false;
-        if (etDate.getText().toString().equals("")) flagErr = true; //etDate.setText(" ");
-        /*if (etLocation.getText().toString().equals("")) etLocation.setText(" ");
-        if (etCustomer.getText().toString().equals("")) etCustomer.setText(" ");
-        if (etDetails.getText().toString().equals("")) etDetails.setText(" ");*/
+        if (etDate.getText().toString().equals("")) flagErr = true;
         if (etQuantity.getText().toString().equals("")) etQuantity.setText("0");
         if (etSum.getText().toString().equals("")) flagErr = true;// etDetails.setText("0");
+        if(etDetails.getText().toString().equals("")) flagErr = true;
+
         if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום, פרטי עסקה", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -162,7 +125,6 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     /**********************************************************************************
      * Events
      **********************************************************************************/
-
     private void setEvents() {
 
         final Calendar calendar = Calendar.getInstance();
@@ -185,7 +147,6 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
         etDate.setOnClickListener(
                 new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
 
@@ -200,7 +161,6 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (isFieldsValidate())
                     addPriceOfferToFireBase(v);
 
@@ -212,14 +172,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO send pdf to customer
-
-
                /* if (!isUpdateMode) {//will update db only in add mode. in update mode clicking on btn Update will update the db
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                             .updatePriceOffer(priceOffer, currentKey);
                 }*/
-                if (priceOffer==null)//in case sending pdf pre-saving new record
-                    priceOffer=new PriceOffer();
+                if (priceOffer == null)//in case sending pdf pre-saving new record
+                    priceOffer = new PriceOffer();
                 priceOffer.setPriceOfferSent(true);
                 Toast.makeText(v.getContext(), "הצעת מחיר נשלחה ללקוח במייל", Toast.LENGTH_LONG).show();
             }
@@ -238,23 +196,62 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     /**********************************************************************************
      * FireBase
      **********************************************************************************/
+    private void setValuesToFields(final String priceOfferId) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
+
+        dbRef.orderByChild("idNum")
+                .startAt(priceOfferId).endAt(priceOfferId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                            try {
+                                priceOffer = new PriceOffer();
+                                priceOffer = postSnapshot.getValue(PriceOffer.class);
+                                etDate.setText(priceOffer.dueDateToString());
+                                etLocation.setText(priceOffer.getLocation());
+
+                                // Customer customer = priceOffer.getCustomerByID();
+                                //  etCustomer.setText(customer.getName());
+
+                                etDetails.setText(priceOffer.getWorkDetails());
+                                etQuantity.setText(Long.toString(priceOffer.getQuantity()));
+                                etSum.setText(Double.toString(priceOffer.getSumPayment()));
+                                cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
+                                btnAdd.setText("עדכן");
+                            } catch (Exception ex) {
+                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        // dialog.dismiss();
+                    }
+                });
+
+        // FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).getPriceOffer(priceOfferId);
+    }
+
     private void addPriceOfferToFireBase(View v) {
 
         try {
+            if (!isUpdateMode)
+                priceOffer = new PriceOffer();
 
-            //TODO: call insertCustomer instead code below
-            customer = new Customer();
-            customer.setName(((EditText) findViewById(R.id.etCustomer)).getText().toString().trim());
-
-            //  priceOffer = new PriceOffer();
             priceOffer.setDueDate(etDate.getText().toString());
             priceOffer.setLocation(etLocation.getText().toString());
-            priceOffer.setCustomer(customer);
+            priceOffer.setCustomerIdNum(customerAddedIdNum);
             priceOffer.setWorkDetails(etDetails.getText().toString());
             priceOffer.setQuantity(Long.parseLong(etQuantity.getText().toString()));
             priceOffer.setSumPayment(Double.parseDouble(etSum.getText().toString()));
             priceOffer.setSumPaymentMaam(cbSumMaam.isChecked());
-
 
             if (isUpdateMode) {
                 //priceOffer.setIdNum(currentKey);
@@ -263,6 +260,11 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
                 Toast.makeText(v.getContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
             } else {//add new price offer
+
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date();
+                priceOffer.setDateInsertion(dateFormat.format(date));
+
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertPriceOffer(priceOffer);
                 Toast.makeText(v.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
@@ -274,50 +276,4 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         }
     }
 
-    /*private void dataRefHandling() {
-
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/"+
-                        firebaseAuth.getCurrentUser().getUid());
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //Getting the data from snapshot
-                    //PriceOffer priceOffer = postSnapshot.getValue(PriceOffer.class);
-
-                    //Displaying it on textview
-                    // textViewPersons.setText(string);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: "  + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                //String Id = (String) dataSnapshot.child(firebaseAuth.getCurrentUser().getUid()).getValue();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                *//*Post removedPost = dataSnapshot.getValue(Post.class);
-                System.out.println("The blog post titled " + removedPost.title + " has been deleted");*//*
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }*/
 }

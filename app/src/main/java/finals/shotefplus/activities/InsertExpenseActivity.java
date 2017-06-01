@@ -1,12 +1,14 @@
 package finals.shotefplus.activities;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -18,6 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
@@ -53,6 +59,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
         setSpinners();
 
         etDate = (EditText) findViewById(R.id.etDate);
+        etDate.setShowSoftInputOnFocus(false);
         etDetails = (EditText) findViewById(R.id.etDetails);
         etSum = (EditText) findViewById(R.id.etSum);
         imgBtnWork = (ImageButton) findViewById(R.id.imgBtnWork);
@@ -96,6 +103,37 @@ public class InsertExpenseActivity extends AppCompatActivity {
      **********************************************************************************/
 
     private void setEvents() {
+
+        final Calendar calendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date;
+
+        date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //updateLabel();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                final String dueDate = dateFormat.format(calendar.getTime());
+                etDate.setText(dueDate);
+            }
+        };
+
+        etDate.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new DatePickerDialog(InsertExpenseActivity.this, date,
+                                calendar.get(Calendar.YEAR),
+                                calendar.get(Calendar.MONTH),
+                                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
+                }
+        );
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +236,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
 
             //TODO: call insertWork instead code below
             work = new Work();
-            work.setPriceOffer(new PriceOffer());
+          //  work.setPriceOffer(new PriceOffer());
 
             String selected = spnrWork.getPrompt().toString();
             String frstEntry = getResources().getString(R.string.workNum);

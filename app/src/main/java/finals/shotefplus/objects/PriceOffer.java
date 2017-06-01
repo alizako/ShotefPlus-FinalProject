@@ -1,6 +1,12 @@
 package finals.shotefplus.objects;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
+
+import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 
 /**
  * Created by Aliza on 15/01/2017.
@@ -10,10 +16,11 @@ public class PriceOffer {
     private static long idNumGlobal = 0;
     //private long idNum = 0;
     private String idNum;
-    private String date; //automatic
+    private String dateInsertion; //automatic
     private String location;
     private String dueDate;
-    private Customer customer;//contact: name, phone, type,
+    private String customerIdNum;
+    // private Customer customer;//contact: name, phone, type,
     private String workDetails;
     private long quantity;
     //    private int paymentType;
@@ -25,7 +32,7 @@ public class PriceOffer {
 
     public PriceOffer() {
         this.idNum = "";
-        this.date = "";
+        this.dateInsertion = "";
         this.location = "";
         this.dueDate = "";
         //this.customer = "";
@@ -37,15 +44,15 @@ public class PriceOffer {
         this.isPriceOfferApproved = false;
     }
 
-    public PriceOffer(String idNum, String date, String location,
-                      String dueDate, Customer customer, String workDetails,
+    public PriceOffer(String idNum, String dateInsertion, String location,
+                      String dueDate, String customerIdNum, String workDetails,
                       long quantity, double sumPayment, boolean isSumPaymentMaam,
                       boolean isPriceOfferSent, boolean isPriceOfferApproved) {
         this.idNum = idNum;
-        this.date = date;
+        this.dateInsertion = dateInsertion;
         this.location = location;
         this.dueDate = dueDate;
-        this.customer = customer;
+        this.customerIdNum = customerIdNum;
         this.workDetails = workDetails;
         this.quantity = quantity;
         this.sumPayment = sumPayment;
@@ -62,21 +69,39 @@ public class PriceOffer {
         return idNum;
     }
 
-
-    public String getDate() {
-        return date;
+    public String getDateInsertion() {
+        return dateInsertion;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateInsertion(String dateInsertion) {
+        if (dateInsertion.contains("/"))
+            this.dateInsertion = dateInsertion.substring(6, 10) + //year
+                    dateInsertion.substring(3, 5) + // month
+                    dateInsertion.substring(0, 2); //day
+        else
+            this.dateInsertion = dateInsertion;
     }
 
-    public Customer getCustomer() {
+    public String dateInsertionToString() {
+        return dateInsertion.substring(6, 8) + "/" + //day
+                dateInsertion.substring(4, 6) + "/" + //month
+                dateInsertion.substring(0, 4);//year
+    }
+
+    /*public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }*/
+
+    public String getCustomerIdNum() {
+        return customerIdNum;
+    }
+
+    public void setCustomerIdNum(String customerIdNum) {
+        this.customerIdNum = customerIdNum;
     }
 
     public double getSumPayment() {
@@ -124,7 +149,6 @@ public class PriceOffer {
     }
 
     public String getDueDate() {
-
         return dueDate;
     }
 
@@ -169,4 +193,14 @@ public class PriceOffer {
                 dueDate.substring(4, 6) + "/" + //month
                 dueDate.substring(0, 4);//year
     }
+
+   /* public Customer getCustomerByID() {
+        Customer customer = new Customer();
+
+        customer = FirebaseHandler.getInstance(
+                FirebaseAuth.getInstance().getCurrentUser().getUid()).getCustomerById(customerIdNum);
+
+
+        return customer;
+    }*/
 }

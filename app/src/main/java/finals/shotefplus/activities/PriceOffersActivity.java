@@ -31,8 +31,10 @@ import java.util.List;
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
 import finals.shotefplus.adapters.PriceOfferListAdapter;
+import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.PriceOffer;
 import finals.shotefplus.objects.Work;
+
 
 public class PriceOffersActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public class PriceOffersActivity extends AppCompatActivity {
     ListView lvPriceOffer;
     PriceOffer priceOfferToWork;
     private List<PriceOffer> priceOfferList;
+    private List<Customer> customerList;
     private PriceOfferListAdapter adapter;
     View filter, barMonth;
     private FirebaseAuth firebaseAuth;
@@ -49,9 +52,10 @@ public class PriceOffersActivity extends AppCompatActivity {
     DatabaseReference dbRef;
     static final int RESULT_CLEAN = 2;
     static final int REQ_UPD_CUSTOMER = 3;
-    static final int REQ_UPD_WORK =4;
+    static final int REQ_UPD_WORK = 4;
     static final int REQ_ADD_CUSTOMER = 2;
     static final int REQ_FILTER = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class PriceOffersActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
                         firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
+
         barMonth = findViewById(R.id.barMonth);
         filter = findViewById(R.id.barFilter);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
@@ -76,11 +81,6 @@ public class PriceOffersActivity extends AppCompatActivity {
         initFilter();
 
         try {
-            dialog = ProgressDialog.show(PriceOffersActivity.this,
-                    "",
-                    "טוען נתונים..",
-                    true);
-
             dataRefHandling();
 
         } catch (Exception e) {
@@ -120,7 +120,6 @@ public class PriceOffersActivity extends AppCompatActivity {
                 dataRefHandling();
             }
             /*if (resultCode == Activity.RESULT_CANCELED) {
-
                 //Write your code if there's no result
             }*/
         }
@@ -130,25 +129,37 @@ public class PriceOffersActivity extends AppCompatActivity {
         }
         if (requestCode == REQ_UPD_WORK) {
             if (resultCode == Activity.RESULT_OK) {
-                updateWork();
+                setPriceOfferToWork();
                 dataRefHandling();
             }
         }
-
     }//onActivityResult
 
-    private void updateWork() {
+    private void setPriceOfferToWork() {
         priceOfferToWork.setPriceOfferApproved(true);
         //update price offer- approved
         FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
                 updatePriceOffer(priceOfferToWork, priceOfferToWork.getIdNum());
-        Work work=new Work();
-        work.setPriceOffer(priceOfferToWork);
-        String currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
-                .insertWork(work);
+
+        Work work = new Work();
+        work.setCustomerIdNum(priceOfferToWork.getCustomerIdNum());
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        work.setDateInsertion(dateFormat.format(date));
+
+        work.setDueDate(priceOfferToWork.getDueDate());
+        work.setLocation(priceOfferToWork.getLocation());
+        work.setPriceOfferSent(priceOfferToWork.isPriceOfferSent());
+        work.setPriceOfferApproved(priceOfferToWork.isPriceOfferApproved());
+        work.setQuantity(priceOfferToWork.getQuantity());
+        work.setSumPayment(priceOfferToWork.getSumPayment());
+        work.setSumPaymentMaam(priceOfferToWork.isSumPaymentMaam());
+        work.setWorkDetails(priceOfferToWork.getWorkDetails());
+        work.setPriceOfferIdNum(priceOfferToWork.getIdNum());
+        String currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).insertWork(work);
         //Toast.makeText(PriceOffersActivity.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
     }
-
 
     private void initFilter() {
         ImageButton imgBtnFilter = (ImageButton) filter.findViewById(R.id.imgbtnFilter);
@@ -166,16 +177,33 @@ public class PriceOffersActivity extends AppCompatActivity {
         txtDate.setText(dateFormat.format(date));
     }
 
+    //TODO: not working well- need to simplify!
     private void initListPriceOffers(boolean isSent, boolean isApproved, boolean isNotApproved) {
-        boolean tmpApproved = isNotApproved ? false : isApproved ? true : false;
-        List<PriceOffer> listTmp = new ArrayList<PriceOffer>();
+
+        List<PriceOffer> listTmp = new ArrayList<>();
+        List<Customer> listCTmp = new ArrayList<>();
         for (int i = 0; i < priceOfferList.size(); i++) {
             PriceOffer priceOffer = priceOfferList.get(i);
+            if (isNotApproved == false && isApproved == false) { //both not selected
+                if (priceOffer.isPriceOfferSent() == isSent)
+                    listTmp.add(priceOffer);
+            } else {//different selection
+                boolean tmpApproved = isNotApproved ? false : isApproved ? true : false;
+                if ((priceOffer.isPriceOfferSent() == isSent && priceOffer.isPriceOfferApproved() == tmpApproved)
+                        || (priceOffer.isPriceOfferApproved() == tmpApproved)) {
+                    listTmp.add(priceOffer);
 
-            if (priceOffer.isPriceOfferSent() == isSent && priceOffer.isPriceOfferApproved() == tmpApproved)
-                listTmp.add(priceOffer);
+                    int j = 0;
+                    while (j < customerList.size() && !customerList.get(j).getIdNum().equals(priceOffer.getCustomerIdNum())) {
+                        j++;
+                    }
+                    if (j < customerList.size()) {
+                        listCTmp.add(customerList.get(j));
+                    }
+                }
+            }
         }
-        adapter = new PriceOfferListAdapter(PriceOffersActivity.this, listTmp);
+        adapter = new PriceOfferListAdapter(PriceOffersActivity.this, listTmp, listCTmp);
         lvPriceOffer.setAdapter(adapter);
         dialog.dismiss();
     }
@@ -198,23 +226,21 @@ public class PriceOffersActivity extends AppCompatActivity {
                 PriceOffer priceOffer = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
                 Intent intent = new Intent(PriceOffersActivity.this, InsertPriceOfferActivity.class);
                 intent.putExtra("PriceOfferId", priceOffer.getIdNum());
-                startActivityForResult(intent,REQ_UPD_CUSTOMER);
+                startActivityForResult(intent, REQ_UPD_CUSTOMER);
             }
         });
 
         lvPriceOffer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id)
-            {
+            public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
                 priceOfferToWork = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
 
                 if (!priceOfferToWork.isPriceOfferApproved())//only price offer that didn't approved can get approve
                 {
                     Intent intent = new Intent(PriceOffersActivity.this, PriceOfferToWork.class);
-                  //  intent.putExtra("PriceOfferId", priceOfferToWork.getIdNum());
-                    startActivityForResult(intent,REQ_UPD_WORK);
+                    //  intent.putExtra("PriceOfferId", priceOfferToWork.getIdNum());
+                    startActivityForResult(intent, REQ_UPD_WORK);
                 }
-               //TODO- need to able the user to approve price offer- in order to add it to works list!!
                 return true;
             }
         });
@@ -256,35 +282,75 @@ public class PriceOffersActivity extends AppCompatActivity {
      **********************************************************************************/
     private void dataRefHandling() {
 
+        dialog = ProgressDialog.show(PriceOffersActivity.this,
+                "", "טוען נתונים..", true);
+
         DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
         final String dueDate = dateFormat.format(date);
-        dbRef.orderByChild("dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff")
+        dbRef.orderByChild("dueDate")
+                .startAt(dueDate)
+                .endAt(dueDate + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                priceOfferList = new ArrayList<PriceOffer>();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                   @Override
+                   public void onDataChange(DataSnapshot snapshot) {
+                       priceOfferList = new ArrayList<PriceOffer>();
+                       customerList = new ArrayList<Customer>();
+                       final long[] pendingLoadCount = {snapshot.getChildrenCount()};
 
-                    try {
-                        PriceOffer priceOffer = new PriceOffer();
-                        priceOffer = postSnapshot.getValue(PriceOffer.class);
-                        priceOfferList.add(priceOffer);
-                    } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-                adapter = new PriceOfferListAdapter(PriceOffersActivity.this, priceOfferList);
-                lvPriceOffer.setAdapter(adapter);
-                dialog.dismiss();
-            }
+                       for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
-        });
+                           try {
+                               PriceOffer priceOffer = new PriceOffer();
+                               priceOffer = postSnapshot.getValue(PriceOffer.class);
+                               priceOfferList.add(priceOffer);
+
+                               //get Customer of current priceOffer
+                               final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
+                                       .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                                               firebaseAuth.getCurrentUser().getUid() + "/Customers/"+priceOffer.getCustomerIdNum());
+                               currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                   public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Customer customer= new Customer();
+                                        customer = dataSnapshot.getValue(Customer.class);
+                                        if (customer!=null) customerList.add(customer);
+                                        // we loaded a child, check if we're done
+                                        pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                                        if (pendingLoadCount[0] == 0) {
+                                            adapter = new PriceOfferListAdapter(PriceOffersActivity.this, priceOfferList, customerList);
+                                            lvPriceOffer.setAdapter(adapter);
+                                            dialog.dismiss();
+                                        }
+                                   }
+                                   @Override
+                                   public void onCancelled(DatabaseError firebaseError) {
+                                       Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                       dialog.dismiss();
+                                   }
+                               });
+                               //END of get Customer of current priceOffer
+
+
+                           } catch (Exception ex) {
+                               Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                           }
+                       }
+                       if(pendingLoadCount[0] == 0) {
+                           adapter = new PriceOfferListAdapter(PriceOffersActivity.this, priceOfferList, customerList);
+                           lvPriceOffer.setAdapter(adapter);
+                           dialog.dismiss();
+                       }
+
+                   }
+
+                   @Override
+                   public void onCancelled(DatabaseError firebaseError) {
+                       Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                       dialog.dismiss();
+                   }
+               }
+        );
     }
+
 
 
 }

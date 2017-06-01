@@ -1,6 +1,10 @@
 package finals.shotefplus.objects;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Date;
+
+import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 
 /**
  * Created by Aliza on 15/01/2017.
@@ -8,52 +12,90 @@ import java.util.Date;
 
 public class Receipt {
     private static long idNumGlobal = 0;
-    private long idNum = 0;
-    private String date;
+    private String idNum;
+    private String receiptNum;
+    private String dateReceipt;
     //private Customer customer;
-    private Work work; //+Customer
-    private String workDetails;
+    private String workIdNum; //+Customer
+    private String customerIdNum;
+    private String dealDetails;
     private int paymentType;//1-cash, 2-credit card, 3-cheque,4-transfer...
     private int paymentMethod; //+30,+60..120
     private double sumPayment;
-    private double sumPaymentMaam;
+    private boolean isSumPaymentMaam;
     private boolean isPaymentReceived;
     private boolean isPaymentCanceled;
+    private boolean isPaid;
 
-
-    public Receipt(int paymentMethod,int paymentType,  String workDetails, String date,
-                   double sumPayment, double sumPaymentMaam, Work work) {
-        idNumGlobal++;
-        idNum=idNumGlobal;
-       // this.customer = customer;
-        this.paymentType = paymentType;
-        this.workDetails = workDetails;
-        this.sumPayment = sumPayment;
-        this.sumPaymentMaam = sumPaymentMaam;
-        this.date=date;
-        this.work=work;
+    public Receipt() {
+        //idNumGlobal++;
+        idNum = "";
+        this.paymentType = 0;
+        this.paymentMethod = 0;
+        this.dealDetails = "";
+        this.sumPayment = 0;
+        this.isSumPaymentMaam = false;
+        this.dateReceipt = "";
+        this.workIdNum="";
+        this.isPaymentCanceled = false;
+        this.isPaymentReceived = false;
+        this.isPaid=false;
     }
 
-    public long getIdNum() {
+    public Receipt(String idNum, int paymentMethod, int paymentType, String workDetails, String dateReceipt,
+                   double sumPayment, boolean isSumPaymentMaam, String workIdNum, String customerIdNum, boolean isPaymentReceived,
+                   boolean isPaymentCanceled, boolean isPaid) {
+
+        idNum = idNum;
+        // this.customer = customer;
+        this.paymentMethod = paymentMethod;
+        this.paymentType = paymentType;
+        this.dealDetails = workDetails;
+        this.sumPayment = sumPayment;
+        this.isSumPaymentMaam = isSumPaymentMaam;
+        this.dateReceipt = dateReceipt;
+        this.workIdNum = workIdNum;
+        this.customerIdNum = customerIdNum;
+        this.isPaymentCanceled = isPaymentCanceled;
+        this.isPaymentReceived = isPaymentReceived;
+        this.isPaid=isPaid;
+    }
+
+    public String getIdNum() {
         return idNum;
     }
 
-    public Work getWork() {
+    public String getReceiptNum() {
+        return receiptNum;
+    }
+
+    public void setReceiptNum(String receiptNum) {
+        this.receiptNum = receiptNum;
+    }
+    public String getCustomerIdNum() {
+        return customerIdNum;
+    }
+
+    public void setCustomerIdNum(String customerIdNum) {
+        this.customerIdNum = customerIdNum;
+    }
+
+   /* public Work getWork() {
         return work;
     }
 
     public void setWork(Work work) {
         this.work = work;
-    }
+    }*/
 
-    public String getDate() {
-        return date;
+   /* public String getDate() {
+        return dateReceipt;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.dateReceipt = date;
     }
-
+*/
    /* public Customer getCustomer() {
         return customer;
     }
@@ -61,6 +103,14 @@ public class Receipt {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }*/
+
+    public String getWorkIdNum() {
+        return workIdNum;
+    }
+
+    public void setWorkIdNum(String workidNum) {
+        this.workIdNum = workidNum;
+    }
 
     public int getPaymentType() {
         return paymentType;
@@ -70,12 +120,12 @@ public class Receipt {
         this.paymentType = paymentType;
     }
 
-    public String getWorkDetails() {
-        return workDetails;
+    public String getDealDetails() {
+        return dealDetails;
     }
 
-    public void setWorkDetails(String workDetails) {
-        this.workDetails = workDetails;
+    public void setDealDetails(String workDetails) {
+        this.dealDetails = workDetails;
     }
 
     public double getSumPayment() {
@@ -86,15 +136,8 @@ public class Receipt {
         this.sumPayment = sumPayment;
     }
 
-    public double getSumPaymentMaam() {
-        return sumPaymentMaam;
-    }
 
-    public void setSumPaymentMaam(double sumPaymentMaam) {
-        this.sumPaymentMaam = sumPaymentMaam;
-    }
-
-    public String getStringPaymentType (int paymentType){
+    public String getStringPaymentType(int paymentType) {
         switch (paymentType) {
             case 1:
                 return "מזומן";
@@ -108,4 +151,66 @@ public class Receipt {
         return "";
     }
 
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
+    }
+
+    public boolean isPaymentReceived() {
+        return isPaymentReceived;
+    }
+
+    public void setPaymentReceived(boolean paymentReceived) {
+        isPaymentReceived = paymentReceived;
+    }
+
+    public boolean isPaymentCanceled() {
+        return isPaymentCanceled;
+    }
+
+    public void setPaymentCanceled(boolean paymentCanceled) {
+        isPaymentCanceled = paymentCanceled;
+    }
+
+    public void setDateReceipt(String dateReceipt) {
+        if (dateReceipt.contains("/"))
+            this.dateReceipt = dateReceipt.substring(6, 10) + //year
+                    dateReceipt.substring(3, 5) + // month
+                    dateReceipt.substring(0, 2); //day
+        else
+            this.dateReceipt = dateReceipt;
+    }
+
+    public String dateReceiptToString() {
+        return dateReceipt.substring(6, 8) + "/" + //day
+                dateReceipt.substring(4, 6) + "/" + //month
+                dateReceipt.substring(0, 4);//year
+    }
+
+    public int getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public boolean isSumPaymentMaam() {
+        return isSumPaymentMaam;
+    }
+
+    public void setSumPaymentMaam(boolean sumPaymentMaam) {
+        isSumPaymentMaam = sumPaymentMaam;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
+
+    public String getDateReceipt() {
+        return dateReceipt;
+    }
 }

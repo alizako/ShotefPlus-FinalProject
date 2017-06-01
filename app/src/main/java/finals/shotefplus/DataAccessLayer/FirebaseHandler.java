@@ -1,6 +1,8 @@
 package finals.shotefplus.DataAccessLayer;
 
+import android.app.Dialog;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -8,8 +10,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +38,21 @@ public class FirebaseHandler {
     private static String userId;
 
     private FirebaseHandler() {
-        this.mDatabase =  FirebaseDatabase.getInstance().getReference();
+        this.mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
 
+    //Objects:
+    Customer customer;
+    PriceOffer priceOffer;
+    Work work;
+    boolean flag;
 
     //Singleton
     private static class SingletonFirebaseHandler {
         private static final FirebaseHandler INSTANCE = new FirebaseHandler();
     }
+
     public static FirebaseHandler getInstance(String userId1) {
         userId = userId1;
         return SingletonFirebaseHandler.INSTANCE;
@@ -65,6 +76,7 @@ public class FirebaseHandler {
         return key;
         //mDatabase.child("Users").child(userId).child("Customers").push().setValue(customer);
     }
+
     public String insertExpense(Expense expense) {
         DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Expenses").push();//blank child
         String key = tmp.getKey();
@@ -73,9 +85,16 @@ public class FirebaseHandler {
         //return mDatabase.getKey();
         return key;
     }
-    public void insertReceipt(Receipt receipt) {
-        mDatabase.child("Users").child(userId).child("Receipts").push().setValue(receipt);
+
+    public String insertReceipt(Receipt receipt) {
+        DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Receipts").push();//blank child
+        String key = tmp.getKey();
+        receipt.setIdNum(key);
+        tmp.setValue(receipt);
+        //return mDatabase.getKey();
+        return key;
     }
+
     public String insertPriceOffer(PriceOffer priceOffer) {
         //mDatabase.child("Users").child(userId).child("PriceOffers").push().setValue(priceOffer);
         DatabaseReference tmp = mDatabase.child("Users").child(userId).child("PriceOffers").push();//blank child
@@ -85,6 +104,7 @@ public class FirebaseHandler {
         //return mDatabase.getKey();
         return key;
     }
+
     public String insertWork(Work work) {
         DatabaseReference tmp = mDatabase.child("Users").child(userId).child("Works").push();//blank child
         String key = tmp.getKey();
@@ -144,6 +164,10 @@ public class FirebaseHandler {
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
                 child("Works").child(key).setValue(work);
     }
+    public void updateReceipt(Receipt receipt , String key) {
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("Receipts").child(key).setValue(receipt);
+    }
 
     public void updateExpense(Expense expense, String key) {
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
@@ -191,7 +215,7 @@ public class FirebaseHandler {
 
     //******************** Get Lists Objects ********************//
 
-    public  List<PriceOffer> getPriceOffersList() {
+    public List<PriceOffer> getPriceOffersList() {
         List<PriceOffer> priceOfferList = new ArrayList<PriceOffer>();
 
         mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
@@ -201,6 +225,66 @@ public class FirebaseHandler {
 
     }
 
+    //******************** Get Object By ID  ********************//
+    public PriceOffer getPriceOfferById(String priceOfferIdNum) {
+        DatabaseReference dbRef = mDatabase.child("Users").child(userId).child("PriceOffers");
+        priceOffer = new PriceOffer();
+
+        dbRef.orderByChild("idNum").startAt(priceOfferIdNum).endAt(priceOfferIdNum)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                            try {
+                                priceOffer = postSnapshot.getValue(PriceOffer.class);
+
+                            } catch (Exception ex) {
+                                //Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        //   Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        // dialog.dismiss();
+                    }
+                });
+        return priceOffer;
+    }
+
+    public Work getWorkById(String workIdNum) {
+
+        DatabaseReference dbRef = mDatabase.child("Users").child(userId).child("Works");
+        work = new Work();
+
+        dbRef.orderByChild("idNum").startAt(workIdNum).endAt(workIdNum)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                            try {
+                                work = postSnapshot.getValue(Work.class);
+
+                            } catch (Exception ex) {
+                                //Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        //   Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        // dialog.dismiss();
+                    }
+                });
+        return work;
+
+    }
 
 
 }

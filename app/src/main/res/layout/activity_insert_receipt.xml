@@ -18,81 +18,153 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/picSizeSignSmall"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-
-
-        <EditText
-            android:id="@+id/etReceiptNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/receiptNum"
-            android:inputType="number"
-            android:layout_weight="10"/>
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:hint="@string/date"
-            android:inputType="date"
-            android:layout_weight="10"/>
+            android:inputType="date" />
 
-        <Spinner
-            android:id="@+id/spnrCustomer"
+        <EditText
+            android:id="@+id/etReceiptNum"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:entries="@array/spinnerCustomer"
-            android:prompt="@string/customer"
-            style="@android:style/Widget.Material.Spinner.Underlined">
-        </Spinner>
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:hint="@string/receiptNum"
+            android:inputType="number" />
 
-
-        <Spinner
-            android:id="@+id/spnrPaymentType"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:entries="@array/spinnerPaymentType"
-            android:prompt="@string/paymentType"
-            style="@android:style/Widget.Material.Spinner.Underlined">
-        </Spinner>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="8"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Spinner
+                android:id="@+id/spnrCustomer"
+                style="@android:style/Widget.Material.Spinner.Underlined"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_weight="0.9"
+                android:entries="@array/spinnerCustomer"
+                android:prompt="@string/customer">
+
+            </Spinner>
+
+            <ImageButton
+                android:id="@+id/imgBtnCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:background="@android:color/transparent"
+                android:gravity="bottom"
+                android:src="@drawable/add_user2_32" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/spnrWork"
+            style="@android:style/Widget.Material.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:entries="@array/spinnerWork"
-            android:prompt="@string/workNum"
-            style="@android:style/Widget.Material.Spinner.Underlined">
+            android:prompt="@string/workNum">
+
         </Spinner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="8"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <!-- Type: 1-cash, 2-credit card, 3-cheque,4-transfer -->
+            <Spinner
+                android:id="@+id/spnrPaymentType"
+                style="@android:style/Widget.Material.Spinner.Underlined"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_weight="0.5"
+                android:entries="@array/spinnerPaymentType"
+                android:prompt="@string/paymentType">
+
+            </Spinner>
+
+            <!-- Method: +30,+60..120 -->
+            <Spinner
+                android:id="@+id/spnrPaymentMethod"
+                style="@android:style/Widget.Material.Spinner.Underlined"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_weight="0.5"
+                android:entries="@array/spinnerMethodType"
+                android:prompt="@string/paymentType">
+
+            </Spinner>
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:hint="@string/workDetails"
-            android:inputType="text"
-            android:layout_weight="10"/>
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/etSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:hint="@string/sumPayment"
-            android:inputType="number"
-            android:layout_weight="10"/>
+            android:inputType="number" />
 
-        <EditText
+        <!--<EditText
             android:id="@+id/etSumMaam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:hint="@string/sumPaymentMaam"
-            android:inputType="number"
-            android:layout_weight="10"/>
+            android:inputType="number" />-->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="8"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/cbSumMaam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/sumPaymentMaam" />
+
+            <CheckBox
+                android:id="@+id/cbPaid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/paid" />
+        </LinearLayout>
 
         <!--<DatePicker
             android:id="@+id/dpDate"
@@ -109,13 +181,13 @@
             android:layout_width="@dimen/stndrtBtnWidth"
             android:layout_height="@dimen/stndrtBtnHeight"
             android:layout_gravity="left"
-            android:background="@color/colorSub"
             android:layout_marginBottom="@dimen/marginBtn"
             android:layout_marginLeft="@dimen/marginBtn"
+            android:layout_weight="10"
+            android:background="@color/colorSub"
             android:text="@string/insert"
             android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:layout_weight="10"/>
+            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 

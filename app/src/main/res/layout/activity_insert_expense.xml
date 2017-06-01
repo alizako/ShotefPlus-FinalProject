@@ -25,6 +25,14 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:hint="@string/date"
+            android:inputType="date" />
+
+        <EditText
             android:id="@+id/etSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,13 +40,6 @@
             android:hint="@string/sumExpense"
             android:inputType="number" />
 
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:hint="@string/date"
-            android:inputType="date" />
 
         <Spinner
             android:id="@+id/spnrExpenseType"
@@ -51,6 +52,7 @@
             android:prompt="@string/paymentType"
             android:spinnerMode="dropdown"
             android:textColor="@color/summary"></Spinner>
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
@@ -61,12 +63,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/marginBtn"
             android:layout_weight="6"
-            android:weightSum="1"
-            android:layout_gravity="bottom"
             android:gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <Spinner
                 android:id="@+id/spnrWork"
@@ -76,10 +78,10 @@
                 android:layout_below="@+id/spnrExpenseType"
                 android:layout_weight="0.9"
                 android:entries="@array/spinnerWork"
+                android:gravity="bottom"
                 android:prompt="@string/workNum"
                 android:spinnerMode="dropdown"
-                android:textColor="@color/summary"
-                android:gravity="bottom"></Spinner>
+                android:textColor="@color/summary"></Spinner>
 
 
             <ImageButton
@@ -88,8 +90,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 android:background="@android:color/transparent"
-                android:src="@drawable/add_folder32"
-                android:gravity="bottom"/>
+                android:gravity="bottom"
+                android:src="@drawable/add_folder32" />
         </LinearLayout>
 
 

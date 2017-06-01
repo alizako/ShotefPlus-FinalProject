@@ -51,6 +51,7 @@ public class WorksActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
                         firebaseAuth.getCurrentUser().getUid() + "/Works/");
+
         barMonth = findViewById(R.id.barMonth);
         filter = findViewById(R.id.barFilter);
         lvWorks = (ListView) findViewById(R.id.listViewWorks);
@@ -63,11 +64,6 @@ public class WorksActivity extends AppCompatActivity {
         initFilter();
 
         try {
-            dialog = ProgressDialog.show(WorksActivity.this,
-                    "",
-                    "טוען נתונים..",
-                    true);
-
             dataRefHandling();
 
         } catch (Exception e) {
@@ -78,8 +74,6 @@ public class WorksActivity extends AppCompatActivity {
         }
 
         setEvents();
-
-
     }
 
     @Override
@@ -99,7 +93,6 @@ public class WorksActivity extends AppCompatActivity {
                                 (isWorkCancelled ? "עבודה בוטלה | " : "")
                 );
                 initListWorks(isWorkDone, isWorkCancelled);
-
             }
             if (resultCode == RESULT_CLEAN) {
                 txtDetails.setText("ללא פילטר");
@@ -128,12 +121,10 @@ public class WorksActivity extends AppCompatActivity {
         txtDate.setText(dateFormat.format(date));
     }
 
-
     private void initListWorks(boolean isWorkDone, boolean isWorkCancelled) {
 
         List<Work> listTmp = new ArrayList<Work>();
         for (int i = 0; i < workList.size(); i++) {
-
             Work work = workList.get(i);
             if (work.isWorkDone() == isWorkDone && work.isWorkCanceled() == isWorkCancelled)
                 listTmp.add(work);
@@ -143,11 +134,9 @@ public class WorksActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
-
     /**********************************************************************************
      * Events
      **********************************************************************************/
-
     private void setEvents() {
 
        /* lvWorks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -214,34 +203,37 @@ public class WorksActivity extends AppCompatActivity {
      **********************************************************************************/
     private void dataRefHandling() {
 
+        dialog = ProgressDialog.show(WorksActivity.this,
+                "", "טוען נתונים..", true);
+
         DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
         final String dueDate = dateFormat.format(date);
-        dbRef.orderByChild("priceOffer/dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff")
+        dbRef.orderByChild("dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                workList = new ArrayList<Work>();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        workList = new ArrayList<Work>();
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                    try {
-                        Work work = new Work();
-                        work = postSnapshot.getValue(Work.class);
-                        workList.add(work);
-                    } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            try {
+                                Work work = new Work();
+                                work = postSnapshot.getValue(Work.class);
+                                workList.add(work);
+                            } catch (Exception ex) {
+                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        adapter = new WorkListAdapter(WorksActivity.this, workList, getBaseContext());
+                        lvWorks.setAdapter(adapter);
+                        dialog.dismiss();
                     }
-                }
-                adapter = new WorkListAdapter(WorksActivity.this, workList, getBaseContext());
-                lvWorks.setAdapter(adapter);
-                dialog.dismiss();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
     }
 
 }
