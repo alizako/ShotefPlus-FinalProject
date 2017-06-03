@@ -10,60 +10,51 @@ public class Expense {
     private static long idNumGlobal = 0;
     //private long idNum = 0;
     private String idNum;
-    private String date;
-    private Work work;
-    //private int paymentType;
+    private String dateExpense;
+    private int expenseType;
     private double sumPayment;
     private String sumDetails;
+    private String workIdNum;
 
 
     public Expense() {
         idNum = "";
-        this.date = "";
-        this.work = new Work();
-        // this.paymentType = paymentType;
+        this.dateExpense = "";
+        this.expenseType = 0;
         this.sumPayment = 0;
         this.sumDetails = "";
+        this.workIdNum="";
     }
 
     // public Expense(String date, Work work, int paymentType, double sumPayment, String sumDetails) {
-    public Expense(String date, Work work, double sumPayment, String sumDetails, String idNum) {
+    public Expense(String dateExpense, double sumPayment,
+                   String sumDetails, String idNum, int expenseType, String workIdNum) {
         this.idNum = idNum;
-        this.date = date;
-        this.work = work;
+        this.dateExpense = dateExpense;
         // this.paymentType = paymentType;
         this.sumPayment = sumPayment;
         this.sumDetails = sumDetails;
+        this.expenseType =expenseType;
+        this.workIdNum = workIdNum;
     }
 
     public String getDate() {
-        return date;
+        return dateExpense;
     }
 
-    public void setDate(String date) {
-        if (date.contains("/"))
-            this.date = date.substring(6, 10) + //year
-                    date.substring(3, 5) + // month
-                    date.substring(0, 2); //day
+    public void setDate(String dateExpense) {
+        if (dateExpense.contains("/"))
+            this.dateExpense = dateExpense.substring(6, 10) + //year
+                    dateExpense.substring(3, 5) + // month
+                    dateExpense.substring(0, 2); //day
         else
-            this.date = date;
+            this.dateExpense = dateExpense;
     }
-
-    public Work getWork() {
-        return work;
+    public String dateToString() {
+        return dateExpense.substring(6, 8) + "/" + //day
+                dateExpense.substring(4, 6) + "/" + //month
+                dateExpense.substring(0, 4);//year
     }
-
-    public void setWork(Work work) {
-        this.work = work;
-    }
-
-    /*public int getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(int paymentType) {
-        this.paymentType = paymentType;
-    }*/
 
     public double getSumPayment() {
         return sumPayment;
@@ -89,9 +80,42 @@ public class Expense {
         this.idNum = idNum;
     }
 
-    public String dateToString() {
-        return date.substring(6, 8) + "/" + //day
-                date.substring(4, 6) + "/" + //month
-                date.substring(0, 4);//year
+    public String getStringExpenseType(int expenseType) {
+        return expenseTypeToString(expenseType);
     }
+
+       public String expenseTypeToString(){
+        return expenseTypeToString(expenseType);
+    }
+
+    private String expenseTypeToString(int expenseType){
+        switch (expenseType) {
+            case 1:
+                return "מזומן";
+            case 2:
+                return "אשראי";
+            case 3:
+                return "המחאה";
+            case 4:
+                return "העברה";
+        }
+        return "";
+    }
+
+
+    public int getExpenseType() {
+        return expenseType;
+    }
+
+    public void setExpenseType(int expenseType) {
+        this.expenseType = expenseType;
+    }
+    public String getWorkIdNum() {
+        return workIdNum;
+    }
+
+    public void setWorkIdNum(String workidNum) {
+        this.workIdNum = workidNum;
+    }
+
 }

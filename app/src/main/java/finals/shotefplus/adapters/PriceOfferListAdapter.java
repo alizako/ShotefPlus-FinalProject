@@ -112,8 +112,8 @@ public class PriceOfferListAdapter extends BaseAdapter {
             name.setText("לקוח " + customer.getName());
         }
 
-        summary.setText("הצעה: " + priceOffer.getWorkDetails() + ""
-                + priceOffer.getSumPayment() + "ש''ח " + "\n" +
+        summary.setText("הצעה: " + priceOffer.getWorkDetails() + "\n"
+                + priceOffer.getSumPayment() + " ש''ח " + "\n" +
                 "תאריך יעד: " + priceOffer.dueDateToString() + "\n" +
                 "מיקום: " + ((!priceOffer.getLocation().equals("")) ?
                 priceOffer.getLocation() : "לא הוכנס מיקום") + "\n" +

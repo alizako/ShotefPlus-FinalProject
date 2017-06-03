@@ -81,7 +81,8 @@
                 android:gravity="bottom"
                 android:prompt="@string/workNum"
                 android:spinnerMode="dropdown"
-                android:textColor="@color/summary"></Spinner>
+                android:textColor="@color/summary">
+            </Spinner>
 
 
             <ImageButton

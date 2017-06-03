@@ -135,78 +135,6 @@ public class PriceOffersActivity extends AppCompatActivity {
         }
     }//onActivityResult
 
-    private void setPriceOfferToWork() {
-        priceOfferToWork.setPriceOfferApproved(true);
-        //update price offer- approved
-        FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
-                updatePriceOffer(priceOfferToWork, priceOfferToWork.getIdNum());
-
-        Work work = new Work();
-        work.setCustomerIdNum(priceOfferToWork.getCustomerIdNum());
-
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        work.setDateInsertion(dateFormat.format(date));
-
-        work.setDueDate(priceOfferToWork.getDueDate());
-        work.setLocation(priceOfferToWork.getLocation());
-        work.setPriceOfferSent(priceOfferToWork.isPriceOfferSent());
-        work.setPriceOfferApproved(priceOfferToWork.isPriceOfferApproved());
-        work.setQuantity(priceOfferToWork.getQuantity());
-        work.setSumPayment(priceOfferToWork.getSumPayment());
-        work.setSumPaymentMaam(priceOfferToWork.isSumPaymentMaam());
-        work.setWorkDetails(priceOfferToWork.getWorkDetails());
-        work.setPriceOfferIdNum(priceOfferToWork.getIdNum());
-        String currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).insertWork(work);
-        //Toast.makeText(PriceOffersActivity.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
-    }
-
-    private void initFilter() {
-        ImageButton imgBtnFilter = (ImageButton) filter.findViewById(R.id.imgbtnFilter);
-        imgBtnFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PriceOffersActivity.this, FilterPriceOfferActivity.class);
-                startActivityForResult(intent, REQ_FILTER);
-            }
-        });
-    }
-
-    private void setCurrentDateBarMonth() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
-        txtDate.setText(dateFormat.format(date));
-    }
-
-    //TODO: not working well- need to simplify!
-    private void initListPriceOffers(boolean isSent, boolean isApproved, boolean isNotApproved) {
-
-        List<PriceOffer> listTmp = new ArrayList<>();
-        List<Customer> listCTmp = new ArrayList<>();
-        for (int i = 0; i < priceOfferList.size(); i++) {
-            PriceOffer priceOffer = priceOfferList.get(i);
-            if (isNotApproved == false && isApproved == false) { //both not selected
-                if (priceOffer.isPriceOfferSent() == isSent)
-                    listTmp.add(priceOffer);
-            } else {//different selection
-                boolean tmpApproved = isNotApproved ? false : isApproved ? true : false;
-                if ((priceOffer.isPriceOfferSent() == isSent && priceOffer.isPriceOfferApproved() == tmpApproved)
-                        || (priceOffer.isPriceOfferApproved() == tmpApproved)) {
-                    listTmp.add(priceOffer);
-
-                    int j = 0;
-                    while (j < customerList.size() && !customerList.get(j).getIdNum().equals(priceOffer.getCustomerIdNum())) {
-                        j++;
-                    }
-                    if (j < customerList.size()) {
-                        listCTmp.add(customerList.get(j));
-                    }
-                }
-            }
-        }
-        adapter = new PriceOfferListAdapter(PriceOffersActivity.this, listTmp, listCTmp);
-        lvPriceOffer.setAdapter(adapter);
-        dialog.dismiss();
-    }
 
     /**********************************************************************************
      * Events
@@ -339,7 +267,6 @@ public class PriceOffersActivity extends AppCompatActivity {
                            lvPriceOffer.setAdapter(adapter);
                            dialog.dismiss();
                        }
-
                    }
 
                    @Override
@@ -351,6 +278,80 @@ public class PriceOffersActivity extends AppCompatActivity {
         );
     }
 
+    /**********************************************************************************
+     * private functions
+     **********************************************************************************/
+    private void setPriceOfferToWork() {
+        priceOfferToWork.setPriceOfferApproved(true);
+        //update price offer- approved
+        FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
+                updatePriceOffer(priceOfferToWork, priceOfferToWork.getIdNum());
 
+        Work work = new Work();
+        work.setCustomerIdNum(priceOfferToWork.getCustomerIdNum());
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        work.setDateInsertion(dateFormat.format(date));
+
+        work.setDueDate(priceOfferToWork.getDueDate());
+        work.setLocation(priceOfferToWork.getLocation());
+        work.setPriceOfferSent(priceOfferToWork.isPriceOfferSent());
+        work.setPriceOfferApproved(priceOfferToWork.isPriceOfferApproved());
+        work.setQuantity(priceOfferToWork.getQuantity());
+        work.setSumPayment(priceOfferToWork.getSumPayment());
+        work.setSumPaymentMaam(priceOfferToWork.isSumPaymentMaam());
+        work.setWorkDetails(priceOfferToWork.getWorkDetails());
+        work.setPriceOfferIdNum(priceOfferToWork.getIdNum());
+        String currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).insertWork(work);
+        //Toast.makeText(PriceOffersActivity.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
+    }
+
+    private void initFilter() {
+        ImageButton imgBtnFilter = (ImageButton) filter.findViewById(R.id.imgbtnFilter);
+        imgBtnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PriceOffersActivity.this, FilterPriceOfferActivity.class);
+                startActivityForResult(intent, REQ_FILTER);
+            }
+        });
+    }
+
+    private void setCurrentDateBarMonth() {
+        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        txtDate.setText(dateFormat.format(date));
+    }
+
+    //TODO: not working well- need to simplify!
+    private void initListPriceOffers(boolean isSent, boolean isApproved, boolean isNotApproved) {
+
+        List<PriceOffer> listTmp = new ArrayList<>();
+        List<Customer> listCTmp = new ArrayList<>();
+        for (int i = 0; i < priceOfferList.size(); i++) {
+            PriceOffer priceOffer = priceOfferList.get(i);
+            if (isNotApproved == false && isApproved == false) { //both not selected
+                if (priceOffer.isPriceOfferSent() == isSent)
+                    listTmp.add(priceOffer);
+            } else {//different selection
+                boolean tmpApproved = isNotApproved ? false : isApproved ? true : false;
+                if ((priceOffer.isPriceOfferSent() == isSent && priceOffer.isPriceOfferApproved() == tmpApproved)
+                        || (priceOffer.isPriceOfferApproved() == tmpApproved)) {
+                    listTmp.add(priceOffer);
+
+                    int j = 0;
+                    while (j < customerList.size() && !customerList.get(j).getIdNum().equals(priceOffer.getCustomerIdNum())) {
+                        j++;
+                    }
+                    if (j < customerList.size()) {
+                        listCTmp.add(customerList.get(j));
+                    }
+                }
+            }
+        }
+        adapter = new PriceOfferListAdapter(PriceOffersActivity.this, listTmp, listCTmp);
+        lvPriceOffer.setAdapter(adapter);
+        dialog.dismiss();
+    }
 
 }

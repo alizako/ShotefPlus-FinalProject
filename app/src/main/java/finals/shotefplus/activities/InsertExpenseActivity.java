@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
@@ -30,6 +31,7 @@ import finals.shotefplus.R;
 import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.Expense;
 import finals.shotefplus.objects.PriceOffer;
+import finals.shotefplus.objects.Receipt;
 import finals.shotefplus.objects.Work;
 
 public class InsertExpenseActivity extends AppCompatActivity {
@@ -41,12 +43,11 @@ public class InsertExpenseActivity extends AppCompatActivity {
     EditText etDate, etDetails, etSum;
     ImageButton imgBtnWork;
     boolean isUpdateMode = false;
-    String expenseType;
-    //Long workNum;
-    Work work;
-    ArrayAdapter<CharSequence> adapter;
     String currentKey;
     Expense expense;
+    private ArrayList<Work> worksList;
+    private ArrayList<String> strTitleList;
+    private ArrayAdapter<String> spinnerAdapterWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +57,18 @@ public class InsertExpenseActivity extends AppCompatActivity {
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
 
-        setSpinners();
-
         etDate = (EditText) findViewById(R.id.etDate);
         etDate.setShowSoftInputOnFocus(false);
         etDetails = (EditText) findViewById(R.id.etDetails);
         etSum = (EditText) findViewById(R.id.etSum);
         imgBtnWork = (ImageButton) findViewById(R.id.imgBtnWork);
         btnAdd = (Button) findViewById(R.id.btnAdd);
+
+        spnrWork = (Spinner) findViewById(R.id.spnrWork);
+        spnrExpenseType = (Spinner) findViewById(R.id.spnrExpenseType);
+
+        initSpinnersFromDB();
+        setEvents();
 
         Intent intent = getIntent();
 
@@ -75,28 +80,9 @@ public class InsertExpenseActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), expenseId, Toast.LENGTH_LONG).show();
             setValuesToFields(expenseId);
         }
-
-        setEvents();
     }
 
-    private void setSpinners() {
-        //spinnerExpenses
-        spnrExpenseType = (Spinner) findViewById(R.id.spnrExpenseType);
-        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerExpenseType,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnrExpenseType.setAdapter(adapter);
 
-        //spnrWork
-        //TODO: make a work list instead of spinnerwork
-        spnrWork = (Spinner) findViewById(R.id.spnrWork);
-        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerWork,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-        spnrWork.setAdapter(adapter);
-
-    }
 
     /**********************************************************************************
      * Events
@@ -155,7 +141,22 @@ public class InsertExpenseActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == REQ_ADD_WORK) {
+            if (resultCode == Activity.RESULT_OK) {
+                spnrWork.setPrompt(data.getStringExtra("workIdNum"));
+            } else {
+                Toast.makeText(getBaseContext(), "ERROR: adding work", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
+    /**********************************************************************************
+     * FireBase
+     **********************************************************************************/
     private void setValuesToFields(final String expenseId) {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
@@ -176,9 +177,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
                                 etSum.setText(String.valueOf(expense.getSumPayment()));
                                 etDetails.setText(expense.getSumDetails());
 
-                                spnrWork.setPrompt(String.valueOf(expense.getWork().getIdNum()));//ToDo!! not working need to handle it in code
-                              //  setSpinners();
-                                // spnrExpenseType.setPrompt(expense.get);
+                                setSpinners(expense);
 
                                 btnAdd.setText("עדכן");
                             } catch (Exception ex) {
@@ -195,61 +194,18 @@ public class InsertExpenseActivity extends AppCompatActivity {
                 });
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == REQ_ADD_WORK) {
-            if (resultCode == Activity.RESULT_OK) {
-                spnrWork.setPrompt(data.getStringExtra("workIdNum"));
-            } else {
-                Toast.makeText(getBaseContext(), "ERROR: adding work", Toast.LENGTH_LONG).show();
-            }
-
-        }
-    }
-
-    /**********************************************************************************
-     * private functions
-     **********************************************************************************/
-
-    private boolean isFieldsValidate() {
-        // ((EditText) findViewById(R.id.etDetails)).getText().toString().trim();
-        boolean flagErr = false;
-        if (etDate.getText().toString().equals("")) flagErr = true;
-        else if(! etDate.getText().toString().matches("^\\d{2}/\\d{2}/\\d{4}")) flagErr = true;
-        if (etSum.getText().toString().equals("")) flagErr = true;
-        if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
-
-    /**********************************************************************************
-     * FireBase
-     **********************************************************************************/
+    /* ------------------------------------------------------------------------------------------- */
     private void addExpenseToFireBase(View v) {
 
         try {
-
-            //TODO: call insertWork instead code below
-            work = new Work();
-          //  work.setPriceOffer(new PriceOffer());
-
-            String selected = spnrWork.getPrompt().toString();
-            String frstEntry = getResources().getString(R.string.workNum);
-            if (!selected.equals(frstEntry)) {
-               // spnrWork.getSelectedItem().toString()
-                work.setIdNum((spnrWork.getSelectedItem()).toString().trim());
-            }
-
+            if (!isUpdateMode)
+                expense = new Expense();
             expense = new Expense();
             expense.setDate(etDate.getText().toString());
-            expense.setWork(work);
             expense.setSumDetails(etDetails.getText().toString());
             expense.setSumPayment(Double.parseDouble(etSum.getText().toString()));
+
+            setSpinnerValuesToExpense();
 
             if (isUpdateMode) {
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
@@ -268,5 +224,91 @@ public class InsertExpenseActivity extends AppCompatActivity {
         }
     }
 
+    /* ------------------------------------------------------------------------------------------- */
+    private void initSpinnersFromDB() {
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                worksList = new ArrayList<Work>();
+                strTitleList = new ArrayList<String>();
+                strTitleList.add("-בחר עבודה-");
+
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    try {
+                        Work work = new Work();
+                        work = postSnapshot.getValue(Work.class);
+                        worksList.add(work);
+                        strTitleList.add(work.getWorkDetails());
+
+                        spinnerAdapterWork = new ArrayAdapter<String>(InsertExpenseActivity.this, android.R.layout.simple_spinner_item, strTitleList);
+                        spinnerAdapterWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spnrWork.setAdapter(spinnerAdapterWork);
+
+
+                    } catch (Exception ex) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+
+        });
+    }
+    /**********************************************************************************
+     * private functions
+     **********************************************************************************/
+
+    private boolean isFieldsValidate() {
+        // ((EditText) findViewById(R.id.etDetails)).getText().toString().trim();
+        boolean flagErr = false;
+        if (etDate.getText().toString().equals("")) flagErr = true;
+        else if(! etDate.getText().toString().matches("^\\d{2}/\\d{2}/\\d{4}")) flagErr = true;
+        if (etSum.getText().toString().equals("")) flagErr = true;
+        if (flagErr) {
+            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+    /* ------------------------------------------------------------------------------------------- */
+    private void setSpinners(Expense expense) {
+        // Work Spinner:
+        int i = 0;
+        while (worksList != null && i < worksList.size()
+                && !(expense.getWorkIdNum().equals(worksList.get(i).getIdNum()))) {
+            i++;
+        }
+        if (i < worksList.size())
+            spnrWork.setSelection(i+1);
+
+        // ExpenseType Spinner:
+        spnrExpenseType.setSelection(expense.getExpenseType());
+    }
+
+    /* ------------------------------------------------------------------------------------------- */
+    private void setSpinnerValuesToExpense() {
+        //Title of spinner in position 0
+        if (!spnrWork.getSelectedItem().equals("-בחר עבודה-")) {
+            int pos = spnrWork.getSelectedItemPosition();
+            expense.setWorkIdNum(worksList.get(pos - 1).getIdNum());
+        }
+
+        if (!spnrExpenseType.getSelectedItem().equals("-בחר צורת תשלום-")) {
+            int pos = spnrExpenseType.getSelectedItemPosition();
+            expense.setExpenseType(pos);
+        }
+    }
 
 }

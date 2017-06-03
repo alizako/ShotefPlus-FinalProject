@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/imgVw"
             android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             android:text="עחעח"
             android:textSize="@dimen/titleName"

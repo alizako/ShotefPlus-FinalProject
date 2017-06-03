@@ -1,11 +1,5 @@
 package finals.shotefplus.objects;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Date;
-
-import finals.shotefplus.DataAccessLayer.FirebaseHandler;
-
 /**
  * Created by Aliza on 15/01/2017.
  */
@@ -112,13 +106,7 @@ public class Receipt {
         this.workIdNum = workidNum;
     }
 
-    public int getPaymentType() {
-        return paymentType;
-    }
 
-    public void setPaymentType(int paymentType) {
-        this.paymentType = paymentType;
-    }
 
     public String getDealDetails() {
         return dealDetails;
@@ -136,6 +124,13 @@ public class Receipt {
         this.sumPayment = sumPayment;
     }
 
+    public int getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(int paymentType) {
+        this.paymentType = paymentType;
+    }
 
     public String getStringPaymentType(int paymentType) {
         switch (paymentType) {
@@ -149,6 +144,7 @@ public class Receipt {
                 return "העברה";
         }
         return "";
+
     }
 
     public void setIdNum(String idNum) {
@@ -213,4 +209,5 @@ public class Receipt {
     public String getDateReceipt() {
         return dateReceipt;
     }
+
 }

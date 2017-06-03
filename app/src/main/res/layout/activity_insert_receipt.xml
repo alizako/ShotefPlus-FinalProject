@@ -78,7 +78,6 @@
             android:layout_height="45dp"
             android:entries="@array/spinnerWork"
             android:prompt="@string/workNum">
-
         </Spinner>
 
         <LinearLayout

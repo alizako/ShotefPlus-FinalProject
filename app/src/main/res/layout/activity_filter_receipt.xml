@@ -26,23 +26,29 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <CheckBox
-                android:id="@+id/cbPaid"
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="שולם"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/cbNotPaid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="לא שולם"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
+                <RadioButton
+                    android:id="@+id/rbPaid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="שולם"
+                    android:textColor="@color/summary"
+                    android:textSize="@dimen/summary" />
+
+                <RadioButton
+                    android:id="@+id/rbNotPaid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="לא שולם"
+                    android:textColor="@color/summary"
+                    android:textSize="@dimen/summary" />
+            </RadioGroup>
         </LinearLayout>
 
         <TextView
@@ -51,8 +57,8 @@
             android:layout_gravity="start"
             android:layout_marginTop="@dimen/marginDialog"
             android:text="צורת תשלום"
-           android:textStyle="bold"
             android:textSize="@dimen/titleName"
+            android:textStyle="bold"
             android:weightSum="1" />
 
         <LinearLayout
@@ -96,6 +102,7 @@
                 android:text="העברה"
                 android:textColor="@color/summary"
                 android:textSize="@dimen/summary" />
+
             <CheckBox
                 android:id="@+id/cbCredit"
                 android:layout_width="match_parent"

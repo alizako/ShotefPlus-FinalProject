@@ -27,7 +27,7 @@ public class ExpenseListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Expense> expenseList;
 
-    public ExpenseListAdapter(Activity activity,  List<Expense> expenseList) {
+    public ExpenseListAdapter(Activity activity, List<Expense> expenseList) {
         this.activity = activity;
         this.expenseList = expenseList;
     }
@@ -60,14 +60,12 @@ public class ExpenseListAdapter extends BaseAdapter {
         TextView sumDetails = (TextView) convertView.findViewById(R.id.txtSumDetails);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
 
-        sumDetails.setText((expense.getSumDetails().equals("") ? "" : expense.getSumDetails() + " | " ) +
-                            expense.getSumPayment()+ " ש''ח ");
+        sumDetails.setText((expense.getSumDetails().equals("") ? "" : expense.getSumDetails() + " | ") +
+                expense.getSumPayment() + " ש''ח ");
         //summary of details
-        summary.setText(expense.dateToString()+ " | " +
-               /* "סוג תשלום "+expense.getPaymentType() + " | " +*/
-                "עבודה מס' "+ expense.getWork().getIdNum());
-        //TODO: add below:
-        //+" - "+ expense.getWork().getPriceOffer().getWorkDetails());
+        String tmpSummary = expense.dateToString();
+        tmpSummary += (expense.getExpenseType() > 0) ? (" | " + expense.expenseTypeToString()) : "";
+        summary.setText(tmpSummary);
 
         return convertView;
 

@@ -194,6 +194,12 @@ public class FirebaseHandler {
                 child("EmailTemplate").setValue(emailTemplate);
     }
 
+    //******************** Delete Objects ********************//
+    public void deleteReceipt(Receipt receipt , String key) {
+        mDatabase.getDatabase().getInstance().getReference().child("Users").child(userId).
+                child("Receipts").child(key).setValue(null);
+    }
+
     //******************** Get Objects ********************//
     public FirebaseDatabase getUserProfile() {
 

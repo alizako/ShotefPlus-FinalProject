@@ -49,7 +49,7 @@
             android:gravity="bottom"
             android:orientation="horizontal">
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/etCustomer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,8 +57,18 @@
                 android:hint="@string/customer"
                 android:inputType="text"
                 android:gravity="bottom"
-                />
+                />-->
 
+            <Spinner
+                android:id="@+id/spnrCustomer"
+                style="@android:style/Widget.Material.Spinner.Underlined"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_weight="0.9"
+                android:entries="@array/spinnerCustomer"
+                android:prompt="@string/customer">
+
+            </Spinner>
             <ImageButton
                 android:id="@+id/imgBtnCustomer"
                 android:layout_width="wrap_content"

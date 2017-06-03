@@ -20,18 +20,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
+import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
-import finals.shotefplus.activities.CustomersActivity;
 import finals.shotefplus.activities.InsertCustomerActivity;
 import finals.shotefplus.activities.InsertReceiptActivity;
 import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.EnumPaymentType;
 import finals.shotefplus.objects.IconizedMenu;
-import finals.shotefplus.objects.PriceOffer;
 import finals.shotefplus.objects.Receipt;
-import finals.shotefplus.objects.Work;
 
 /**
  * Created by Aliza on 15/01/2017.
@@ -45,12 +45,14 @@ public class ReceiptListAdapter extends BaseAdapter {
     private List<Receipt> receiptsList;
     private List<Customer> customerList;
     static final int REQ_UPD_CUSTOMER = 3;
-    static final int REQ_UPD_RECEIPT=4;
+    static final int REQ_UPD_RECEIPT = 4;
+    private FirebaseAuth firebaseAuth;
 
     public ReceiptListAdapter(Activity activity, List<Receipt> receiptsList, List<Customer> customerList) {
         this.activity = activity;
         this.receiptsList = receiptsList;
         this.customerList = customerList;
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -81,7 +83,7 @@ public class ReceiptListAdapter extends BaseAdapter {
         TextView txtName = (TextView) convertView.findViewById(R.id.txtName);
         TextView txtReceipt = (TextView) convertView.findViewById(R.id.txtReceipt);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
-        LinearLayout loReceipt = (LinearLayout)convertView.findViewById(R.id.loReceipt);
+        LinearLayout loReceipt = (LinearLayout) convertView.findViewById(R.id.loReceipt);
 
         int i = 0;
         while (i < customerList.size() && !customerList.get(i).getIdNum().equals(receipt.getCustomerIdNum())) {
@@ -91,7 +93,7 @@ public class ReceiptListAdapter extends BaseAdapter {
             final Customer customer = customerList.get(i);
 
             //events with customer:
-            handleMenu(receipt, customer, convertView);
+            handleMenu(receipt, customer, convertView, position);
 
             txtName.setText("לקוח " + customer.getName());
             txtName.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +101,7 @@ public class ReceiptListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, InsertCustomerActivity.class);
                     intent.putExtra("customerIdNum", customer.getIdNum());
-                    activity.startActivityForResult(intent,REQ_UPD_CUSTOMER);
+                    activity.startActivityForResult(intent, REQ_UPD_CUSTOMER);
                 }
             });
         }
@@ -110,16 +112,16 @@ public class ReceiptListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, InsertReceiptActivity.class);
                 intent.putExtra("receiptIdNum", receipt.getIdNum());
-                activity.startActivityForResult(intent,REQ_UPD_RECEIPT);
+                activity.startActivityForResult(intent, REQ_UPD_RECEIPT);
             }
         });
 
-
+        String tmpPaid = receipt.getPaymentType() > 0 ? " שולם ב"
+                + receipt.getStringPaymentType(receipt.getPaymentType())
+                : "לא שולם";
 
         //summary of details
-        summary.setText(receipt.dateReceiptToString() + " | " +
-                //       +receipt.getSumPaymentMaam() + " | " +
-                " שולם ב" + receipt.getStringPaymentType(receipt.getPaymentType()));
+        summary.setText(receipt.dateReceiptToString() + " | " + tmpPaid);
 
         return convertView;
 
@@ -137,7 +139,8 @@ public class ReceiptListAdapter extends BaseAdapter {
                 Toast.LENGTH_LONG).show();
     }
 
-    private void handleMenu(final Receipt receipt, final Customer customer, View convertView) {
+    private void handleMenu(final Receipt receipt, final Customer customer,
+                            final View convertView, final int position) {
         //popup menu- Receipt:
         final ImageView menu = (ImageView) convertView.findViewById(R.id.imgVwMenuReceipt);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -155,17 +158,39 @@ public class ReceiptListAdapter extends BaseAdapter {
                     public boolean onMenuItemClick(MenuItem item) {
                         //delete
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rDelete))) {
-                            //TODO: Confirmation and deletion
+                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                    .deleteReceipt(receipt, receipt.getIdNum());
+                            Toast.makeText(activity, "הקבלה נמחקה", Toast.LENGTH_LONG).show();
                         }
-                        //see customer
-                        if (item.getTitle().equals(activity.getResources().getString(R.string.rCustomer))) {
-                            //TODO: open customer
+                        if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCash))) {
+                            receipt.setPaid(true);
+                            receipt.setPaymentType(EnumPaymentType.CASH.getValue());
+                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                    .updateReceipt(receipt, receipt.getIdNum());
+                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
                         }
-                        //see Contact subMenu
-                        if (item.getTitle().equals(activity.getResources().getString(R.string.rContact))) {
-                            //  item.getSubMenu().
+                        if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCredit))) {
+                            receipt.setPaid(true);
+                            receipt.setPaymentType(EnumPaymentType.CREDIT.getValue());
+                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                    .updateReceipt(receipt, receipt.getIdNum());
+                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
                         }
-                        //Todo: continue.....
+                        if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCheque))) {
+                            receipt.setPaid(true);
+                            receipt.setPaymentType(EnumPaymentType.CHEQUE.getValue());
+                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                    .updateReceipt(receipt, receipt.getIdNum());
+                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                        }
+                        if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidTrans))) {
+                            receipt.setPaid(true);
+                            receipt.setPaymentType(EnumPaymentType.TRANS.getValue());
+                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                    .updateReceipt(receipt, receipt.getIdNum());
+                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                        }
+
 
                         Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;

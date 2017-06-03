@@ -92,7 +92,7 @@
     </string-array>
 
     <string-array name="spinnerExpenseType">
-        <item>צורת תשלום</item>
+        <item>-בחר צורת תשלום-</item>
         <item>מזומן</item>
         <item>אשראי</item>
         <item>המחאה</item>

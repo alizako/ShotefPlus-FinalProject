@@ -81,6 +81,8 @@ public class InsertReceiptActivity extends AppCompatActivity {
         spnrPaymentType = (Spinner) findViewById(R.id.spnrPaymentType);
         spnrPaymentMethod = (Spinner) findViewById(R.id.spnrPaymentMethod);
 
+        initSpinnersFromDB();
+        setEvents();
 
         Intent intent = getIntent();
 
@@ -90,12 +92,10 @@ public class InsertReceiptActivity extends AppCompatActivity {
             isUpdateMode = true;
             currentKey = receiptId;
             Toast.makeText(getBaseContext(), receiptId, Toast.LENGTH_LONG).show();
-            initSpinnersFromDB();
             setValuesToFields(receiptId);
         }
 
-        initSpinnersFromDB();
-        setEvents();
+
     }
 
 
@@ -139,8 +139,24 @@ public class InsertReceiptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isFieldsValidate())
-                    addCustomerToFireBase(v);
+                    addReceiptToFireBase(v);
             }
+        });
+
+        spnrPaymentType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(position > 0)
+                        cbPaid.setChecked(true);
+                else
+                    cbPaid.setChecked(false);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
         });
 
     }
@@ -191,8 +207,8 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
     }
 
-
-    private void addCustomerToFireBase(View v) {
+    /* ------------------------------------------------------------------------------------------- */
+    private void addReceiptToFireBase(View v) {
         try {
             if (!isUpdateMode)
                 receipt = new Receipt();
@@ -356,7 +372,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
             spnrPaymentMethod.setSelection(pos);
         }
 
-        // PaymentType Spinner:
+        // EnumPaymentType Spinner:
         spnrPaymentType.setSelection(receipt.getPaymentType());
     }
 
