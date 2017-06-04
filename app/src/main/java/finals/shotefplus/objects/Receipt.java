@@ -20,6 +20,7 @@ public class Receipt {
     private boolean isPaymentReceived;
     private boolean isPaymentCanceled;
     private boolean isPaid;
+    private boolean isPicReceiptExist;
 
     public Receipt() {
         //idNumGlobal++;
@@ -34,11 +35,12 @@ public class Receipt {
         this.isPaymentCanceled = false;
         this.isPaymentReceived = false;
         this.isPaid=false;
+        isPicReceiptExist=false;
     }
 
     public Receipt(String idNum, int paymentMethod, int paymentType, String workDetails, String dateReceipt,
                    double sumPayment, boolean isSumPaymentMaam, String workIdNum, String customerIdNum, boolean isPaymentReceived,
-                   boolean isPaymentCanceled, boolean isPaid) {
+                   boolean isPaymentCanceled, boolean isPaid, boolean isPicReceiptExist) {
 
         idNum = idNum;
         // this.customer = customer;
@@ -53,6 +55,7 @@ public class Receipt {
         this.isPaymentCanceled = isPaymentCanceled;
         this.isPaymentReceived = isPaymentReceived;
         this.isPaid=isPaid;
+        this.isPicReceiptExist=isPicReceiptExist;
     }
 
     public String getIdNum() {
@@ -210,4 +213,11 @@ public class Receipt {
         return dateReceipt;
     }
 
+    public boolean isPicReceiptExist() {
+        return isPicReceiptExist;
+    }
+
+    public void setPicReceiptExist(boolean picReceiptExist) {
+        isPicReceiptExist = picReceiptExist;
+    }
 }

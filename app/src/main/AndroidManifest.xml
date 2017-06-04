@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -27,7 +26,8 @@
         </activity>
         <activity
             android:name=".activities.EntranceActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -119,10 +119,14 @@
             android:name=".activities.BusinessTypeActivity"
             android:label="@string/businessType"
             android:theme="@style/NoActionBarDialog" />
-        <activity android:name=".activities.PriceOfferToWork"
+        <activity
+            android:name=".activities.PriceOfferToWork"
             android:label="@string/PriceOfferToWork"
+            android:theme="@style/NoActionBarDialog" />
+        <activity
+            android:name=".activities.ReceiptImageActivity"
+            android:label="@string/ReceiptImage"
             android:theme="@style/NoActionBarDialog"/>
-
         <!-- Filters -->
         <activity
             android:name=".activities.FilterPriceOfferActivity"

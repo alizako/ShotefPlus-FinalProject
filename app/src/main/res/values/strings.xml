@@ -10,6 +10,7 @@
     <string name="cancel">ביטול</string>
     <string name="update">עדכן</string>
     <string name="approve">אישור</string>
+    <string name="close">סגור</string>
 
     <!--Titles-->
     <string name="receipt">קבלות</string>
@@ -34,6 +35,7 @@
     <string name="mailTemplate">תבנית לדואל</string>
     <string name="businessType">הגדרת עסק</string>
     <string name="PriceOfferToWork">העברת הצעת המחיר לביצוע</string>
+    <string name="ReceiptImage">תצוגת קבלה</string>
 
     <!--Fields-->
     <string name="paymentType">סוג תשלום</string>
@@ -59,6 +61,7 @@
     <string name="prvt">פרטי</string>
     <string name="business">עסק</string>
 
+    <string name="strReceipt">מספר קבלה</string>
     <string name="notFound">לא הוכנס מלל</string>
     <string name="filter">סינון</string>
 

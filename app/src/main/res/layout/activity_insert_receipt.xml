@@ -28,24 +28,55 @@
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="9"
             android:hint="@string/date"
             android:inputType="date" />
-
-        <EditText
-            android:id="@+id/etReceiptNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:hint="@string/receiptNum"
-            android:inputType="number" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_weight="8"
+            android:layout_weight="9"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/etReceiptNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:hint="@string/receiptNum"
+                android:inputType="number" />
+
+            <ImageButton
+                android:id="@+id/imgBtnReceiptPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|end"
+                android:src="@drawable/paperclip_32" />
+
+            <ImageButton
+                android:id="@+id/imgBtnAddReceipt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|end"
+                android:src="@drawable/addfile_32" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -77,15 +108,14 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:entries="@array/spinnerWork"
-            android:prompt="@string/workNum">
-        </Spinner>
+            android:prompt="@string/workNum"></Spinner>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_weight="8"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -120,7 +150,7 @@
             android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="9"
             android:hint="@string/workDetails"
             android:inputType="text" />
 
@@ -128,7 +158,7 @@
             android:id="@+id/etSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="9"
             android:hint="@string/sumPayment"
             android:inputType="number" />
 
@@ -145,7 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_weight="8"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -182,7 +212,7 @@
             android:layout_gravity="left"
             android:layout_marginBottom="@dimen/marginBtn"
             android:layout_marginLeft="@dimen/marginBtn"
-            android:layout_weight="10"
+            android:layout_weight="9"
             android:background="@color/colorSub"
             android:text="@string/insert"
             android:textAlignment="center"

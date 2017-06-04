@@ -1,8 +1,10 @@
 package finals.shotefplus.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -21,13 +23,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
+import finals.shotefplus.activities.CustomersActivity;
 import finals.shotefplus.activities.InsertCustomerActivity;
 import finals.shotefplus.activities.InsertReceiptActivity;
+import finals.shotefplus.activities.ReceiptImageActivity;
+import finals.shotefplus.activities.ReceiptsActivity;
 import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.EnumPaymentType;
 import finals.shotefplus.objects.IconizedMenu;
@@ -46,6 +53,7 @@ public class ReceiptListAdapter extends BaseAdapter {
     private List<Customer> customerList;
     static final int REQ_UPD_CUSTOMER = 3;
     static final int REQ_UPD_RECEIPT = 4;
+    static final int REQ_OPEN_RECEIPT = 5;
     private FirebaseAuth firebaseAuth;
 
     public ReceiptListAdapter(Activity activity, List<Receipt> receiptsList, List<Customer> customerList) {
@@ -128,7 +136,6 @@ public class ReceiptListAdapter extends BaseAdapter {
     }
 
     /* ************************************************************************************************ */
-
     private void goToSettings() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -139,6 +146,7 @@ public class ReceiptListAdapter extends BaseAdapter {
                 Toast.LENGTH_LONG).show();
     }
 
+    /* ************************************************************************************************ */
     private void handleMenu(final Receipt receipt, final Customer customer,
                             final View convertView, final int position) {
         //popup menu- Receipt:
@@ -158,9 +166,8 @@ public class ReceiptListAdapter extends BaseAdapter {
                     public boolean onMenuItemClick(MenuItem item) {
                         //delete
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rDelete))) {
-                            FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
-                                    .deleteReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה נמחקה", Toast.LENGTH_LONG).show();
+                            AlertDialog confirmationDialog = openConfirmationDialog(receipt);
+                            confirmationDialog.show();
                         }
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCash))) {
                             receipt.setPaid(true);
@@ -190,7 +197,19 @@ public class ReceiptListAdapter extends BaseAdapter {
                                     .updateReceipt(receipt, receipt.getIdNum());
                             Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
                         }
-
+                        //open receipt
+                        if (item.getTitle().equals(activity.getResources().getString(R.string.rReceipt))) {
+                            if (receipt.isPicReceiptExist()) {
+                                Intent intent = new Intent(activity, ReceiptImageActivity.class);
+                                intent.putExtra("isFromStorage", true);
+                                intent.putExtra("receiptPictureIdNum", receipt.getIdNum());
+                                intent.putExtra("receiptNum", receipt.getReceiptNum());
+                                activity.startActivityForResult(intent, REQ_OPEN_RECEIPT);
+                            } else
+                                Toast.makeText(activity,
+                                        "לא נשמרה תמונה עבור קבלה זו",
+                                        Toast.LENGTH_LONG).show();
+                        }
 
                         Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
@@ -261,4 +280,36 @@ public class ReceiptListAdapter extends BaseAdapter {
             }
         });
     }
+
+    /* ************************************************************************************************ */
+    private AlertDialog openConfirmationDialog(final Receipt receipt) {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity)
+                .setTitle("מחיקה")
+                .setMessage("האם אתה בטוח כי ברצונך למחוק קבלה זו?")
+                .setIcon(R.drawable.alert_32)
+                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                .deleteReceipt(receipt, receipt.getIdNum());
+
+                        //delete picture if exist in firebase storage
+                        if (receipt.isPicReceiptExist()) {
+                            FirebaseStorage storage = FirebaseStorage.getInstance();
+                            StorageReference storageRef = storage.getReferenceFromUrl("gs://shotefplus-72799.appspot.com/" + firebaseAuth.getCurrentUser().getUid());
+
+                            storageRef.child(receipt.getIdNum() + ".jpg").delete();
+                        }
+                        Toast.makeText(activity, "הקבלה נמחקה", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
+    }
+
+
 }

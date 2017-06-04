@@ -105,11 +105,10 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         if (requestCode == REQ_ADD_CUSTOMER) {
             if (resultCode == Activity.RESULT_OK) {
                 customerAddedIdNum = data.getStringExtra("customerAddedIdNum");
-                etCustomer.setText(data.getStringExtra("customerName"));
+                setSpinners(customerAddedIdNum);//set selection to added customer
             } else {
                 Toast.makeText(getBaseContext(), "ERROR: adding customer", Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
@@ -132,12 +131,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         return true;
     }
     /* ------------------------------------------------------------------------------------------- */
-    private void setSpinners(PriceOffer priceOffer) {
+    private void setSpinners(String customerIdNum) {
 
         // Customer Spinner:
         int i = 0;
         while (customerList != null && i < customerList.size()
-                && !(priceOffer.getCustomerIdNum().equals(customerList.get(i).getIdNum()))) {
+                && !(customerIdNum.equals(customerList.get(i).getIdNum()))) {
             i++;
         }
         if (i < customerList.size())
@@ -254,7 +253,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                                 etSum.setText(Double.toString(priceOffer.getSumPayment()));
                                 cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
 
-                                setSpinners(priceOffer);
+                                setSpinners(priceOffer.getCustomerIdNum());
 
                                 btnAdd.setText("עדכן");
                             } catch (Exception ex) {

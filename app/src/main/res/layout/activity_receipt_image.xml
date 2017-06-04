@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_receipt_image"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pictureDialogHeight"
+    android:layout_margin="@dimen/marginDialog"
+    android:layoutDirection="rtl"
+    app:theme="@style/NoActionBarDialog"
+    tools:context="finals.shotefplus.activities.ReceiptImageActivity">
+
+    <LinearLayout
+        android:id="@+id/loSubTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/marginDialog"
+            android:layout_weight="0.5"
+            android:paddingBottom="10dp"
+            android:text="@string/strReceipt"
+            android:textSize="@dimen/titleName"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_gravity="end"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent"
+            android:text="@string/close"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorSub"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/loSubTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="483dp"
+        android:fillViewport="true">
+
+        <!--<RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">-->
+
+            <ImageView
+                android:id="@+id/imgReceiptPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:foregroundGravity="center_horizontal|center_vertical"
+                android:scaleType="fitXY"
+                />
+<!--
+        </RelativeLayout>
+-->
+    </ScrollView>
+</LinearLayout>
+
+</RelativeLayout>

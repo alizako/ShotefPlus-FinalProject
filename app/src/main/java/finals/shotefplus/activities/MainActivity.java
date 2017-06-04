@@ -1,8 +1,10 @@
 package finals.shotefplus.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnCustomers;
     private FirebaseAuth firebaseAuth;//defining firebaseauth object
     static final int REQ_PROFILE = 1;
-    static final int RESULT_EXP= 2;
+    static final int RESULT_EXP = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,25 +60,25 @@ public class MainActivity extends AppCompatActivity {
         btnReceipts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ReceiptsActivity.class));
+                startActivity(new Intent(MainActivity.this, ReceiptsActivity.class));
             }
         });
         btnOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,PriceOffersActivity.class));
+                startActivity(new Intent(MainActivity.this, PriceOffersActivity.class));
             }
         });
         btnExpenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ExpensesActivity.class));
+                startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
             }
         });
         btnShowReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,IncomesVsExpensesActivity.class));
+                startActivity(new Intent(MainActivity.this, IncomesVsExpensesActivity.class));
                 /*startActivity(new Intent(MainActivity.this,PieChartActivity.class));
                 try{
                     startActivity(new Intent(MainActivity.this,PieChartActivity.class));
@@ -90,25 +92,25 @@ public class MainActivity extends AppCompatActivity {
         btnReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ReportsActivity.class));
+                startActivity(new Intent(MainActivity.this, ReportsActivity.class));
             }
         });
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
         });
         btnWorks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,WorksActivity.class));
+                startActivity(new Intent(MainActivity.this, WorksActivity.class));
             }
         });
         btnCustomers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CustomersActivity.class));
+                startActivity(new Intent(MainActivity.this, CustomersActivity.class));
             }
         });
     }
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.search:
-                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 return true;
             case R.id.dotsMenu1Profile:
                 //show profile
@@ -140,19 +142,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog confirmationDialog = openConfirmationDialog();
+        confirmationDialog.show();
+    }
+
+    private AlertDialog openConfirmationDialog() {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                .setTitle("התנתקות")
+                .setMessage("האם אתה בטוח כי ברצונך לצאת מהמערכת?")
+                .setIcon(R.drawable.alert_32)
+                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        signOut();
+                        finish();
+                    }
+                })
+                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
+
+    }
+
     private void showProfile() {
         Intent intent = new Intent(this, UserProfileActivity.class);
         startActivityForResult(intent, REQ_PROFILE);
     }
 
-    private void signOut(){
+    private void signOut() {
         try {
             firebaseAuth.signOut();
             startActivity(new Intent(MainActivity.this, EntranceActivity.class)); //Go back to home page
             finish();
             Toast.makeText(this, "התנתקת מהמערכת בהצלחה", Toast.LENGTH_LONG).show();
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             Toast.makeText(this, "שגיאה במערכת", Toast.LENGTH_LONG).show();
             System.exit(0);
         }
@@ -165,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_LONG).show();
             }
-            if(resultCode == RESULT_EXP){
+            if (resultCode == RESULT_EXP) {
                 Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
             }
         }
@@ -176,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-
 
 
         // Associate searchable configuration with the SearchView
@@ -203,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
         });*/
 
-       // return true;//super.onCreateOptionsMenu(menu);
+        // return true;//super.onCreateOptionsMenu(menu);
         return super.onCreateOptionsMenu(menu);
     }
 

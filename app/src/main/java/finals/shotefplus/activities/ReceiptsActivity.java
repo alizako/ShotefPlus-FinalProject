@@ -51,6 +51,7 @@ public class ReceiptsActivity extends AppCompatActivity {
     static final int REQ_UPD_RECEIPT = 4;
     static final int REQ_FILTER = 1;
     static final int RESULT_CLEAN = 2;
+    static final int REQ_OPEN_RECEIPT=5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,10 @@ public class ReceiptsActivity extends AppCompatActivity {
         }
         if (requestCode == REQ_UPD_CUSTOMER) {
             dataRefHandling();
+        }
+
+        if(requestCode ==REQ_OPEN_RECEIPT){
+            //
         }
     }//onActivityResult
 
