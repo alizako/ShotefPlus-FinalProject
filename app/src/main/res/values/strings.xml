@@ -23,6 +23,7 @@
     <string name="GenerateReports">הפקת דוחות</string>
     <string name="settings">הגדרות</string>
     <string name="search">חיפוש</string>
+    <string name="clean">ניקוי</string>
     <string name="searchResults">תוצאות חיפוש</string>
     <string name="signUpLabel">רישום למערכת</string>
     <string name="mainLabel">תפריט ראשי</string>
@@ -45,7 +46,8 @@
     <string name="location">מיקום</string>
     <string name="quantity">כמות</string>
     <string name="date">תאריך</string>
-    <string name="dueDate">תאריך יעד</string>
+    <string name="dateReceipt">תאריך קבלה</string>
+    <string name="dueDate">תאריך יעד עבודה</string>
     <string name="sumExpense">סכום הוצאה</string>
     <string name="sumDetails">פרטי הוצאה</string>
     <string name="workDetails">פרטי העסקה</string>
@@ -103,7 +105,7 @@
     </string-array>
 
     <string-array name="spinnerWork">
-        <item>עבודה</item>
+        <item>-בחר עבודה-</item>
         <item>122</item>
         <item>123</item>
         <item>545</item>
@@ -111,13 +113,17 @@
     </string-array>
 
     <string-array name="spinnerCustomer">
-        <item>לקוח </item>
+        <item>-בחר לקוח-</item>
         <item>לקוח Adam</item>
         <item>לקוח Aliza</item>
         <item>לקוח Ely</item>
         <item>לקוח Joe</item>
         <item>לקוח Moran</item>
         <item>הוסף...</item>
+    </string-array>
+
+    <string-array name="spinnerPriceOffer">
+        <item>-בחר הצעת מחיר-</item>
     </string-array>
 
     <!--Toasts-->
@@ -128,5 +134,8 @@
     <!-- Firebase -->
     <string name="MainTable">Users</string>
     <string name="UserProfileTable">UserProfile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

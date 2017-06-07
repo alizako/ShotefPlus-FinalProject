@@ -302,9 +302,13 @@ public class InsertReceiptActivity extends AppCompatActivity {
         try {
             if (!isUpdateMode)
                 receipt = new Receipt();
+
+            setSpinnerValuesToReceipt();
             receipt.setSumPayment(Double.parseDouble(etSum.getText().toString()));
             receipt.setSumPaymentMaam(cbSumMaam.isChecked());
+            receipt.setPaymentWithMaam();
             receipt.setDateReceipt(etDate.getText().toString());//TODO:CHECK!
+            receipt.setDueDatePayment();
             receipt.setReceiptNum(etReceiptNum.getText().toString());
             receipt.setDealDetails(etDetails.getText().toString());
             receipt.setPaid(cbPaid.isChecked());
@@ -312,7 +316,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
             if (filePath != null)
                 receipt.setPicReceiptExist(true);
 
-            setSpinnerValuesToReceipt();
+
             String strReceipt = "";
             dialog = ProgressDialog.show(InsertReceiptActivity.this,
                     "",
@@ -462,12 +466,16 @@ public class InsertReceiptActivity extends AppCompatActivity {
             switch (receipt.getPaymentMethod()) {
                 case 30:
                     pos = 1;
+                    break;
                 case 60:
                     pos = 2;
+                    break;
                 case 90:
                     pos = 3;
+                    break;
                 case 120:
                     pos = 4;
+                    break;
             }
             spnrPaymentMethod.setSelection(pos);
         }
@@ -504,12 +512,16 @@ public class InsertReceiptActivity extends AppCompatActivity {
             switch (pos) {
                 case 1:
                     paymentMethod = 30;
+                    break;
                 case 2:
                     paymentMethod = 60;
+                    break;
                 case 3:
                     paymentMethod = 90;
+                    break;
                 case 4:
                     paymentMethod = 120;
+                    break;
             }
             receipt.setPaymentMethod(paymentMethod);
         }

@@ -1,5 +1,15 @@
 package finals.shotefplus.objects;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.PropertyName;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Aliza on 15/01/2017.
  */
@@ -22,6 +32,11 @@ public class Receipt {
     private boolean isPaid;
     private boolean isPicReceiptExist;
 
+    //calculated fields
+    private int monthPay;
+    private int yearPay;
+    private double paymentWithMaam;
+
     public Receipt() {
         //idNumGlobal++;
         idNum = "";
@@ -31,11 +46,11 @@ public class Receipt {
         this.sumPayment = 0;
         this.isSumPaymentMaam = false;
         this.dateReceipt = "";
-        this.workIdNum="";
+        this.workIdNum = "";
         this.isPaymentCanceled = false;
         this.isPaymentReceived = false;
-        this.isPaid=false;
-        isPicReceiptExist=false;
+        this.isPaid = false;
+        isPicReceiptExist = false;
     }
 
     public Receipt(String idNum, int paymentMethod, int paymentType, String workDetails, String dateReceipt,
@@ -54,8 +69,8 @@ public class Receipt {
         this.customerIdNum = customerIdNum;
         this.isPaymentCanceled = isPaymentCanceled;
         this.isPaymentReceived = isPaymentReceived;
-        this.isPaid=isPaid;
-        this.isPicReceiptExist=isPicReceiptExist;
+        this.isPaid = isPaid;
+        this.isPicReceiptExist = isPicReceiptExist;
     }
 
     public String getIdNum() {
@@ -69,6 +84,7 @@ public class Receipt {
     public void setReceiptNum(String receiptNum) {
         this.receiptNum = receiptNum;
     }
+
     public String getCustomerIdNum() {
         return customerIdNum;
     }
@@ -108,7 +124,6 @@ public class Receipt {
     public void setWorkIdNum(String workidNum) {
         this.workIdNum = workidNum;
     }
-
 
 
     public String getDealDetails() {
@@ -177,6 +192,8 @@ public class Receipt {
                     dateReceipt.substring(0, 2); //day
         else
             this.dateReceipt = dateReceipt;
+
+
     }
 
     public String dateReceiptToString() {
@@ -219,5 +236,49 @@ public class Receipt {
 
     public void setPicReceiptExist(boolean picReceiptExist) {
         isPicReceiptExist = picReceiptExist;
+    }
+
+    @PropertyName("monthPay")
+    public int getMonthPay() {
+        return monthPay;
+    }
+
+    @PropertyName("yearPay")
+    public int getYearPay() {
+        return yearPay;
+    }
+
+    @PropertyName("getPaymentWithMaam")
+    public double getPaymentWithMaam() {
+        return paymentWithMaam;
+    }
+
+    @Exclude
+    public void setDueDatePayment() {
+        if (this.paymentMethod > 0) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            Date dateFormatted = new Date();
+            try {
+                dateFormatted = dateFormat.parse(this.dateReceipt);
+            } catch (ParseException pe) {
+               // throw new Exception("") ;
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dateFormatted);
+            cal.add(Calendar.DATE, this.paymentMethod);
+
+            String strDate = dateFormat.format(cal.getTime());
+
+            this.monthPay = Integer.parseInt(strDate.substring(4, 6));
+            this.yearPay = Integer.parseInt(strDate.substring(0, 4));
+        } else {
+            this.monthPay = Integer.parseInt(this.dateReceipt.substring(4, 6));
+            this.yearPay = Integer.parseInt(this.dateReceipt.substring(0, 4));
+        }
+    }
+
+    public void setPaymentWithMaam() {
+        if (this.isSumPaymentMaam)
+            this.paymentWithMaam = this.sumPayment * 1.17;
     }
 }

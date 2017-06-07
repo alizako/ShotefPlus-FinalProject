@@ -51,7 +51,7 @@ public class ReceiptsActivity extends AppCompatActivity {
     static final int REQ_UPD_RECEIPT = 4;
     static final int REQ_FILTER = 1;
     static final int RESULT_CLEAN = 2;
-    static final int REQ_OPEN_RECEIPT=5;
+    static final int REQ_OPEN_RECEIPT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class ReceiptsActivity extends AppCompatActivity {
             dataRefHandling();
         }
 
-        if(requestCode ==REQ_OPEN_RECEIPT){
+        if (requestCode == REQ_OPEN_RECEIPT) {
             //
         }
     }//onActivityResult
@@ -196,64 +196,66 @@ public class ReceiptsActivity extends AppCompatActivity {
                 .startAt(dateReceipt)
                 .endAt(dateReceipt + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
-                                           @Override
-                                           public void onDataChange(DataSnapshot snapshot) {
-                                               receiptList = new ArrayList<Receipt>();
-                                               customerList = new ArrayList<Customer>();
-                                               final long[] pendingLoadCount = {snapshot.getChildrenCount()};
+                       @Override
+                       public void onDataChange(DataSnapshot snapshot) {
+                           receiptList = new ArrayList<Receipt>();
+                           customerList = new ArrayList<Customer>();
+                           final long[] pendingLoadCount = {snapshot.getChildrenCount()};
 
-                                               for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                           for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                                                   try {
-                                                       Receipt receipt = new Receipt();
-                                                       receipt = postSnapshot.getValue(Receipt.class);
-                                                       receiptList.add(receipt);
+                               try {
+                                   Receipt receipt = new Receipt();
+                                   receipt = postSnapshot.getValue(Receipt.class);
+                                   receiptList.add(receipt);
 
-                                                       //get Customer of current priceOffer
-                                                       final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
-                                                               .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                                                                       firebaseAuth.getCurrentUser().getUid() + "/Customers/" + receipt.getCustomerIdNum());
-                                                       currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                           public void onDataChange(DataSnapshot dataSnapshot) {
-                                                               Customer customer = new Customer();
-                                                               customer = dataSnapshot.getValue(Customer.class);
-                                                               if (customer != null) customerList.add(customer);
-                                                               // we loaded a child, check if we're done
-                                                               pendingLoadCount[0] = pendingLoadCount[0] - 1;
-                                                               if (pendingLoadCount[0] == 0) {
-                                                                   adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
-                                                                   lvReceipts.setAdapter(adapter);
-                                                                   dialog.dismiss();
-                                                               }
-                                                           }
-
-                                                           @Override
-                                                           public void onCancelled(DatabaseError firebaseError) {
-                                                               Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                                                               dialog.dismiss();
-                                                           }
-                                                       });
-                                                       //END of get Customer of current priceOffer
-
-
-                                                   } catch (Exception ex) {
-                                                       Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
-                                                   }
-                                               }
-                                               if (pendingLoadCount[0] == 0) {
-                                                   adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
-                                                   lvReceipts.setAdapter(adapter);
-                                                   dialog.dismiss();
-                                               }
-
-                                           }
-
-                                           @Override
-                                           public void onCancelled(DatabaseError firebaseError) {
-                                               Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                   //get Customer of current priceOffer
+                                   final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
+                                           .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                                                   firebaseAuth.getCurrentUser().getUid() + "/Customers/" + receipt.getCustomerIdNum());
+                                   currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                       public void onDataChange(DataSnapshot dataSnapshot) {
+                                           Customer customer = new Customer();
+                                           customer = dataSnapshot.getValue(Customer.class);
+                                           if (customer != null) customerList.add(customer);
+                                           // we loaded a child, check if we're done
+                                           pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                                           if (pendingLoadCount[0] == 0) {
+                                               adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
+                                               lvReceipts.setAdapter(adapter);
                                                dialog.dismiss();
                                            }
                                        }
+
+                                       @Override
+                                       public void onCancelled(DatabaseError firebaseError) {
+                                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                           dialog.dismiss();
+                                       }
+                                   });
+                                   //END of get Customer of current priceOffer
+
+
+                               } catch (Exception ex) {
+                                   Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                   dialog.dismiss();
+                               }
+                           }
+                           if (pendingLoadCount[0] == 0) {
+                               adapter = new ReceiptListAdapter(ReceiptsActivity.this, receiptList, customerList);
+                               lvReceipts.setAdapter(adapter);
+                               dialog.dismiss();
+                           }
+                       }
+
+                       @Override
+                       public void onCancelled(DatabaseError firebaseError) {
+                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                           dialog.dismiss();
+                       }
+
+                   }
+
                 );
 
     }
@@ -301,7 +303,7 @@ public class ReceiptsActivity extends AppCompatActivity {
                 addtoList = true;
             }
 
-            if (addtoList){
+            if (addtoList) {
                 listRTmp.add(receipt);
                 int j = 0;
                 while (j < customerList.size() && !customerList.get(j).getIdNum().equals(receipt.getCustomerIdNum())) {

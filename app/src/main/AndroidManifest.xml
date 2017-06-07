@@ -26,8 +26,9 @@
         </activity>
         <activity
             android:name=".activities.EntranceActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +38,8 @@
         <!-- Search results activity -->
         <activity
             android:name=".activities.SearchResultsActivity"
-            android:label="@string/searchResults">
+            android:label="@string/searchResults"
+            android:screenOrientation="portrait">
 
             <!-- android:parentActivityName=".activities.MainActivity" -->
 
@@ -54,91 +56,120 @@
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
-            android:label="@string/signUpLabel" />
+            android:label="@string/signUpLabel"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SearchActivity"
-            android:label="@string/search" />
+            android:label="@string/search"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.InsertReceiptActivity"
-            android:label="@string/insertReceipt" />
+            android:label="@string/insertReceipt"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReceiptsActivity"
-            android:label="@string/receipt" />
+            android:label="@string/receipt"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.InsertPriceOfferActivity"
-            android:label="@string/insertPriceOffer" />
+            android:label="@string/insertPriceOffer"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PriceOffersActivity"
-            android:label="@string/priceOffers" />
+            android:label="@string/priceOffers"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ExpensesActivity"
-            android:label="@string/expenses" />
+            android:label="@string/expenses"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.InsertExpenseActivity"
-            android:label="@string/insertExpense" />
+            android:label="@string/insertExpense"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.IncomesVsExpensesActivity"
-            android:label="" />
+            android:label="@string/ShowReports"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReportsActivity"
-            android:label="" />
+            android:label=""
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/settings" />
+            android:label="@string/settings"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CustomersActivity"
-            android:label="@string/customers" />
+            android:label="@string/customers"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.InsertCustomerActivity"
-            android:label="@string/insertCustomer" />
+            android:label="@string/insertCustomer"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.WorksActivity"
-            android:label="@string/works" />
+            android:label="@string/works"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SignInActivity"
-            android:label="@string/signIn" />
-
+            android:label="@string/signIn"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MPcharts.HalfPieChartActivity"
+            android:label=""
+            android:screenOrientation="portrait" />
         <!-- Dialogs -->
         <activity
             android:name=".activities.UserProfileActivity"
             android:label="@string/userProfile"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.ChangeRegistrationInfoActivity"
             android:label="@string/changeCredential"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.MsgTemplateActivity"
             android:label="@string/msgTemplate"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.MailTemplateActivity"
             android:label="@string/mailTemplate"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.BusinessTypeActivity"
             android:label="@string/businessType"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.PriceOfferToWork"
             android:label="@string/PriceOfferToWork"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.ReceiptImageActivity"
             android:label="@string/ReceiptImage"
-            android:theme="@style/NoActionBarDialog"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarDialog" />
         <!-- Filters -->
         <activity
             android:name=".activities.FilterPriceOfferActivity"
             android:label="@string/filter"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.FilterWorkActivity"
             android:label="@string/filter"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
         <activity
             android:name=".activities.FilterReceiptActivity"
             android:label="@string/filter"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
 
     </application>

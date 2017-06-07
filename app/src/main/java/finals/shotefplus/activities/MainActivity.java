@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import finals.shotefplus.MPcharts.HalfPieChartActivity;
 import finals.shotefplus.MPcharts.PieChartActivity;
 import finals.shotefplus.R;
 import finals.shotefplus.objects.Expense;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnReceipts;
     Button btnOffers;
     Button btnExpenses;
-    Button btnShowReports;
+    Button btnShowCharts;
     Button btnReports;
     Button btnSettings;
     Button btnWorks;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         btnReceipts = (Button) findViewById(R.id.btnReceipts);
         btnOffers = (Button) findViewById(R.id.btnOffers);
         btnExpenses = (Button) findViewById(R.id.btnExpenses);
-        btnShowReports = (Button) findViewById(R.id.btnShowReports);
+        btnShowCharts = (Button) findViewById(R.id.btnShowCharts);
         btnReports = (Button) findViewById(R.id.btnReports);
         btnSettings = (Button) findViewById(R.id.btnSettings);
         btnWorks = (Button) findViewById(R.id.btnWorks);
@@ -75,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
             }
         });
-        btnShowReports.setOnClickListener(new View.OnClickListener() {
+        btnShowCharts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, IncomesVsExpensesActivity.class));
+//                startActivity(new Intent(MainActivity.this, HalfPieChartActivity.class));
+
+               startActivity(new Intent(MainActivity.this, IncomesVsExpensesActivity.class));
                 /*startActivity(new Intent(MainActivity.this,PieChartActivity.class));
                 try{
                     startActivity(new Intent(MainActivity.this,PieChartActivity.class));
@@ -135,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.dotsMenu4Exit:
                 //exit app
-                signOut();
+               // signOut();
+                AlertDialog confirmationDialog = openConfirmationDialog();
+                confirmationDialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -194,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Sorry, Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
             }
         }
     }

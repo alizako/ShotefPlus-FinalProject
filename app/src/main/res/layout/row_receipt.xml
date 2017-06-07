@@ -37,12 +37,13 @@
             android:drawableTint="@color/summary"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingRight="10dp"
             android:text=""
             android:textDirection="rtl"
             android:textSize="@dimen/titleName"
             android:textStyle="bold" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgVw"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -50,7 +51,34 @@
             android:gravity="right|center"
             android:paddingTop="10dp"
             android:src="@drawable/add_user2_32"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/colorAccent" />-->
+
+        <LinearLayout
+            android:id="@+id/loInitials"
+            android:orientation="horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/oval">
+            <!-- android:backgroundTint="@color/colorAccent">-->
+
+            <LinearLayout
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvInitials"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"
+                    android:text=""/>
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

@@ -98,7 +98,7 @@
                 android:textSize="@dimen/txtSizeMain" />
 
             <Button
-                android:id="@+id/btnShowReports"
+                android:id="@+id/btnShowCharts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

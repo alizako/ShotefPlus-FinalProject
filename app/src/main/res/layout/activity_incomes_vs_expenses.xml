@@ -12,7 +12,136 @@
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
-        android:layout_below="@+id/barMonth"/>
+        android:layout_below="@+id/barMonth" />
+
+    <LinearLayout
+        android:id="@+id/loDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/barFilter"
+        android:layout_margin="5dp"
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="1">
+
+
+            <TextView
+                android:id="@+id/txtTitleIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:text="הכנסה שנתית:"
+                android:textSize="@dimen/titleName"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEntryIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="0.5"
+                android:paddingRight="10dp"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/lightGrey"
+            android:padding="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/txtTitleNotPaid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:text="תשלומים שטרם שולמו:"
+                android:textSize="@dimen/titleName"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEntryNotPaid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="0.5"
+                android:paddingRight="10dp"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/lightGrey"
+            android:padding="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/txtTitleAvg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:text="ממוצע שנתי:"
+                android:textSize="@dimen/titleName"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEntryAvg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/lightGrey"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chartHalfPie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/loDetails" />
 
 
 </RelativeLayout>

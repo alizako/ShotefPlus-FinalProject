@@ -17,6 +17,7 @@
     <dimen name="swipeBtnSize">60dp</dimen>
     <dimen name="swipeBtnMargin">5dp</dimen>
     <dimen name="swipeBarHeight">40dp</dimen>
+    <dimen name="ovalSize">45dp</dimen>
 
     <!-- Sign -->
     <dimen name="picSizeSignBig">240dp</dimen>
@@ -28,6 +29,7 @@
     <dimen name="spinnerTextSize">20dp</dimen>
     <dimen name="titleName">14sp</dimen>
     <dimen name="summary">13dip</dimen>
+    <dimen name="smallListView">60dp</dimen>
 
     <!--Dialog-->
     <dimen name="stndrtDialogHeight">100dp</dimen>

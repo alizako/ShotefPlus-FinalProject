@@ -15,86 +15,338 @@
         android:background="@drawable/search"
         android:orientation="vertical" />
 
+
+    <!-- ********************************************************* -->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/picSizeSign"
-        android:gravity="center"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:weightSum="2">
 
-
-        <Spinner
-            android:id="@+id/spnrPaymentType"
+        <LinearLayout
+            android:id="@+id/loRD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/spinnerPaymentType"
-            android:prompt="@string/paymentType"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="6">
-        </Spinner>
-
-        <Spinner
-            android:id="@+id/spnrWork"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/spinnerWork"
-            android:prompt="@string/workNum"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="6">
-        </Spinner>
-
-        <Spinner
-            android:id="@+id/spnrCustomer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/spinnerCustomer"
-            android:prompt="@string/customer"
-            style="@android:style/Widget.Material.Spinner.Underlined"
-            android:layout_weight="6">
-        </Spinner>
-
-        <EditText
-            android:id="@+id/etReceiptNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/receiptNum"
-            android:inputType="number"
-            android:layout_weight="6"/>
-
-
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/date"
-            android:inputType="date"
-            android:layout_weight="6"/>
-
-        <!--<DatePicker
-            android:id="@+id/dpDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/date"
-            android:minDate="01/01/2000"
-            android:maxDate="01/01/2018">
-
-        </DatePicker>-->
-
-        <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="@dimen/stndrtBtnWidth"
-            android:layout_height="@dimen/stndrtBtnHeight"
-            android:layout_gravity="left"
-            android:background="@color/colorSub"
+            android:layout_alignParentTop="true"
+            android:layout_margin="3dp"
             android:layout_marginBottom="@dimen/marginBtn"
-            android:layout_marginLeft="@dimen/marginBtn"
-            android:text="@string/search"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:layout_weight="6"/>
+            android:layout_marginTop="0dp"
+            android:background="@color/lightGrey"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="בצע חיפוש לפי:"
+                android:textSize="@dimen/titleName"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rdGrp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdCustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/customers"
+                    android:textColor="@color/summary" />
+
+                <RadioButton
+                    android:id="@+id/rdWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/works"
+                    android:textColor="@color/summary" />
+
+                <RadioButton
+                    android:id="@+id/rdPriceOffer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/priceOffers"
+                    android:textColor="@color/summary" />
+
+                <RadioButton
+                    android:id="@+id/rdReceipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/receipt"
+                    android:textColor="@color/summary" />
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:weightSum="1">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/lightGrey"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picSizeSignBig"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/loCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="3dp"
+                    android:layout_marginBottom="@dimen/marginBtn"
+                    android:background="@color/lightGrey"
+                    android:gravity="top"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customers" />
+
+                    <Spinner
+                        android:id="@+id/spnrCustomer"
+                        style="@android:style/Widget.Material.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/spinnerCustomer"
+                        android:prompt="@string/customer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/loWork"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="3dp"
+                    android:layout_marginBottom="@dimen/marginBtn"
+                    android:background="@color/lightGrey"
+                    android:gravity="top"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/works" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/marginBtn"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <Spinner
+                            android:id="@+id/spnrWork"
+                            style="@android:style/Widget.Material.Spinner.Underlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:entries="@array/spinnerWork"
+                            android:prompt="@string/workNum" />
+
+                        <EditText
+                            android:id="@+id/etDueDateWork"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:hint="@string/dueDate"
+                            android:inputType="date" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/loPriceOffer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="3dp"
+                    android:layout_marginBottom="@dimen/marginBtn"
+                    android:background="@color/lightGrey"
+                    android:gravity="top"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/priceOffers" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/marginBtn"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <Spinner
+                            android:id="@+id/spnrPriceOffer"
+                            style="@android:style/Widget.Material.Spinner.Underlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:entries="@array/spinnerPriceOffer"
+                            android:prompt="@string/workNum" />
+
+                        <EditText
+                            android:id="@+id/etDueDateWorkPO"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:hint="@string/dueDate"
+                            android:inputType="date" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/loReceipt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="3dp"
+                    android:layout_marginBottom="@dimen/marginBtn"
+                    android:background="@color/lightGrey"
+                    android:gravity="top"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/receipt" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/etReceiptNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:hint="@string/receiptNum"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/etDateReceipt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:hint="@string/dateReceipt"
+                            android:inputType="date" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <!--Type: 1-cash, 2-credit card, 3-cheque,4-transfer-->
+                        <Spinner
+                            android:id="@+id/spnrPaymentType"
+                            style="@android:style/Widget.Material.Spinner.Underlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/spinnerPaymentType"
+                            android:prompt="@string/paymentType" />
+
+                        <!--Method: +30,+60..120 -->
+                        <Spinner
+                            android:id="@+id/spnrPaymentMethod"
+                            style="@android:style/Widget.Material.Spinner.Underlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/spinnerMethodType"
+                            android:gravity="center_vertical"
+                            android:prompt="@string/paymentType" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/marginBtn"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnClean"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="left"
+                android:layout_marginBottom="@dimen/marginBtn"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:background="@color/colorSub"
+                android:text="@string/clean"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite" />
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="@dimen/stndrtBtnWidth"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="left"
+                android:layout_marginBottom="@dimen/marginBtn"
+                android:layout_marginLeft="@dimen/marginBtn"
+                android:background="@color/colorSub"
+                android:text="@string/search"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>

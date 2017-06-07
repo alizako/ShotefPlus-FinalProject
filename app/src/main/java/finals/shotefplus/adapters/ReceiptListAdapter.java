@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import java.util.Random;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
@@ -55,12 +58,14 @@ public class ReceiptListAdapter extends BaseAdapter {
     static final int REQ_UPD_RECEIPT = 4;
     static final int REQ_OPEN_RECEIPT = 5;
     private FirebaseAuth firebaseAuth;
+    Random rand;
 
     public ReceiptListAdapter(Activity activity, List<Receipt> receiptsList, List<Customer> customerList) {
         this.activity = activity;
         this.receiptsList = receiptsList;
         this.customerList = customerList;
         firebaseAuth = FirebaseAuth.getInstance();
+        rand = new Random();
     }
 
     @Override
@@ -93,6 +98,13 @@ public class ReceiptListAdapter extends BaseAdapter {
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
         LinearLayout loReceipt = (LinearLayout) convertView.findViewById(R.id.loReceipt);
 
+        //Initials
+        TextView tvInitials = (TextView) convertView.findViewById(R.id.tvInitials);
+        LinearLayout loInitials = (LinearLayout) convertView.findViewById(R.id.loInitials);
+
+        int color = Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        loInitials.setBackgroundTintList(ColorStateList.valueOf(color));
+
         int i = 0;
         while (i < customerList.size() && !customerList.get(i).getIdNum().equals(receipt.getCustomerIdNum())) {
             i++;
@@ -112,6 +124,9 @@ public class ReceiptListAdapter extends BaseAdapter {
                     activity.startActivityForResult(intent, REQ_UPD_CUSTOMER);
                 }
             });
+
+            if (customer.getName().length() > 0)
+                tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
         }
 
         txtReceipt.setText("קבלה " + receipt.getReceiptNum());

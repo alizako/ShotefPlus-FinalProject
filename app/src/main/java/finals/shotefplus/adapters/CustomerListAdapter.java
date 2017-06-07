@@ -6,7 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
@@ -21,12 +24,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Random;
 
 import finals.shotefplus.activities.SignInActivity;
 import finals.shotefplus.objects.Customer;
@@ -48,10 +53,12 @@ public class CustomerListAdapter extends BaseAdapter {
     private List<Customer> customers;
     //ImageLoader imageLoader ;
     //ImageView menu;
+    Random rand;
 
     public CustomerListAdapter(Activity activity, List<Customer> customers) {
         this.activity = activity;
         this.customers = customers;
+        rand = new Random();
     }
 
     @Override
@@ -82,17 +89,26 @@ public class CustomerListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(id.txtName);
         TextView summary = (TextView) convertView.findViewById(id.summary);
 
+        //Initials
+        TextView tvInitials = (TextView) convertView.findViewById(id.tvInitials);
+        LinearLayout loInitials = (LinearLayout) convertView.findViewById(id.loInitials);
+
+        int color = Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        loInitials.setBackgroundTintList(ColorStateList.valueOf(color));
+        if (customer.getName().length() > 0)
+            tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
+
         handleMenu(customer, convertView);
 
         // picture
-        final ImageView imgVwPic = (ImageView) convertView.findViewById(id.imgVwPic);
+        /*final ImageView imgVwPic = (ImageView) convertView.findViewById(id.imgVwPic);
         imgVwPic.setTag(position);
         imgVwPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 //TODO: open camera/gallery
             }
-        });
+        });*/
 
         // name
         name.setText(customer.getName());

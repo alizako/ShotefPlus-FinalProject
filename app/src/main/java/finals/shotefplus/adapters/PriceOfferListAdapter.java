@@ -3,6 +3,8 @@ package finals.shotefplus.adapters;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import finals.shotefplus.DataAccessLayer.FirebaseHandler;
 import finals.shotefplus.R;
@@ -49,6 +52,7 @@ public class PriceOfferListAdapter extends BaseAdapter {
     private FirebaseAuth firebaseAuth;
     DatabaseReference dbRef;
     private boolean endFlag = false;
+    Random rand;
 
     public PriceOfferListAdapter(Activity activity, List<PriceOffer> priceOfferList, List<Customer> customerList) {
         this.activity = activity;
@@ -57,6 +61,7 @@ public class PriceOfferListAdapter extends BaseAdapter {
         this.customerList = customerList;
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
+        rand = new Random();
     }
 
     @Override
@@ -84,6 +89,13 @@ public class PriceOfferListAdapter extends BaseAdapter {
 
         priceOffer = priceOfferList.get(position);
 
+        //Initials
+        TextView tvInitials = (TextView) convertView.findViewById(R.id.tvInitials);
+        LinearLayout loInitials = (LinearLayout) convertView.findViewById(R.id.loInitials);
+
+        int color = Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        loInitials.setBackgroundTintList(ColorStateList.valueOf(color));
+
         final TextView name = (TextView) convertView.findViewById(R.id.txtName);
         final TextView summary = (TextView) convertView.findViewById(R.id.summary);
         final CheckBox cbIsPriceOfferSent = (CheckBox) convertView.findViewById(R.id.cbSent);
@@ -110,6 +122,8 @@ public class PriceOfferListAdapter extends BaseAdapter {
             Customer customer = new Customer();
             customer = customerList.get(i);
             name.setText("לקוח " + customer.getName());
+            if (customer.getName().length() > 0)
+                tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
         }
 
         summary.setText("הצעה: " + priceOffer.getWorkDetails() + "\n"
