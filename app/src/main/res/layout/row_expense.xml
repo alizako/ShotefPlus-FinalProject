@@ -39,7 +39,8 @@
             android:layout_gravity="right"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="עחעח"
+            android:text="details"
+            android:gravity="right"
             android:textSize="@dimen/titleName"
             android:textStyle="bold" />
 

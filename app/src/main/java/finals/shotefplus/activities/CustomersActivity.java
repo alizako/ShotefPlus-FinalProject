@@ -35,6 +35,7 @@ public class CustomersActivity extends AppCompatActivity {
     private CustomerListAdapter adapter;
     private List<Customer> customerList;
     static final int REQ_UPD_CUSTOMER = 3;
+    static final int REQ_ADD_CUSTOMER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,12 @@ public class CustomersActivity extends AppCompatActivity {
         setEvents();
     }
 
-
+  /*  @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_ADD_CUSTOMER && resultCode == RESULT_OK) {
+            //dataRefHandling();
+        }
+    }*/
     /**********************************************************************************
      * Events
      **********************************************************************************/
@@ -77,7 +83,9 @@ public class CustomersActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CustomersActivity.this, InsertCustomerActivity.class));
+                Intent intent = new Intent(CustomersActivity.this, InsertCustomerActivity.class);
+                startActivityForResult(intent, REQ_ADD_CUSTOMER);
+                //startActivity(new Intent(CustomersActivity.this, InsertCustomerActivity.class));
             }
         });
 
@@ -97,7 +105,7 @@ public class CustomersActivity extends AppCompatActivity {
      **********************************************************************************/
     private void dataRefHandling() {
 
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.orderByChild("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 customerList = new ArrayList<Customer>();

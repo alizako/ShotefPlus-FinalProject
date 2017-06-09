@@ -93,7 +93,7 @@ public class PriceOfferListAdapter extends BaseAdapter {
         TextView tvInitials = (TextView) convertView.findViewById(R.id.tvInitials);
         LinearLayout loInitials = (LinearLayout) convertView.findViewById(R.id.loInitials);
 
-        int color = Color.argb(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        int color = Color.argb(140, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
         loInitials.setBackgroundTintList(ColorStateList.valueOf(color));
 
         final TextView name = (TextView) convertView.findViewById(R.id.txtName);
@@ -124,7 +124,9 @@ public class PriceOfferListAdapter extends BaseAdapter {
             name.setText("לקוח " + customer.getName());
             if (customer.getName().length() > 0)
                 tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
-        }
+        } else //no customer found
+            tvInitials.setText("NA");
+
 
         summary.setText("הצעה: " + priceOffer.getWorkDetails() + "\n"
                 + priceOffer.getSumPayment() + " ש''ח " + "\n" +

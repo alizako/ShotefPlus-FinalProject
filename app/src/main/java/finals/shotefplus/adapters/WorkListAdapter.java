@@ -1,7 +1,9 @@
 package finals.shotefplus.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
@@ -101,11 +103,13 @@ public class WorkListAdapter extends BaseAdapter {
                 else if (work.isWorkCanceled())
                     Toast.makeText(context, "העבודה כבר מבוטלת", Toast.LENGTH_LONG).show();
                 else {
-                    work.setWorkCanceled(true);
+                  /*  work.setWorkCanceled(true);
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                             .updateWork(work, work.getIdNum());
                     imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
-                    Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();*/
+                    AlertDialog confirmationDialog = openConfirmationDialog(imgCancelWork);
+                    confirmationDialog.show();
                 }
             }
         });
@@ -130,6 +134,32 @@ public class WorkListAdapter extends BaseAdapter {
         cbIsWorkDone.setChecked(work.isWorkDone());
 
         return convertView;
+    }
+
+    private AlertDialog openConfirmationDialog(final ImageView imgCancelWork) {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity)
+                .setTitle("מחיקה")
+                .setMessage("האם אתה בטוח כי ברצונך לבטל את העבודה?")
+                .setIcon(R.drawable.alert_32)
+                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        work.setWorkCanceled(true);
+                        FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
+                                .updateWork(work, work.getIdNum());
+                        imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
+                        Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();
+
+                    }
+                })
+                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
+
     }
 
 }

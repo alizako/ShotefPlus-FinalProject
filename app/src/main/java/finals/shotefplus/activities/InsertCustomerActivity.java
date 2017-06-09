@@ -1,5 +1,6 @@
 package finals.shotefplus.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
@@ -85,6 +86,8 @@ public class InsertCustomerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isFieldsValidate())
                     addCustomerToFireBase(v);
+                /* setResult(Activity.RESULT_OK);
+                finish();*/
                 // Toast.makeText(v.getContext(), "הוצאה התווספה", Toast.LENGTH_LONG).show();
             }
         });

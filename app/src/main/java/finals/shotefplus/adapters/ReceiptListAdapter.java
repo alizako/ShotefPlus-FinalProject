@@ -25,6 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,6 +44,7 @@ import finals.shotefplus.activities.InsertReceiptActivity;
 import finals.shotefplus.activities.ReceiptImageActivity;
 import finals.shotefplus.activities.ReceiptsActivity;
 import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.EmailTemplate;
 import finals.shotefplus.objects.EnumPaymentType;
 import finals.shotefplus.objects.IconizedMenu;
 import finals.shotefplus.objects.Receipt;
@@ -59,6 +65,7 @@ public class ReceiptListAdapter extends BaseAdapter {
     static final int REQ_OPEN_RECEIPT = 5;
     private FirebaseAuth firebaseAuth;
     Random rand;
+    String subject = "retype subject", body = "insert content";
 
     public ReceiptListAdapter(Activity activity, List<Receipt> receiptsList, List<Customer> customerList) {
         this.activity = activity;
@@ -275,17 +282,7 @@ public class ReceiptListAdapter extends BaseAdapter {
                         }
                         // email
                         if (item.getTitle().equals(activity.getResources().getString(R.string.cEmail))) {
-                            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                            emailIntent.setType("message/rfc822");
-                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{customer.getEmail()});
-                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "retype subject");
-                            emailIntent.putExtra(Intent.EXTRA_TEXT, "insert body\n");
-                            try {
-                                activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                            } catch (android.content.ActivityNotFoundException ex) {
-                                Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                            }
-                            activity.startActivity(emailIntent);
+                            getMailTemplateFromFirebase(customer);
                         }
 
                         Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -294,6 +291,47 @@ public class ReceiptListAdapter extends BaseAdapter {
                 });
             }
         });
+    }
+    private void getMailTemplateFromFirebase(final Customer customer) {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/EmailTemplate/");
+
+        dialog = ProgressDialog.show(activity,
+                "",
+                "אנא המתן",
+                true);
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                EmailTemplate emailTemplate = snapshot.getValue(EmailTemplate.class);
+                subject = emailTemplate.getSubject();
+                body = emailTemplate.getBody();
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{customer.getEmail()});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
+                try {
+                    activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+               // activity.startActivity(emailIntent);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Toast.makeText(activity, "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
     }
 
     /* ************************************************************************************************ */
