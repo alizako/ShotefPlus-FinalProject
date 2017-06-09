@@ -4,144 +4,66 @@
     android:id="@+id/activity_incomes_vs_expenses"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
     tools:context="finals.shotefplus.activities.IncomesVsExpensesActivity">
 
-    <include
+   <!-- <include
         android:id="@+id/barFilter"
         layout="@layout/row_filter"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_below="@+id/barMonth" />
-
+        android:layout_alignParentTop="true" />-->
     <LinearLayout
-        android:id="@+id/loDetails"
+        android:id="@+id/loBtns"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/barFilter"
-        android:layout_margin="5dp"
-        android:layoutDirection="rtl"
-        android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:weightSum="1">
-
-
-            <TextView
-                android:id="@+id/txtTitleIncome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="left"
-                android:text="הכנסה שנתית:"
-                android:textSize="@dimen/titleName"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtEntryIncome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="0.5"
-                android:paddingRight="10dp"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
-        </LinearLayout>
-
-        <View
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:weightSum="1">
+        <Button
+            android:id="@+id/btnMonth"
             android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/lightGrey"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:id="@+id/txtTitleNotPaid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="left"
-                android:text="תשלומים שטרם שולמו:"
-                android:textSize="@dimen/titleName"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtEntryNotPaid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="0.5"
-                android:paddingRight="10dp"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
-
-
-        </LinearLayout>
-
-        <View
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="0.5"
+            android:text="חודשי"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btnYear"
             android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/lightGrey"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:id="@+id/txtTitleAvg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="left"
-                android:text="ממוצע שנתי:"
-                android:textSize="@dimen/titleName"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtEntryAvg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:textColor="@color/summary"
-                android:textSize="@dimen/summary" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/lightGrey"
-            android:padding="10dp" />
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="0.5"
+            android:text="שנתי"
+            android:textStyle="bold"/>
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chartHalfPie"
+    <FrameLayout
+        android:id="@+id/containerFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/loDetails" />
+        android:layout_below="@+id/loBtns" />
 
+    <!--<fragment
+        android:id="@+id/frgYearlyChart"
+        android:name="finals.shotefplus.activities.YearHalfPieChartFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/loBtns"
+        tools:layout="@layout/fragment_half_pie_chart" />
 
+    <fragment
+        android:id="@+id/frgMonthlyChart"
+        android:name="finals.shotefplus.activities.MonthsStackedBarChartFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/loBtns"
+        tools:layout="@layout/fragment_months_stacked_bar_chart" />-->
 </RelativeLayout>

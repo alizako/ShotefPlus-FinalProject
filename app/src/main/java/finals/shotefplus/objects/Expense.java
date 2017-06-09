@@ -1,5 +1,12 @@
 package finals.shotefplus.objects;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.PropertyName;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,6 +23,9 @@ public class Expense {
     private String sumDetails;
     private String workIdNum;
 
+    //calculated fields
+    private int monthPay;
+    private int yearPay;
 
     public Expense() {
         idNum = "";
@@ -23,7 +33,7 @@ public class Expense {
         this.expenseType = 0;
         this.sumPayment = 0;
         this.sumDetails = "";
-        this.workIdNum="";
+        this.workIdNum = "";
     }
 
     // public Expense(String date, Work work, int paymentType, double sumPayment, String sumDetails) {
@@ -34,7 +44,7 @@ public class Expense {
         // this.paymentType = paymentType;
         this.sumPayment = sumPayment;
         this.sumDetails = sumDetails;
-        this.expenseType =expenseType;
+        this.expenseType = expenseType;
         this.workIdNum = workIdNum;
     }
 
@@ -49,7 +59,10 @@ public class Expense {
                     dateExpense.substring(0, 2); //day
         else
             this.dateExpense = dateExpense;
+
+        setDueDatePayment();
     }
+
     public String dateToString() {
         return dateExpense.substring(6, 8) + "/" + //day
                 dateExpense.substring(4, 6) + "/" + //month
@@ -84,11 +97,11 @@ public class Expense {
         return expenseTypeToString(expenseType);
     }
 
-       public String expenseTypeToString(){
+    public String expenseTypeToString() {
         return expenseTypeToString(expenseType);
     }
 
-    private String expenseTypeToString(int expenseType){
+    private String expenseTypeToString(int expenseType) {
         switch (expenseType) {
             case 1:
                 return "מזומן";
@@ -110,12 +123,29 @@ public class Expense {
     public void setExpenseType(int expenseType) {
         this.expenseType = expenseType;
     }
+
     public String getWorkIdNum() {
         return workIdNum;
     }
 
     public void setWorkIdNum(String workidNum) {
         this.workIdNum = workidNum;
+    }
+
+    @PropertyName("monthPay")
+    public int getMonthPay() {
+        return monthPay;
+    }
+
+    @PropertyName("yearPay")
+    public int getYearPay() {
+        return yearPay;
+    }
+
+    @Exclude
+    private void setDueDatePayment() {
+        this.monthPay = Integer.parseInt(this.dateExpense.substring(4, 6));
+        this.yearPay = Integer.parseInt(this.dateExpense.substring(0, 4));
     }
 
 }

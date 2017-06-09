@@ -2,6 +2,8 @@ package finals.shotefplus.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 
 import finals.shotefplus.R;
 import finals.shotefplus.objects.Customer;
@@ -26,10 +29,12 @@ public class ExpenseListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Expense> expenseList;
+    Random rand;
 
     public ExpenseListAdapter(Activity activity, List<Expense> expenseList) {
         this.activity = activity;
         this.expenseList = expenseList;
+        rand = new Random();
     }
 
     @Override
@@ -59,6 +64,10 @@ public class ExpenseListAdapter extends BaseAdapter {
         Expense expense = expenseList.get(position);
         TextView sumDetails = (TextView) convertView.findViewById(R.id.txtSumDetails);
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
+        ImageView imgVw = (ImageView) convertView.findViewById(R.id.imgVw);
+
+        int color = Color.argb(100, rand.nextInt(250), rand.nextInt(250), rand.nextInt(250));
+        imgVw.setImageTintList(ColorStateList.valueOf(color));
 
         sumDetails.setText((expense.getSumDetails().equals("") ? "" : expense.getSumDetails() + " | ") +
                 expense.getSumPayment() + " ש''ח ");

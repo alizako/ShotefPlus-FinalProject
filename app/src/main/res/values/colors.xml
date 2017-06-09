@@ -18,6 +18,7 @@
     <color name="colorDevider">#BABABA</color>
     <color name="summary">#666666</color>
     <color name="lightGrey">#eff0f0</color>
+    <color name="dirtyWhite">#fafafafa</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 </resources>

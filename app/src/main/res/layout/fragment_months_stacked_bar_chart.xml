@@ -1,28 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragmentHalfPieChart"
+    android:id="@+id/fragmentMonthsBarChart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:layoutDirection="rtl"
     android:orientation="vertical"
-    android:paddingBottom="20dp">
+    android:weightSum="2">
 
     <include
         android:id="@+id/barYear"
         layout="@layout/row_swipe_year"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chartMonths"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loDetails"
+        android:layout_below="@id/barYear"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1.84"
+        android:background="@color/colorWhite"
+        android:paddingBottom="20dp" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:background="@color/colorWhite" />
 
     <LinearLayout
         android:id="@+id/loDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/barYear"
-        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/chartMonths"
         android:layout_margin="5dp"
+        android:layout_weight="0.02"
         android:background="@color/dirtyWhite"
         android:layoutDirection="rtl"
         android:orientation="vertical">
@@ -35,6 +52,41 @@
             android:paddingTop="10dp"
             android:weightSum="1">
 
+            <TextView
+                android:id="@+id/txtMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:text="חודש נבחר:"
+                android:textSize="@dimen/titleName"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEntryMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="0.5"
+                android:paddingRight="10dp"
+                android:text=""
+                android:textColor="@color/summary"
+                android:textSize="@dimen/summary" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey"
+            android:padding="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/txtTitleIncome"
@@ -42,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="left"
-                android:text="הכנסה שנתית:"
+                android:text="הכנסה ששולמה:"
                 android:textSize="@dimen/titleName"
                 android:textStyle="bold" />
 
@@ -60,7 +112,6 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_weight="1"
             android:background="@color/lightGrey"
             android:padding="10dp" />
 
@@ -78,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="left"
-                android:text="תשלומים שטרם שולמו:"
+                android:text="הכנסה שטרם שולמה:"
                 android:textSize="@dimen/titleName"
                 android:textStyle="bold" />
 
@@ -98,7 +149,6 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_weight="1"
             android:background="@color/lightGrey"
             android:padding="10dp" />
 
@@ -111,17 +161,17 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/txtTitleAvg"
+                android:id="@+id/txtTitleExpense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="left"
-                android:text="ממוצע שנתי:"
+                android:text="הוצאות:"
                 android:textSize="@dimen/titleName"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtEntryAvg"
+                android:id="@+id/txtEntryExpense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -134,13 +184,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chartHalfPie"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/loDetails" />
-
 
 </LinearLayout>
