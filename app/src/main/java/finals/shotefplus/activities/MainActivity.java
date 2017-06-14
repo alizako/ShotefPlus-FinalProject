@@ -132,9 +132,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.dotsMenu2About:
                 //about
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
                 return true;
             case R.id.dotsMenu3Connect:
                 //connect
+                startActivity(new Intent(MainActivity.this, ConnectActivity.class));
                 return true;
             case R.id.dotsMenu4Exit:
                 //exit app

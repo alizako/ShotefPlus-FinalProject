@@ -66,7 +66,7 @@
                 android:layout_weight="0.1"
                 android:background="@android:color/transparent"
                 android:gravity="bottom|end"
-                android:src="@drawable/addfile_32" />
+                android:src="@drawable/addfile_32"/>
 
 
         </LinearLayout>
@@ -99,7 +99,7 @@
                 android:layout_weight="0.2"
                 android:background="@android:color/transparent"
                 android:gravity="bottom"
-                android:src="@drawable/add_user2_32" />
+                android:src="@drawable/add_user2_32"/>
         </LinearLayout>
 
         <Spinner
@@ -216,7 +216,7 @@
             android:background="@color/colorSub"
             android:text="@string/insert"
             android:textAlignment="center"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

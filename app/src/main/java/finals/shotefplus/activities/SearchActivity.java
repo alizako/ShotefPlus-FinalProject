@@ -34,7 +34,10 @@ import java.util.Calendar;
 
 import finals.shotefplus.R;
 import finals.shotefplus.objects.Customer;
+import finals.shotefplus.objects.EnumObjectType;
+import finals.shotefplus.objects.Expense;
 import finals.shotefplus.objects.PriceOffer;
+import finals.shotefplus.objects.Receipt;
 import finals.shotefplus.objects.Work;
 
 public class SearchActivity extends AppCompatActivity {
@@ -42,21 +45,27 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     Button btnSearch, btnClean;
-    TextView etReceiptNum, etDueDateWork, etDateReceipt, etDueDateWorkPO;
-    Spinner spnrPaymentType, spnrPaymentMethod, spnrWork, spnrCustomer, spnrPriceOffer;
-    RadioButton rdCustomer, rdWork, rdPriceOffer, rdReceipt;
-    LinearLayout loCustomer,loWork,loPriceOffer, loReceipt;
+    EditText etReceiptNum, etDueDateWork, etDateReceipt, etDueDateWorkPO, etDateExpense;
+    Spinner spnrPaymentType, spnrPaymentMethod, spnrWork, spnrCustomer, spnrPriceOffer, spnrWorkExpenses;
+    RadioButton rdCustomer, rdWork, rdPriceOffer, rdReceipt, rdExpense;
+    LinearLayout loCustomer, loWork, loPriceOffer, loReceipt, loExpense;
     RadioGroup rdGrp;
 
     private ArrayList<PriceOffer> priceOffersList;
     private ArrayList<Work> worksList;
     private ArrayList<Customer> customerList;
+    private ArrayList<Work> workExpenseList;
     private ArrayList<String> strTitleList;
+    private ArrayList<String> strTitleWorkExpenseList;
     private ArrayAdapter<String> spinnerAdapterWork;
     private ArrayAdapter<String> spinnerAdapterCustomer;
     private ArrayAdapter<String> spinnerAdapterPO;
 
+    static final int REQ_UPD_CUSTOMER = 3;
+
     ProgressDialog dialog;
+
+    int objectType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,25 +84,30 @@ public class SearchActivity extends AppCompatActivity {
         etDateReceipt.setShowSoftInputOnFocus(false);
         etDueDateWorkPO = (EditText) findViewById(R.id.etDueDateWorkPO);
         etDueDateWorkPO.setShowSoftInputOnFocus(false);
+        etDateExpense=(EditText) findViewById(R.id.etDateExpense);
+        etDateExpense.setShowSoftInputOnFocus(false);
 
         spnrPaymentType = (Spinner) findViewById(R.id.spnrPaymentType);
         spnrPaymentMethod = (Spinner) findViewById(R.id.spnrPaymentMethod);
         spnrWork = (Spinner) findViewById(R.id.spnrWork);
         spnrCustomer = (Spinner) findViewById(R.id.spnrCustomer);
         spnrPriceOffer = (Spinner) findViewById(R.id.spnrPriceOffer);
+        spnrWorkExpenses=(Spinner) findViewById(R.id.spnrWorkExpenses);
 
         rdCustomer = (RadioButton) findViewById(R.id.rdCustomer);
         rdWork = (RadioButton) findViewById(R.id.rdWork);
         rdPriceOffer = (RadioButton) findViewById(R.id.rdPriceOffer);
         rdReceipt = (RadioButton) findViewById(R.id.rdReceipt);
+        rdExpense = (RadioButton) findViewById(R.id.rdExpense); //TODO!
         rdGrp = (RadioGroup) findViewById(R.id.rdGrp);
 
-        loCustomer = (LinearLayout)findViewById(R.id.loCustomer);
-        loWork = (LinearLayout)findViewById(R.id.loWork);
-        loPriceOffer= (LinearLayout)findViewById(R.id.loPriceOffer);
-        loReceipt= (LinearLayout)findViewById(R.id.loReceipt);
+        loCustomer = (LinearLayout) findViewById(R.id.loCustomer);
+        loWork = (LinearLayout) findViewById(R.id.loWork);
+        loPriceOffer = (LinearLayout) findViewById(R.id.loPriceOffer);
+        loReceipt = (LinearLayout) findViewById(R.id.loReceipt);
+        loExpense = (LinearLayout) findViewById(R.id.loExpense);
 
-        setSpinners();
+        //  setSpinners();
         disableLayouts();
         setEvents();
     }
@@ -104,6 +118,13 @@ public class SearchActivity extends AppCompatActivity {
         setViewAndChildrenEnabled(loPriceOffer, false);
         setViewAndChildrenEnabled(loReceipt, false);
         setViewAndChildrenEnabled(loWork, false);
+        setViewAndChildrenEnabled(loExpense, false);
+
+        loCustomer.setVisibility(View.GONE);
+        loPriceOffer.setVisibility(View.GONE);
+        loReceipt.setVisibility(View.GONE);
+        loWork.setVisibility(View.GONE);
+        loExpense.setVisibility(View.GONE);
     }
 
     private void setViewAndChildrenEnabled(View view, boolean enabled) {
@@ -116,10 +137,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
     }
+
     /* ------------------------------------------------------------------------------------------- */
     private void setEvents() {
         final Calendar calendar = Calendar.getInstance();
-        final DatePickerDialog.OnDateSetListener dueDateWork, dateReceipt, datePriceOffer;
+        final DatePickerDialog.OnDateSetListener dueDateWork, dateReceipt, datePriceOffer, dateExpense;
 
         dueDateWork = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -163,6 +185,20 @@ public class SearchActivity extends AppCompatActivity {
             }
         };
 
+        dateExpense = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //updateLabel();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                final String dueDate = dateFormat.format(calendar.getTime());
+                etDateExpense.setText(dueDate);
+            }
+        };
+
         etDueDateWork.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -199,76 +235,180 @@ public class SearchActivity extends AppCompatActivity {
                 }
         );
 
+        etDateExpense.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DatePickerDialog(SearchActivity.this, dateExpense,
+                                calendar.get(Calendar.YEAR),
+                                calendar.get(Calendar.MONTH),
+                                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
+                }
+        );
+
+
         btnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSpinners();
+              //  setSpinners();
                 etDateReceipt.setText("");
                 etDueDateWork.setText("");
-                etDueDateWork.setText("");
+                etDueDateWorkPO.setText("");
+                etDateExpense.setText("");
                 etReceiptNum.setText("");
                 disableLayouts();
                 rdGrp.clearCheck();
+                if(dialog!=null)
+                    dialog.dismiss();
             }
         });
 
+
+        /***************************************************************************
+         *   customer:
+         *     if selected: 		show customer
+         *
+         *   Price Offer:
+         *     if Selected: 		show Price Offer
+         *     if date & selected: show Price Offer
+         *     if date:			show Price Offer List inside Results
+         *
+         *   Work:
+         *     if seleceted or date:	show Work List
+         *
+         *   Receipt:
+         *     if Receipt Num:				show Receipt
+         *     if Method or Type or date:	show Receipt List inside Results
+         *
+         *   Expense:
+         *      if selected:            show Expense
+         *      if date:                show Expense List
+         ************************************************************************** */
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, SearchResultsActivity.class);
+                intent.putExtra("searchType", objectType);
 
                 if (!rdCustomer.isChecked() && !rdWork.isChecked() && !rdPriceOffer.isChecked()
-                        && !rdReceipt.isChecked())
+                        && !rdReceipt.isChecked() && !rdExpense.isChecked())
                     Toast.makeText(getBaseContext(), "לא בוצעה בחירה", Toast.LENGTH_LONG).show();
                 else {
-                    if (rdCustomer.isChecked()) {
-                        intent.putExtra("searchType", 1);
-                        intent.putExtra("customerIdNum", getCustomerIdNum());
-                    }
-                    if (rdWork.isChecked()) {
-                        intent.putExtra("searchType", 2);
-                        intent.putExtra("dueDateWork", etDueDateWork.getText());
+                    /* Customer */
+                    if (rdCustomer.isChecked()){
+                        if (spnrCustomer.getSelectedItemPosition() > 0) {
+                            //intent.putExtra("customerIdNum", getCustomerIdNum());
+                            Intent intent2 = new Intent(SearchActivity.this, InsertCustomerActivity.class);
+                            intent2.putExtra("customerIdNum", getCustomerIdNum());
+                            startActivity(intent2);
+                        }else
+                            Toast.makeText(getBaseContext(), "לא נבחר לקוח", Toast.LENGTH_LONG).show();
+                        }
+                    /* Work */
+                    if (rdWork.isChecked() &&
+                            (etDueDateWork.getText().toString().length() > 0 || spnrWork.getSelectedItemPosition() > 0)) {
+                        intent.putExtra("dueDateWork", etDueDateWork.getText().toString());
                         intent.putExtra("workIdNum", getWorkIdNum());
+                        startActivity(intent);
                     }
+                    /* Price Offer */
                     if (rdPriceOffer.isChecked()) {
-                        intent.putExtra("searchType", 3);
-                        intent.putExtra("etDueDateWorkPO", etDueDateWorkPO.getText());
-                        intent.putExtra("priceOfferIdNum", getPOIdNum());
+                        if (/*etDueDateWorkPO.getText().toString().equals("") &&*/
+                                spnrPriceOffer.getSelectedItemPosition() > 0) {
+                            Intent intent2 = new Intent(SearchActivity.this, InsertPriceOfferActivity.class);
+                            intent2.putExtra("PriceOfferId", getPOIdNum());
+                            startActivity(intent2);
+                        /*} else if (etDueDateWorkPO.getText().toString().length() > 0 &&
+                                spnrPriceOffer.getSelectedItemPosition() > 0) {
+                            if (isCorrelationPO()) { //TODO!!!!!
+                                Intent intent2 = new Intent(SearchActivity.this, InsertPriceOfferActivity.class);
+                                intent2.putExtra("etDueDateWorkPO", etDueDateWorkPO.getText().toString());
+                                intent2.putExtra("PriceOfferId", getPOIdNum());
+                                startActivity(intent2);
+                            }*/
+                        } else if (etDueDateWorkPO.getText().toString().length() > 0 &&
+                                spnrPriceOffer.getSelectedItemPosition() <= 0) {
+                            intent.putExtra("etDueDateWorkPO", etDueDateWorkPO.getText().toString());
+                            intent.putExtra("PriceOfferId", getPOIdNum());
+                            startActivity(intent);
+                        }
                     }
-                    if (rdPriceOffer.isChecked()) {
-                        intent.putExtra("searchType", 4);
-                        intent.putExtra("receiptNum", etReceiptNum.getText());
-                        intent.putExtra("dateReceipt", etDateReceipt.getText());
-                        intent.putExtra("paymentType", getPaymentType());
-                        intent.putExtra("paymentMethod", getPaymentMethod());
+                    /* Receipt */
+                    if (rdReceipt.isChecked()) {
+                      /*  if (etReceiptNum.getText().toString().length() > 0
+                                && etDateReceipt.getText().toString().equals("")
+                                && spnrPaymentType.getSelectedItemPosition() <= 0
+                                && spnrPaymentMethod.getSelectedItemPosition() <= 0) {
+                            Intent intent2 = new Intent(SearchActivity.this, InsertReceiptActivity.class);
+                            intent2.putExtra("receiptNum", etReceiptNum.getText().toString());
+                            startActivity(intent2);
+                        } else if (etDateReceipt.getText().toString().length() > 0
+                                || spnrPaymentType.getSelectedItemPosition() > 0
+                                || spnrPaymentMethod.getSelectedItemPosition() > 0) {*/
+                            intent.putExtra("receiptNum", etReceiptNum.getText().toString());
+                            intent.putExtra("dateReceipt", etDateReceipt.getText().toString());
+                            intent.putExtra("paymentType", getPaymentType());
+                            intent.putExtra("paymentMethod", getPaymentMethod());
+                            startActivity(intent);
+                       // }
                     }
-
-                    startActivity(intent);
+                    /* Expense */
+                    if(rdExpense.isChecked()){
+                        if(spnrWorkExpenses.getSelectedItemPosition() > 0){
+                            Work work=getWorkExpense();
+                            intent.putExtra("expenseWorkIdNum", work.getIdNum()+"");
+                            intent.putExtra("expenseWorkName", work.getWorkDetails()+"");
+                            startActivity(intent);
+                        }else if (etDateExpense.getText().toString().length() > 0 &&
+                                spnrWorkExpenses.getSelectedItemPosition() <= 0) {
+                            intent.putExtra("dateExpense", etDateExpense.getText().toString());
+                            startActivity(intent);
+                        }
+                    }
+                    // startActivity(intent);
                 }
             }
         });
 
-        rdGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        rdGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
                 disableLayouts();
-                if (checkedId==rdReceipt.getId()){
+                if (checkedId == rdReceipt.getId()) {
+                    objectType = EnumObjectType.RECEIPT.getValue();
+                    loReceipt.setVisibility(View.VISIBLE);
                     setViewAndChildrenEnabled(loReceipt, true);
                     etReceiptNum.requestFocus();
                 }
-                if (checkedId==rdWork.getId()){
+                if (checkedId == rdWork.getId()) {
+                    objectType = EnumObjectType.WORK.getValue();
+                    initWorkSpinnerFromDB();
+                    loWork.setVisibility(View.VISIBLE);
                     setViewAndChildrenEnabled(loWork, true);
                     spnrWork.requestFocus();
                 }
-                if (checkedId==rdPriceOffer.getId()){
+                if (checkedId == rdPriceOffer.getId()) {
+                    objectType = EnumObjectType.PRICE_OFFER.getValue();
+                    initPriceOfferSpinnerFromDB();
+                    loPriceOffer.setVisibility(View.VISIBLE);
                     setViewAndChildrenEnabled(loPriceOffer, true);
                     spnrPriceOffer.requestFocus();
                 }
-                if (checkedId==rdCustomer.getId()){
+                if (checkedId == rdCustomer.getId()) {
+                    objectType = EnumObjectType.CUSTOMER.getValue();
+                    initCustomerSpinnerFromDB();
+                    loCustomer.setVisibility(View.VISIBLE);
                     setViewAndChildrenEnabled(loCustomer, true);
                     spnrCustomer.requestFocus();
+                }
+                if (checkedId == rdExpense.getId()) {
+                    objectType = EnumObjectType.EXPENSE.getValue();
+                    initWorkSpinnerFromDB(); //sets work expenses as well
+                    loExpense.setVisibility(View.VISIBLE);
+                    setViewAndChildrenEnabled(loExpense, true);
+                    spnrWorkExpenses.requestFocus();
                 }
             }
         });
@@ -285,6 +425,19 @@ public class SearchActivity extends AppCompatActivity {
                 // your code here
             }
         });*/
+    }
+
+    private Work getWorkExpense() {
+        if (!spnrWorkExpenses.getSelectedItem().equals("-בחר עבודה עם הוצאות-")) {
+            int pos = spnrWorkExpenses.getSelectedItemPosition();
+            return worksList.get(pos - 1);
+        }
+        return null;
+    }
+
+    /* ------------------------------------------------------------------------------------------- */
+    private boolean isCorrelationPO() {
+        return true;
     }
 
     /* ------------------------------------------------------------------------------------------- */
@@ -313,6 +466,7 @@ public class SearchActivity extends AppCompatActivity {
         }
         return "";
     }
+
     /* ------------------------------------------------------------------------------------------- */
     private int getPaymentType() {
         if (!spnrPaymentType.getSelectedItem().equals("-בחר צורת תשלום-")) {
@@ -347,19 +501,22 @@ public class SearchActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private void setSpinners() {
-        dialog = ProgressDialog.show(SearchActivity.this,
-                "",
-                "טוען נתונים..",
-                true);
         spnrPaymentMethod.setSelection(0);
         spnrPaymentType.setSelection(0);
         initWorkSpinnerFromDB();
         initCustomerSpinnerFromDB();
         initPriceOfferSpinnerFromDB();
+     //   initWorkExpenseSpinnerFromDB();
+        dialog.dismiss();
     }
 
     /* ------------------------------------------------------------------------------------------- */
     private void initPriceOfferSpinnerFromDB() {//all works
+
+        dialog = ProgressDialog.show(SearchActivity.this,
+                "",
+                "טוען נתונים..",
+                true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
@@ -373,6 +530,7 @@ public class SearchActivity extends AppCompatActivity {
                 strTitleList = new ArrayList<String>();
                 strTitleList.add("-בחר הצעת מחיר-");
 
+                final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
                         PriceOffer priceOffer = new PriceOffer();
@@ -380,9 +538,13 @@ public class SearchActivity extends AppCompatActivity {
                         priceOffersList.add(priceOffer);
                         strTitleList.add(priceOffer.getWorkDetails());
 
-                        spinnerAdapterPO = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
-                        spinnerAdapterPO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spnrPriceOffer.setAdapter(spinnerAdapterPO);
+                        pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                        if (pendingLoadCount[0] == 0) {
+                            spinnerAdapterPO = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
+                            spinnerAdapterPO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spnrPriceOffer.setAdapter(spinnerAdapterPO);
+                            dialog.dismiss();
+                        }
 
 
                     } catch (Exception ex) {
@@ -395,6 +557,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
         });
 
@@ -402,7 +565,60 @@ public class SearchActivity extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------------------------------------- */
+    private void initWorkSpinnerFromDB(String customerIdNum) {//all works
+
+        dialog = ProgressDialog.show(SearchActivity.this,
+                "",
+                "טוען נתונים..",
+                true);
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+
+
+        dbRef.orderByChild("customerIdNum").startAt(customerIdNum).endAt(customerIdNum)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        worksList = new ArrayList<Work>();
+                        strTitleList = new ArrayList<String>();
+                        strTitleList.add("-בחר עבודה-");
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            try {
+                                Work work = new Work();
+                                work = postSnapshot.getValue(Work.class);
+                                worksList.add(work);
+                                strTitleList.add(work.getWorkDetails());
+
+                                spinnerAdapterWork = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
+                                spinnerAdapterWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spnrWork.setAdapter(spinnerAdapterWork);
+
+
+                            } catch (Exception ex) {
+                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    /* ------------------------------------------------------------------------------------------- */
     private void initWorkSpinnerFromDB() {//all works
+        dialog = ProgressDialog.show(SearchActivity.this,
+                "",
+                "טוען נתונים..",
+                true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
@@ -416,17 +632,32 @@ public class SearchActivity extends AppCompatActivity {
                 worksList = new ArrayList<Work>();
                 strTitleList = new ArrayList<String>();
                 strTitleList.add("-בחר עבודה-");
+                strTitleWorkExpenseList = new ArrayList<String>();
+                strTitleWorkExpenseList.add("-בחר עבודה עם הוצאות-");
 
+                final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
                         Work work = new Work();
                         work = postSnapshot.getValue(Work.class);
                         worksList.add(work);
                         strTitleList.add(work.getWorkDetails());
+                        strTitleWorkExpenseList.add(work.getWorkDetails());
 
-                        spinnerAdapterWork = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
-                        spinnerAdapterWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spnrWork.setAdapter(spinnerAdapterWork);
+                        pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                        if (pendingLoadCount[0] == 0) {
+                            // spinner Works
+                            spinnerAdapterWork = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
+                            spinnerAdapterWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spnrWork.setAdapter(spinnerAdapterWork);
+
+                            //spinner Work Expenses
+                            spinnerAdapterWork = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleWorkExpenseList);
+                            spinnerAdapterWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spnrWorkExpenses.setAdapter(spinnerAdapterWork);
+
+                            dialog.dismiss();
+                        }
 
 
                     } catch (Exception ex) {
@@ -439,12 +670,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
         });
     }
 
     /* ------------------------------------------------------------------------------------------- */
     private void initCustomerSpinnerFromDB() {
+        dialog = ProgressDialog.show(SearchActivity.this,
+                "", "טוען נתונים..", true);
         //       spnrCustomer
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
@@ -455,6 +689,8 @@ public class SearchActivity extends AppCompatActivity {
                 customerList = new ArrayList<Customer>();
                 strTitleList = new ArrayList<String>();
                 strTitleList.add("-בחר לקוח-");
+
+                final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
                         Customer customer = new Customer();
@@ -462,10 +698,13 @@ public class SearchActivity extends AppCompatActivity {
                         customerList.add(customer);
                         strTitleList.add(customer.getName());
 
-                        spinnerAdapterCustomer = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
-                        spinnerAdapterCustomer.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spnrCustomer.setAdapter(spinnerAdapterCustomer);
-                        dialog.dismiss();
+                        pendingLoadCount[0] = pendingLoadCount[0] - 1;
+                        if (pendingLoadCount[0] == 0) {
+                            spinnerAdapterCustomer = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_spinner_item, strTitleList);
+                            spinnerAdapterCustomer.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spnrCustomer.setAdapter(spinnerAdapterCustomer);
+                            dialog.dismiss();
+                        }
 
                     } catch (Exception ex) {
                         Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
@@ -477,6 +716,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
         });
     }

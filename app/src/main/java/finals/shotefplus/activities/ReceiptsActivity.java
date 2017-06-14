@@ -209,7 +209,7 @@ public class ReceiptsActivity extends AppCompatActivity {
                                    receipt = postSnapshot.getValue(Receipt.class);
                                    receiptList.add(receipt);
 
-                                   //get Customer of current priceOffer
+                                   //get Customer of current Receipts
                                    final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
                                            .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
                                                    firebaseAuth.getCurrentUser().getUid() + "/Customers/" + receipt.getCustomerIdNum());
@@ -233,7 +233,7 @@ public class ReceiptsActivity extends AppCompatActivity {
                                            dialog.dismiss();
                                        }
                                    });
-                                   //END of get Customer of current priceOffer
+                                   //END of get Customer of current Receipts
 
 
                                } catch (Exception ex) {

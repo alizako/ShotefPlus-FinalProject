@@ -7,6 +7,12 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
+    <!-- PDF -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/shotef_png"
@@ -171,7 +177,16 @@
             android:label="@string/filter"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarDialog" />
-
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/about"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarDialog" />
+        <activity
+            android:name=".activities.ConnectActivity"
+            android:label="@string/connect"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarDialog" />
     </application>
 
 </manifest>

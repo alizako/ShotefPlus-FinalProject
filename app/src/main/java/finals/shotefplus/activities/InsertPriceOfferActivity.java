@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.pdf.PdfDocument;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -206,6 +209,33 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                             .updatePriceOffer(priceOffer, currentKey);
                 }*/
+                // create a new document
+                PdfDocument document = new PdfDocument();
+
+                // crate a page description
+                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder( 500,500, 1).create();
+
+                // start a page
+                PdfDocument.Page page = document.startPage(pageInfo);
+
+                // draw something on the page
+             //   View content = getContentView();
+                View content = (ViewGroup)getWindow().getDecorView();
+                content.draw(page.getCanvas());
+
+                // finish the page
+                document.finishPage(page);
+               // . . .
+                // add more pages
+               // . . .
+                // write the document content
+             //  document.writeTo(getOutputStream());
+
+                // close the document
+                document.close();
+
+
+
                 if (priceOffer == null)//in case sending pdf pre-saving new record
                     priceOffer = new PriceOffer();
                 priceOffer.setPriceOfferSent(true);
@@ -229,19 +259,19 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private void setValuesToFields(final String priceOfferId) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
+                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/"+priceOfferId);
 
-        dbRef.orderByChild("idNum")
-                .startAt(priceOfferId).endAt(priceOfferId)
-                .addValueEventListener(new ValueEventListener() {
+        dbRef/*.orderByChild("idNum")
+                .startAt(priceOfferId).endAt(priceOfferId)*/
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
 
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                             try {
                                 priceOffer = new PriceOffer();
-                                priceOffer = postSnapshot.getValue(PriceOffer.class);
+                                priceOffer = snapshot.getValue(PriceOffer.class);
                                 etDate.setText(priceOffer.dueDateToString());
                                 etLocation.setText(priceOffer.getLocation());
 
@@ -253,13 +283,14 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                                 etSum.setText(Double.toString(priceOffer.getSumPayment()));
                                 cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
 
-                                setSpinners(priceOffer.getCustomerIdNum());
+                                if (priceOffer.getCustomerIdNum()!=null && priceOffer.getCustomerIdNum().length()>0)
+                                    setSpinners(priceOffer.getCustomerIdNum());
 
                                 btnAdd.setText("עדכן");
                             } catch (Exception ex) {
                                 Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
                             }
-                        }
+                       // }
                     }
 
                     @Override

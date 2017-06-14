@@ -10,7 +10,11 @@
         android:id="@+id/txtQuery"
         android:layout_width="match_parent"
         android:background="@color/lightGrey"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:textStyle="bold"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="@string/searchResults"
+        android:textSize="@dimen/titleName"/>
 
     <ListView
         android:id="@+id/lvSearchResults"

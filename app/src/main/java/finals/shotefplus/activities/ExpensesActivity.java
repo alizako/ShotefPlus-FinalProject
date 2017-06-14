@@ -142,7 +142,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 Expense expense = (Expense) lvExpenses.getAdapter().getItem(position);
 
                 Intent intent = new Intent(ExpensesActivity.this, InsertExpenseActivity.class);
-                intent.putExtra("workIdNum", expense.getIdNum());
+                intent.putExtra("expenseIdNum", expense.getIdNum());
                 startActivityForResult(intent,REQ_UPD_WORK);
                 //????
             }

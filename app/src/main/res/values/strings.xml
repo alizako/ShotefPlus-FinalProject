@@ -34,12 +34,15 @@
     <string name="changeCredential">שינוי סיסמא ו/או דואל</string>
     <string name="msgTemplate">תבנית להודעה</string>
     <string name="mailTemplate">תבנית לדואל</string>
+    <string name="about">אודות האפליקציה</string>
+    <string name="connect">צור קשר</string>
     <string name="businessType">הגדרת עסק</string>
     <string name="PriceOfferToWork">העברת הצעת המחיר לביצוע</string>
     <string name="ReceiptImage">תצוגת קבלה</string>
 
     <!--Fields-->
-    <string name="paymentType">סוג תשלום</string>
+    <string name="paymentType">צורת תשלום</string>
+    <string name="paymentMethod">סוג תשלום</string>
     <string name="workNum">מספר עבודה</string>
     <string name="receiptNum">מספר קבלה</string>
     <string name="customer">לקוח</string>
@@ -67,7 +70,12 @@
     <string name="notFound">לא הוכנס מלל</string>
     <string name="filter">סינון</string>
 
-    <!-- Customer Meun-->
+    <string name="connectTitle">אפליקציית שוטף פלוס</string>
+    <string name="linkConnect">
+        <a href="mailto:shotef.plus.app@gmail.com?Subject=Lost%20Password" target="_top">shotef.plus.app@gmail.com</a>
+    </string>
+
+    <!-- Customer Menu-->
     <string name="cCall">התקשר ללקוח</string>
     <string name="cSms">שלח הודעה ללקוח</string>
     <string name="cEmail">שלח דואל ללקוח</string>

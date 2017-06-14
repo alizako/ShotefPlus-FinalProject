@@ -35,6 +35,7 @@
     <dimen name="stndrtDialogHeight">100dp</dimen>
     <dimen name="stndrtDialogHeightBig">150dp</dimen>
     <dimen name="stndrtDialogHeightHuge">250dp</dimen>
+    <dimen name="stndrtDialogHeightRealHuge">300dp</dimen>
     <dimen name="pictureDialogHeight">500dp</dimen>
     <dimen name="marginDialog">10dp</dimen>
 

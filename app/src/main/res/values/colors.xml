@@ -3,6 +3,7 @@
     <color name="colorPrimary">#214055</color>
     <color name="colorPrimaryDark">#2f5062</color>
     <color name="colorAccent">#4abab4</color>
+    <color name="colorSwipe">#3c9692</color>
     <color name="colorAccentOld">#FF4081</color>
     <color name="colorSub">#4abab4</color>
     <color name="colorSub1">#99b4b0</color>
@@ -21,4 +22,6 @@
     <color name="dirtyWhite">#fafafafa</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+
+    <color name="link">#0000ff</color>
 </resources>

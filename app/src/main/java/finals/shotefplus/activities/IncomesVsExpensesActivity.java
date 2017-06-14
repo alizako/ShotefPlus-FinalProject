@@ -31,6 +31,7 @@ public class IncomesVsExpensesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setFragment( new MonthsStackedBarChartFragment());
+
             }
         });
 

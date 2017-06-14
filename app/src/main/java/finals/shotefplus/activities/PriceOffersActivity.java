@@ -169,6 +169,12 @@ public class PriceOffersActivity extends AppCompatActivity {
                     //  intent.putExtra("PriceOfferId", priceOfferToWork.getIdNum());
                     startActivityForResult(intent, REQ_UPD_WORK);
                 }
+                else{
+                    Toast.makeText(PriceOffersActivity.this,
+                            "הצעה אושרה בעבר",
+                            Toast.LENGTH_LONG).show();
+                }
+
                 return true;
             }
         });

@@ -125,7 +125,11 @@ public class PriceOfferListAdapter extends BaseAdapter {
             if (customer.getName().length() > 0)
                 tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
         } else //no customer found
+        {
+            name.setText("לא נבחר לקוח");
             tvInitials.setText("NA");
+        }
+
 
 
         summary.setText("הצעה: " + priceOffer.getWorkDetails() + "\n"

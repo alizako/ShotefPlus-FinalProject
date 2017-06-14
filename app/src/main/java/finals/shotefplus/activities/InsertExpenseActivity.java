@@ -72,7 +72,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String expenseId = intent.getStringExtra("workIdNum");
+        String expenseId = intent.getStringExtra("expenseIdNum");
         if (expenseId != null)//has value
         {
             isUpdateMode = true;

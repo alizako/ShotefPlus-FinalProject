@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_profile"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/stndrtDialogHeight"
+    android:layout_margin="@dimen/marginDialog"
+    android:layoutDirection="rtl"
+    app:theme="@style/NoActionBarDialog"
+    tools:context="finals.shotefplus.activities.ConnectActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtConnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/connectTitle"
+            android:textColor="@color/summary"
+            android:textSize="@dimen/summary" />
+
+        <TextView
+            android:id="@+id/linkConnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:autoLink="email"
+            android:gravity="center"
+            android:padding="20px"
+            android:text="@string/linkConnect"
+            android:textColorLink="@color/link"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/summary"
+            android:textSize="@dimen/summary" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginBtn"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <Button
+                android:id="@+id/btnClose"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/stndrtBtnHeight"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:text="@string/close"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorSub"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
