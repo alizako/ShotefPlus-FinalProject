@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import finals.shotefplus.R;
+import finals.shotefplus.objects.Expense;
 import finals.shotefplus.objects.Receipt;
 
 public class YearHalfPieChartFragment extends Fragment {
@@ -62,8 +63,8 @@ public class YearHalfPieChartFragment extends Fragment {
     DatabaseReference dbRef;
     private ProgressDialog dialog;
 
-    private double yearlyPayments, yearlyNotPaid, yearlyAvg;
-    TextView txtEntryIncome, txtEntryAvg, txtEntryNotPaid, txtYear, txtNext, txtPrev;
+    private double yearlyPayments, yearlyNotPaid, yearlyAvg, yearlyExpenses;
+    TextView txtEntryIncome,txtEntryExpenses, txtEntryAvg, txtEntryNotPaid, txtYear, txtNext, txtPrev;
     View view,barYear;
 
     int year;
@@ -82,9 +83,6 @@ public class YearHalfPieChartFragment extends Fragment {
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
 
         barYear =  view.findViewById(R.id.barYear);
 
@@ -149,11 +147,16 @@ public class YearHalfPieChartFragment extends Fragment {
         yearlyPayments = 0;
         yearlyNotPaid = 0;
         yearlyAvg = 0;
+        yearlyExpenses = 0;
     }
 
     private void getValuesFireBase() {
         dialog = ProgressDialog.show(getActivity(),
                 "", "טוען נתונים..", true);
+
+        dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
 
         dbRef.orderByChild("yearPay").equalTo(year)
                 .addValueEventListener(new ValueEventListener() {
@@ -172,21 +175,22 @@ public class YearHalfPieChartFragment extends Fragment {
                                yearlyNotPaid += receipt.isPaid() ? 0 : receipt.getSumPayment();
 
                                pendingLoadCount[0] = pendingLoadCount[0] - 1;
-                               if (pendingLoadCount[0] == 0) {
+                               /*if (pendingLoadCount[0] == 0) {
                                    yearlyAvg = (yearlyNotPaid + yearlyPayments) / 12;
                                    setChart();
                                    setValuesToTV();
                                    dialog.dismiss();
-                               }
+                               }*/
                            } catch (Exception ex) {
                                Toast.makeText(getActivity(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
                            }
                        }
                        if (pendingLoadCount[0] == 0) {
                            yearlyAvg = (yearlyNotPaid + yearlyPayments) / 12;
-                           setChart();
+                           getValuesFireBaseExpense();
+                           /*setChart();
                            setValuesToTV();
-                           dialog.dismiss();
+                           dialog.dismiss();*/
                        }
                    }
 
@@ -199,12 +203,52 @@ public class YearHalfPieChartFragment extends Fragment {
         );
     }
 
+
+    private void getValuesFireBaseExpense() {
+        //get Expenses:
+        dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
+
+        dbRef.orderByChild("yearPay").equalTo(year)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        final long[] pendingLoadCountExp = {snapshot.getChildrenCount()};
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            Expense expense = new Expense();
+                            expense = postSnapshot.getValue(Expense.class);
+
+                            yearlyExpenses += expense.getSumPayment();
+
+                            pendingLoadCountExp[0] = pendingLoadCountExp[0] - 1;
+
+                        }
+                        if (pendingLoadCountExp[0] == 0) {
+                            setChart();
+                            setValuesToTV();
+                            dialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Toast.makeText(getActivity(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+
+                });
+        //END Expenses
+    }
     private void setValuesToTV() {
         txtEntryIncome = (TextView) view.findViewById(R.id.txtEntryIncome);
+        txtEntryExpenses= (TextView) view.findViewById(R.id.txtEntryExpenses);
         txtEntryNotPaid = (TextView) view.findViewById(R.id.txtEntryNotPaid);
         txtEntryAvg = (TextView) view.findViewById(R.id.txtEntryAvg);
 
         txtEntryIncome.setText(String.format("%.2f", yearlyPayments) + "  ש''ח");
+        txtEntryExpenses.setText(String.format("%.2f", yearlyExpenses) + "  ש''ח");
         txtEntryNotPaid.setText(String.format("%.2f", yearlyNotPaid) + "  ש''ח");
         txtEntryAvg.setText(String.format("%.2f", yearlyAvg) + "  ש''ח");
     }
@@ -269,7 +313,8 @@ public class YearHalfPieChartFragment extends Fragment {
 
         values.add(new PieEntry((float) yearlyPayments, mParties[0 % mParties.length]));
         values.add(new PieEntry((float) yearlyNotPaid, mParties[1 % mParties.length]));
-        values.add(new PieEntry((float) yearlyAvg, mParties[2 % mParties.length]));
+       // values.add(new PieEntry((float) yearlyAvg, mParties[2 % mParties.length]));
+        values.add(new PieEntry((float) yearlyExpenses, mParties[2 % mParties.length]));
 
         PieDataSet dataSet = new PieDataSet(values, "");
         dataSet.setSliceSpace(3f);

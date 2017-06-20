@@ -3,6 +3,9 @@ package finals.shotefplus.objects;
 
 import java.util.List;
 import android.content.res.Resources;
+
+import com.google.firebase.database.Exclude;
+
 import finals.shotefplus.R;
 
 /**
@@ -151,12 +154,14 @@ public class Customer {
             this.dateInsertion = dateInsertion;
     }
 
+    @Exclude
     public String dateInsertionToString() {
         return dateInsertion.substring(6, 8) + "/" + //day
                 dateInsertion.substring(4, 6) + "/" + //month
                 dateInsertion.substring(0, 4);//year
     }
 
+    @Exclude
     public String getCustomerTypeToString() {
         return customerType.equals("0")? "":
                 customerType.equals("1")? ESEK_TYPE : PRIVTE_TYPE;

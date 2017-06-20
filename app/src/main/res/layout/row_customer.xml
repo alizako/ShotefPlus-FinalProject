@@ -36,7 +36,7 @@
             android:layout_weight="0.2"
             android:gravity="right|center"
             android:src="@drawable/menu_dots24px"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/summary"

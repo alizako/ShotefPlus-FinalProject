@@ -115,7 +115,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
         {
             isUpdateMode = true;
             currentKey = receiptId;
-            Toast.makeText(getBaseContext(), receiptId, Toast.LENGTH_LONG).show();
+         //   Toast.makeText(getBaseContext(), receiptId, Toast.LENGTH_LONG).show();
             setValuesToFields(receiptId);
         }
 

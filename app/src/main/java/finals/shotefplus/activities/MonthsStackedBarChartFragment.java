@@ -299,10 +299,10 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
                                            monthNotPaid[receipt.getMonthPay() - 1] += receipt.getSumPayment();
                                        }
                                        pendingLoadCount[0] = pendingLoadCount[0] - 1;
-                                       if (pendingLoadCount[0] == 0) {
+                                       /*if (pendingLoadCount[0] == 0) {
                                            flagIsValExists=true;
                                            getValuesFireBaseExpense(); //only when thread ends can call next firebase retrieve
-                                       }
+                                       }*/
 
                                    } catch (Exception ex) {
                                        Toast.makeText(getActivity(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();

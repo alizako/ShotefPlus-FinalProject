@@ -41,6 +41,7 @@ import finals.shotefplus.adapters.PriceOfferListAdapter;
 import finals.shotefplus.objects.Customer;
 import finals.shotefplus.objects.PriceOffer;
 import finals.shotefplus.objects.Receipt;
+import finals.shotefplus.objects.Work;
 
 
 public class InsertPriceOfferActivity extends AppCompatActivity {
@@ -50,6 +51,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private Customer customer;
     private Customer customerById;
     PriceOffer priceOffer;
+    Work workPO;
     String currentKey;
     EditText etDate, etCustomer, etLocation, etDetails, etQuantity, etSum;
     CheckBox cbSumMaam;
@@ -75,7 +77,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         btnAdd = (Button) findViewById(R.id.btnAdd);
         etDate = (EditText) findViewById(R.id.etDate);
         etDate.setShowSoftInputOnFocus(false);
-       // etCustomer = (EditText) findViewById(R.id.etCustomer);
+        // etCustomer = (EditText) findViewById(R.id.etCustomer);
         imgBtnCustomer = (ImageButton) findViewById(R.id.imgBtnCustomer);
         etLocation = (EditText) findViewById(R.id.etLocation);
         etDetails = (EditText) findViewById(R.id.etDetails);
@@ -95,7 +97,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         {
             isUpdateMode = true;
             currentKey = priceOfferId;
-            Toast.makeText(getBaseContext(), priceOfferId, Toast.LENGTH_LONG).show();
+            //  Toast.makeText(getBaseContext(), priceOfferId, Toast.LENGTH_LONG).show();
             setValuesToFields(priceOfferId);
         }
 
@@ -125,7 +127,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         if (etDate.getText().toString().equals("")) flagErr = true;
         if (etQuantity.getText().toString().equals("")) etQuantity.setText("0");
         if (etSum.getText().toString().equals("")) flagErr = true;// etDetails.setText("0");
-        if(etDetails.getText().toString().equals("")) flagErr = true;
+        if (etDetails.getText().toString().equals("")) flagErr = true;
 
         if (flagErr) {
             Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום, פרטי עסקה", Toast.LENGTH_LONG).show();
@@ -133,6 +135,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         }
         return true;
     }
+
     /* ------------------------------------------------------------------------------------------- */
     private void setSpinners(String customerIdNum) {
 
@@ -213,33 +216,33 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                 PdfDocument document = new PdfDocument();
 
                 // crate a page description
-                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder( 500,500, 1).create();
+                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(500, 500, 1).create();
 
                 // start a page
                 PdfDocument.Page page = document.startPage(pageInfo);
 
                 // draw something on the page
-             //   View content = getContentView();
-                View content = (ViewGroup)getWindow().getDecorView();
+                //   View content = getContentView();
+                View content = (ViewGroup) getWindow().getDecorView();
                 content.draw(page.getCanvas());
 
                 // finish the page
                 document.finishPage(page);
-               // . . .
+                // . . .
                 // add more pages
-               // . . .
+                // . . .
                 // write the document content
-             //  document.writeTo(getOutputStream());
+                //  document.writeTo(getOutputStream());
 
                 // close the document
                 document.close();
 
 
-
                 if (priceOffer == null)//in case sending pdf pre-saving new record
                     priceOffer = new PriceOffer();
                 priceOffer.setPriceOfferSent(true);
-                Toast.makeText(v.getContext(), "הצעת מחיר נשלחה ללקוח במייל", Toast.LENGTH_LONG).show();
+//                Toast.makeText(v.getContext(), "הצעת מחיר נשלחה ללקוח במייל", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), "כרגע לא בשימוש", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -259,7 +262,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private void setValuesToFields(final String priceOfferId) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/"+priceOfferId);
+                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/" + priceOfferId);
 
         dbRef/*.orderByChild("idNum")
                 .startAt(priceOfferId).endAt(priceOfferId)*/
@@ -267,30 +270,30 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
 
-                    //    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        //    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                            try {
-                                priceOffer = new PriceOffer();
-                                priceOffer = snapshot.getValue(PriceOffer.class);
-                                etDate.setText(priceOffer.dueDateToString());
-                                etLocation.setText(priceOffer.getLocation());
+                        try {
+                            priceOffer = new PriceOffer();
+                            priceOffer = snapshot.getValue(PriceOffer.class);
+                            etDate.setText(priceOffer.dueDateToString());
+                            etLocation.setText(priceOffer.getLocation());
 
-                                // Customer customer = priceOffer.getCustomerByID();
-                                //  etCustomer.setText(customer.getName());
+                            // Customer customer = priceOffer.getCustomerByID();
+                            //  etCustomer.setText(customer.getName());
 
-                                etDetails.setText(priceOffer.getWorkDetails());
-                                etQuantity.setText(Long.toString(priceOffer.getQuantity()));
-                                etSum.setText(Double.toString(priceOffer.getSumPayment()));
-                                cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
+                            etDetails.setText(priceOffer.getWorkDetails());
+                            etQuantity.setText(Long.toString(priceOffer.getQuantity()));
+                            etSum.setText(Double.toString(priceOffer.getSumPayment()));
+                            cbSumMaam.setChecked(priceOffer.isSumPaymentMaam());
 
-                                if (priceOffer.getCustomerIdNum()!=null && priceOffer.getCustomerIdNum().length()>0)
-                                    setSpinners(priceOffer.getCustomerIdNum());
+                            if (priceOffer.getCustomerIdNum() != null && priceOffer.getCustomerIdNum().length() > 0)
+                                setSpinners(priceOffer.getCustomerIdNum());
 
-                                btnAdd.setText("עדכן");
-                            } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
-                            }
-                       // }
+                            btnAdd.setText("עדכן");
+                        } catch (Exception ex) {
+                            Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        }
+                        // }
                     }
 
                     @Override
@@ -307,7 +310,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private void addPriceOfferToFireBase(View v) {
 
         try {
-            if (!isUpdateMode)
+            if (!isUpdateMode)//new price offer
                 priceOffer = new PriceOffer();
 
             priceOffer.setDueDate(etDate.getText().toString());
@@ -320,12 +323,17 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
             setSpinnerValuesToPriceOffer();
 
-            if (isUpdateMode) {
+            if (isUpdateMode) { //update current price offer
                 //priceOffer.setIdNum(currentKey);
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
                         updatePriceOffer(priceOffer, currentKey);
 
-                Toast.makeText(v.getContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
+                //check if this p.o has a work attached and update the work as well:
+                if (priceOffer.isPriceOfferApproved()) {
+                    updateWorkInDB();
+                }
+
+                //  Toast.makeText(v.getContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
             } else {//add new price offer
 
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -341,6 +349,72 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         } catch (Exception ex) {
             Toast.makeText(v.getContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    /* ------------------------------------------------------------------------------------------- */
+    private void updateWorkInDB() {
+
+        final String priceOfferId = priceOffer.getIdNum();
+
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+
+        dbRef.orderByChild("idNum")
+                // .startAt(priceOfferId).endAt(priceOfferId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        final long[] pendingLoadCount = {snapshot.getChildrenCount()};
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                            pendingLoadCount[0] = pendingLoadCount[0] - 1;
+
+                            try {
+                                // Work workPO = new Work();
+                                workPO = postSnapshot.getValue(Work.class);
+
+                                if (workPO.getPriceOfferIdNum().equals(priceOfferId)) {
+                                    //properties from price offer
+                                    workPO.setDueDate(priceOffer.getDueDate());
+                                    workPO.setLocation(priceOffer.getLocation());
+                                    workPO.setCustomerIdNum(priceOffer.getCustomerIdNum());
+                                    workPO.setWorkDetails(priceOffer.getWorkDetails());
+                                    workPO.setQuantity(priceOffer.getQuantity());
+                                    workPO.setSumPayment(priceOffer.getSumPayment());
+                                    workPO.setSumPaymentMaam(priceOffer.isSumPaymentMaam());
+                                }
+
+                            } catch (Exception ex) {
+                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (pendingLoadCount[0] == 0) {
+
+                            try {
+                                final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
+                                        .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                                                firebaseAuth.getCurrentUser().getUid() + "/Works/" + workPO.getIdNum());
+
+                                currentDdbRef.setValue(workPO);
+
+                                Toast.makeText(getBaseContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
+
+                            } catch (Exception ex) {
+                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        // dialog.dismiss();
+                    }
+                });
     }
 
     /* ------------------------------------------------------------------------------------------- */

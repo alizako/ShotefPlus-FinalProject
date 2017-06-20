@@ -67,7 +67,7 @@ public class InsertCustomerActivity extends AppCompatActivity {
         {
             isUpdateMode = true;
             currentKey = customerId;
-            Toast.makeText(getBaseContext(), customerId, Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getBaseContext(), customerId, Toast.LENGTH_LONG).show();
             setValuesToFields(customerId);
         }
 

@@ -464,7 +464,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
                                         Toast.LENGTH_LONG).show();
                         }
 
-                        Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
@@ -516,7 +516,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
                             getMailTemplateFromFirebase(customer);
                         }
 
-                        Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(activity, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });

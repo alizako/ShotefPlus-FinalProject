@@ -50,13 +50,9 @@ public class MsgTemplateActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    if (postSnapshot.getKey().toString().equals("MsgTemplate")) {
-                        etMsg.setText(postSnapshot.getValue(String.class));
-                    }
-                    else break;
-
-                }
+                if (snapshot.child("MsgTemplate").exists())
+                    if (snapshot.child("MsgTemplate").getValue().toString().length() > 0)
+                        etMsg.setText(snapshot.child("MsgTemplate").getValue().toString());
             }
 
             @Override

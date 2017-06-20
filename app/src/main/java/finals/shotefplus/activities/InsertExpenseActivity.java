@@ -77,7 +77,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
         {
             isUpdateMode = true;
             currentKey = expenseId;
-            Toast.makeText(getBaseContext(), expenseId, Toast.LENGTH_LONG).show();
+           // Toast.makeText(getBaseContext(), expenseId, Toast.LENGTH_LONG).show();
             setValuesToFields(expenseId);
         }
     }
