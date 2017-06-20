@@ -134,7 +134,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="@dimen/marginBtn"
                 android:background="@color/colorSub"
-                android:text="@string/sendPDF"
+                android:text="@string/sendMail"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite" />
 

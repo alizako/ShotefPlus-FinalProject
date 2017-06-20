@@ -6,6 +6,7 @@
     <string name="signUp">הרשם</string>
     <string name="insert">הוסף</string>
     <string name="sendPDF">שלח ללקוח כ PDF</string>
+    <string name="sendMail">שלח ללקוח במייל ועדכן</string>
     <string name="doFilter">בצע סינון</string>
     <string name="cancel">ביטול</string>
     <string name="update">עדכן</string>
@@ -114,20 +115,12 @@
 
     <string-array name="spinnerWork">
         <item>-בחר עבודה-</item>
-        <item>122</item>
-        <item>123</item>
-        <item>545</item>
-        <item>555</item>
+
     </string-array>
 
     <string-array name="spinnerCustomer">
         <item>-בחר לקוח-</item>
-        <item>לקוח Adam</item>
-        <item>לקוח Aliza</item>
-        <item>לקוח Ely</item>
-        <item>לקוח Joe</item>
-        <item>לקוח Moran</item>
-        <item>הוסף...</item>
+
     </string-array>
 
     <string-array name="spinnerPriceOffer">

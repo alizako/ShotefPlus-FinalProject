@@ -2,6 +2,7 @@ package finals.shotefplus.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -62,6 +63,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     private ArrayList<Customer> customerList;
     private ArrayList<String> strTitleList;
     private ArrayAdapter<String> spinnerAdapterCustomer;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,25 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         spnrCustomer = (Spinner) findViewById(R.id.spnrCustomer);
 
         initSpinnersFromDB();
+        /*setEvents();
+
+        Intent intent = getIntent();
+        // String priceOfferId = "";
+        String priceOfferId = intent.getStringExtra("PriceOfferId");
+        if (priceOfferId != null)//has value
+        {
+            isUpdateMode = true;
+            currentKey = priceOfferId;
+            //  Toast.makeText(getBaseContext(), priceOfferId, Toast.LENGTH_LONG).show();
+            setValuesToFields(priceOfferId);
+        }*/
+
+
+    }
+
+
+    protected void initOnStart() {
+        // super.onStart();
         setEvents();
 
         Intent intent = getIntent();
@@ -100,9 +121,8 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             //  Toast.makeText(getBaseContext(), priceOfferId, Toast.LENGTH_LONG).show();
             setValuesToFields(priceOfferId);
         }
-
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -125,7 +145,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         // ((EditText) findViewById(R.id.etDetails)).getText().toString().trim();
         boolean flagErr = false;
         if (etDate.getText().toString().equals("")) flagErr = true;
-        if (etQuantity.getText().toString().equals("")) etQuantity.setText("0");
+        if (etQuantity.getText().toString().equals("")) flagErr = true;
         if (etSum.getText().toString().equals("")) flagErr = true;// etDetails.setText("0");
         if (etDetails.getText().toString().equals("")) flagErr = true;
 
@@ -156,6 +176,43 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             int pos = spnrCustomer.getSelectedItemPosition();
             priceOffer.setCustomerIdNum(customerList.get(pos - 1).getIdNum());
         }
+    }
+
+    private void sendPriceOfferByMail() {
+        String subject = "הצעת מחיר";
+        String body = "";
+        body += "תאריך: " + etDate.getText() + "\n";
+        body += "מיקום: " + etLocation.getText() + "\n";
+        body += "כמות: " + etQuantity.getText() + "\n";
+        body += "סכום: " + etSum.getText() + "\n";
+        body += "פרטים נוספים: " + etDetails.getText() + "\n\n";
+
+        Customer customer = getcustomer();
+
+        if (customer != null) {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("message/rfc822");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{customer.getEmail()});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(getBaseContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private Customer getcustomer() {
+        int i = 0;
+        while (customerList != null && i < customerList.size()
+                && !(spnrCustomer.getSelectedItem().toString().equals(customerList.get(i).getName()))) {
+            i++;
+        }
+        if (i > 0 && i < customerList.size())
+            return customerList.get(i);
+
+        return null;
     }
 
     /**********************************************************************************
@@ -198,8 +255,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isFieldsValidate())
-                    addPriceOfferToFireBase(v);
-
+                    addPriceOfferToFireBase(false);
             }
         });
 
@@ -213,7 +269,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                             .updatePriceOffer(priceOffer, currentKey);
                 }*/
                 // create a new document
-                PdfDocument document = new PdfDocument();
+                /*PdfDocument document = new PdfDocument();
 
                 // crate a page description
                 PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(500, 500, 1).create();
@@ -235,14 +291,21 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                 //  document.writeTo(getOutputStream());
 
                 // close the document
-                document.close();
+                document.close();*/
 
 
-                if (priceOffer == null)//in case sending pdf pre-saving new record
+                if (!isUpdateMode)//in case sending pdf pre-saving new record
                     priceOffer = new PriceOffer();
-                priceOffer.setPriceOfferSent(true);
+
+                if (isFieldsValidate()) {
+                    if (spnrCustomer.getSelectedItemPosition() > 0) {
+                        sendPriceOfferByMail();
+                        addPriceOfferToFireBase(true);
+                    } else
+                        Toast.makeText(getBaseContext(), "יש לבחור לקוח", Toast.LENGTH_SHORT).show();
+                }
 //                Toast.makeText(v.getContext(), "הצעת מחיר נשלחה ללקוח במייל", Toast.LENGTH_LONG).show();
-                Toast.makeText(v.getContext(), "כרגע לא בשימוש", Toast.LENGTH_LONG).show();
+                //Toast.makeText(v.getContext(), "כרגע לא בשימוש", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -307,7 +370,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     }
 
     /* ------------------------------------------------------------------------------------------- */
-    private void addPriceOfferToFireBase(View v) {
+    private void addPriceOfferToFireBase(boolean isSent) {
 
         try {
             if (!isUpdateMode)//new price offer
@@ -320,6 +383,9 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             priceOffer.setQuantity(Long.parseLong(etQuantity.getText().toString()));
             priceOffer.setSumPayment(Double.parseDouble(etSum.getText().toString()));
             priceOffer.setSumPaymentMaam(cbSumMaam.isChecked());
+
+            if (isSent)
+                priceOffer.setPriceOfferSent(true);
 
             setSpinnerValuesToPriceOffer();
 
@@ -342,12 +408,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertPriceOffer(priceOffer);
-                Toast.makeText(v.getContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
             }
 
             finish(); //back to list
         } catch (Exception ex) {
-            Toast.makeText(v.getContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -419,6 +485,8 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private void initSpinnersFromDB() {
+        dialog = ProgressDialog.show(InsertPriceOfferActivity.this,
+                "", "טוען נתונים..", true);
         //       spnrCustomer
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
@@ -429,7 +497,11 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                 customerList = new ArrayList<Customer>();
                 strTitleList = new ArrayList<String>();
                 strTitleList.add("-בחר לקוח-");
+
+                final long[] pendingLoadCount = {snapshot.getChildrenCount()};
+
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    pendingLoadCount[0] = pendingLoadCount[0] - 1;
                     try {
                         Customer customer = new Customer();
                         customer = postSnapshot.getValue(Customer.class);
@@ -442,7 +514,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
                     } catch (Exception ex) {
                         Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
                     }
+                }
+                if (pendingLoadCount[0] == 0) {
+                    initOnStart();
+                    dialog.dismiss();
                 }
             }
 

@@ -46,8 +46,9 @@ public class EntranceActivity extends AppCompatActivity {
                             "מתחבר לשרת",
                             "אנא המתן בזמן ההתחברות..",
                             true);
-                    if (!checkForSavedSignInDetails())
-                        signIn();
+                    checkForSavedSignInDetails();
+                       // signIn();
+
                 } catch (Exception e) {
                     dialog.dismiss();
                     Toast.makeText(EntranceActivity.this,
@@ -83,10 +84,12 @@ public class EntranceActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private boolean checkForSavedSignInDetails() {
+    private void checkForSavedSignInDetails() {
         SharedPreferences sharedPref = EntranceActivity.this.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean isCheckedToSave = sharedPref.getBoolean("isCheckedToSave", false);
-        if (isCheckedToSave) {
+        if(!isCheckedToSave)
+            signIn();
+        else{// (isCheckedToSave) {
             String sharedPrefEmail = sharedPref.getString("mail", "0");
             String sharedPrefPassword = sharedPref.getString("password", "0");
 
@@ -99,7 +102,7 @@ public class EntranceActivity extends AppCompatActivity {
 
                                 //checking if success
                                 if (task.isSuccessful()) {
-                                    //display some message here
+
                                     Toast.makeText(EntranceActivity.this, R.string.signInToast, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
                                     startActivity(intent);
@@ -112,10 +115,10 @@ public class EntranceActivity extends AppCompatActivity {
                             }
                         });
 
-                return true;
+             //   return true;
 
-            } else return false;
+            } //else return false;
         }
-        return false;
+       // return false;
     }
 }
