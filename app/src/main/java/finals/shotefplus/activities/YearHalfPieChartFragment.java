@@ -69,6 +69,8 @@ public class YearHalfPieChartFragment extends Fragment {
 
     int year;
 
+    static final String TITLE ="תצוגה שנתית   |   שנת ";
+
     public YearHalfPieChartFragment() {
         // Required empty public constructor
     }
@@ -92,7 +94,7 @@ public class YearHalfPieChartFragment extends Fragment {
 
         Calendar now = Calendar.getInstance();   // Gets the current date and time
         year = now.get(Calendar.YEAR);
-        txtYear.setText("תצוגה שנתית   |   שנת "+ year);
+        txtYear.setText(TITLE+ year);
         getValuesFireBase();
 
         setEvents();
@@ -118,7 +120,7 @@ public class YearHalfPieChartFragment extends Fragment {
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 year = now.get(Calendar.YEAR);
-                txtYear.setText("תצוגה שנתית   |   שנת " + year);
+                txtYear.setText(TITLE+ year);
                 resetYearVals();
                 getValuesFireBase();
             }
@@ -127,7 +129,7 @@ public class YearHalfPieChartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 year += 1;
-                txtYear.setText("תצוגה שנתית   |   שנת " + year);
+                txtYear.setText(TITLE+ year);
                 resetYearVals();
                 getValuesFireBase();
             }
@@ -136,7 +138,7 @@ public class YearHalfPieChartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 year -= 1;
-                txtYear.setText("תצוגה שנתית   |   שנת " + year);
+                txtYear.setText(TITLE+ year);
                 resetYearVals();
                 getValuesFireBase();
             }
@@ -152,11 +154,14 @@ public class YearHalfPieChartFragment extends Fragment {
 
     private void getValuesFireBase() {
         dialog = ProgressDialog.show(getActivity(),
-                "", "טוען נתונים..", true);
+                "",
+                getString(R.string.loadMsg),
+                true);
 
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.receiptsLink));
 
         dbRef.orderByChild("yearPay").equalTo(year)
                 .addValueEventListener(new ValueEventListener() {
@@ -182,7 +187,9 @@ public class YearHalfPieChartFragment extends Fragment {
                                    dialog.dismiss();
                                }*/
                            } catch (Exception ex) {
-                               Toast.makeText(getActivity(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                               Toast.makeText(getActivity(),
+                                       getString(R.string.errorMsg) + ex.toString(),
+                                       Toast.LENGTH_LONG).show();
                            }
                        }
                        if (pendingLoadCount[0] == 0) {
@@ -196,7 +203,9 @@ public class YearHalfPieChartFragment extends Fragment {
 
                    @Override
                    public void onCancelled(DatabaseError firebaseError) {
-                       Toast.makeText(getActivity(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(),
+                               getString(R.string.errorMsg) + firebaseError.getMessage(),
+                               Toast.LENGTH_LONG).show();
                        dialog.dismiss();
                    }
                }
@@ -207,8 +216,9 @@ public class YearHalfPieChartFragment extends Fragment {
     private void getValuesFireBaseExpense() {
         //get Expenses:
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.expensesLink));
 
         dbRef.orderByChild("yearPay").equalTo(year)
                 .addValueEventListener(new ValueEventListener() {
@@ -234,7 +244,9 @@ public class YearHalfPieChartFragment extends Fragment {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getActivity(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),
+                                getString(R.string.errorMsg)+ firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
 

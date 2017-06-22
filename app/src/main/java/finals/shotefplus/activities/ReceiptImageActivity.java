@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -59,6 +61,11 @@ public class ReceiptImageActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    /*Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+                    Drawable drawable = new BitmapDrawable(bitmapScaled);
+                    imgReceiptPicture.setBackgroundDrawable(drawable);*/
+                    imgReceiptPicture.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imgReceiptPicture.setAdjustViewBounds(true);
                     imgReceiptPicture.setImageBitmap(bitmap);
                     tvTitle.setText(receiptNum);
                     dialog.dismiss();

@@ -30,9 +30,10 @@
                 android:value=".SearchResultsActivity" />
             -->
         </activity>
+        <!--android:noHistory="true"-->
         <activity
             android:name=".activities.EntranceActivity"
-            android:noHistory="true"
+
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>

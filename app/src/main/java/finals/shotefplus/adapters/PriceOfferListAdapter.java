@@ -121,12 +121,12 @@ public class PriceOfferListAdapter extends BaseAdapter {
         if (i < customerList.size()) {
             Customer customer = new Customer();
             customer = customerList.get(i);
-            name.setText("לקוח " + customer.getName());
+            name.setText(activity.getString(R.string.customer)+" " + customer.getName());
             if (customer.getName().length() > 0)
                 tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
         } else //no customer found
         {
-            name.setText("לא נבחר לקוח");
+            name.setText(activity.getString(R.string.customerNotSet));
             tvInitials.setText("NA");
         }
 

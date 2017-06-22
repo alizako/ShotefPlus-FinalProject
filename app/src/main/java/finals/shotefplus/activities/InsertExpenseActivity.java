@@ -72,7 +72,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String expenseId = intent.getStringExtra("expenseIdNum");
+        String expenseId = intent.getStringExtra(getString(R.string.expenseIdNum));
         if (expenseId != null)//has value
         {
             isUpdateMode = true;
@@ -102,7 +102,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 //updateLabel();
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
                 final String dueDate = dateFormat.format(calendar.getTime());
                 etDate.setText(dueDate);
             }
@@ -133,7 +133,6 @@ public class InsertExpenseActivity extends AppCompatActivity {
         imgBtnWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Check with Adam
               //  Intent intent = new Intent(InsertExpenseActivity.this, InsertCustomerActivity.class);
                 Intent intent = new Intent(InsertExpenseActivity.this, InsertPriceOfferActivity.class);
                 startActivityForResult(intent, REQ_ADD_WORK);
@@ -144,11 +143,13 @@ public class InsertExpenseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQ_ADD_WORK) {
+        if (requestCode == REQ_ADD_WORK) { //back from adding new work
             if (resultCode == Activity.RESULT_OK) {
-                spnrWork.setPrompt(data.getStringExtra("workIdNum"));
+                spnrWork.setPrompt(data.getStringExtra(getString(R.string.workIdNum)));
             } else {
-                Toast.makeText(getBaseContext(), "ERROR: adding work", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg)+ " "+ getString(R.string.errorWorkMsg),
+                        Toast.LENGTH_LONG).show();
             }
 
         }
@@ -157,13 +158,19 @@ public class InsertExpenseActivity extends AppCompatActivity {
     /**********************************************************************************
      * FireBase
      **********************************************************************************/
+    /*
+    * exist expense- set values
+    * get id of chosen row in list to look for it in firebase
+    */
     private void setValuesToFields(final String expenseId) {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.expensesLink));
 
-        dbRef.orderByChild("idNum").startAt(expenseId).endAt(expenseId)
+        dbRef.orderByChild(getString(R.string.idNum))
+                .startAt(expenseId).endAt(expenseId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -173,22 +180,28 @@ public class InsertExpenseActivity extends AppCompatActivity {
                             try {
                                 expense = new Expense();
                                 expense = postSnapshot.getValue(Expense.class);
+
+                                btnAdd.setText(getString(R.string.update));
+
                                 etDate.setText(expense.dateToString());
                                 etSum.setText(String.valueOf(expense.getSumPayment()));
                                 etDetails.setText(expense.getSumDetails());
 
                                 setSpinners(expense);
 
-                                btnAdd.setText("עדכן");
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg) + ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         // dialog.dismiss();
                     }
                 });
@@ -200,7 +213,8 @@ public class InsertExpenseActivity extends AppCompatActivity {
         try {
             if (!isUpdateMode)
                 expense = new Expense();
-            expense = new Expense();
+
+           // expense = new Expense();
             expense.setDate(etDate.getText().toString());
             expense.setSumDetails(etDetails.getText().toString());
             expense.setSumPayment(Double.parseDouble(etSum.getText().toString()));
@@ -211,25 +225,33 @@ public class InsertExpenseActivity extends AppCompatActivity {
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid()).
                         updateExpense(expense, currentKey);
 
-                Toast.makeText(v.getContext(), "הוצאה התעדכנה", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(),
+                        getString(R.string.expenseUpdated),
+                        Toast.LENGTH_LONG).show();
             } else {//add new expense
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertExpense(expense);
-                Toast.makeText(v.getContext(), "הוצאה התווספה", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(),
+                        getString(R.string.expenseAdded),
+                        Toast.LENGTH_LONG).show();
             }
 
             finish(); //back to list
         } catch (Exception ex) {
-            Toast.makeText(v.getContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(v.getContext(),
+                    getString(R.string.errorMsg) + ex.toString(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
     /* ------------------------------------------------------------------------------------------- */
+    //set all works in spinner through adapter
     private void initSpinnersFromDB() {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.worksLink));
 
 
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -238,7 +260,7 @@ public class InsertExpenseActivity extends AppCompatActivity {
 
                 worksList = new ArrayList<Work>();
                 strTitleList = new ArrayList<String>();
-                strTitleList.add("-בחר עבודה-");
+                strTitleList.add(getString(R.string.promptWork));
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
@@ -253,14 +275,18 @@ public class InsertExpenseActivity extends AppCompatActivity {
 
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + ex.toString(),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
 
             }
 
@@ -277,7 +303,9 @@ public class InsertExpenseActivity extends AppCompatActivity {
         else if(! etDate.getText().toString().matches("^\\d{2}/\\d{2}/\\d{4}")) flagErr = true;
         if (etSum.getText().toString().equals("")) flagErr = true;
         if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.requiredFieldsExpenses),
+                    Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -300,12 +328,12 @@ public class InsertExpenseActivity extends AppCompatActivity {
     /* ------------------------------------------------------------------------------------------- */
     private void setSpinnerValuesToExpense() {
         //Title of spinner in position 0
-        if (!spnrWork.getSelectedItem().equals("-בחר עבודה-")) {
+        if (!spnrWork.getSelectedItem().equals(getString(R.string.promptWork))) {
             int pos = spnrWork.getSelectedItemPosition();
             expense.setWorkIdNum(worksList.get(pos - 1).getIdNum());
         }
 
-        if (!spnrExpenseType.getSelectedItem().equals("-בחר צורת תשלום-")) {
+        if (!spnrExpenseType.getSelectedItem().equals(getString(R.string.promptPaymentType))) {
             int pos = spnrExpenseType.getSelectedItemPosition();
             expense.setExpenseType(pos);
         }

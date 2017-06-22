@@ -29,8 +29,8 @@ public class FilterWorkActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // startActivity(new Intent(FilterPriceOfferActivity.this, InsertPriceOfferActivity.class));
                 Intent returnIntent = getIntent();
-                returnIntent.putExtra("cbWorkDone", cbWorkDone.isChecked());
-                returnIntent.putExtra("cbWorkCancelled", cbWorkCancelled.isChecked());
+                returnIntent.putExtra(getString(R.string.cbWorkDone), cbWorkDone.isChecked());
+                returnIntent.putExtra(getString(R.string.cbWorkCancelled), cbWorkCancelled.isChecked());
 
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();

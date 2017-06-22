@@ -65,8 +65,9 @@ public class PriceOffersActivity extends AppCompatActivity {
         //init vars:
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.priceOfferLink));
 
         barMonth = findViewById(R.id.barMonth);
         filter = findViewById(R.id.barFilter);
@@ -100,14 +101,14 @@ public class PriceOffersActivity extends AppCompatActivity {
 
         if (requestCode == REQ_FILTER) {
             if (resultCode == Activity.RESULT_OK) {
-                boolean isSent = data.getBooleanExtra("cbSent", false);
-                boolean isApproved = data.getBooleanExtra("rbApproved", false);
-                boolean isNotApproved = data.getBooleanExtra("rbNotApproved", false);
+                boolean isSent = data.getBooleanExtra(getString(R.string.cbSent), false);
+                boolean isApproved = data.getBooleanExtra(getString(R.string.rbApproved), false);
+                boolean isNotApproved = data.getBooleanExtra(getString(R.string.rbNotApproved), false);
 
                 //set Filter text:
-                String filterTxt = (isSent ? "נשלח ללקוח |" : "") +
-                        (isApproved ? "אושר לביצוע " : "") +
-                        (isNotApproved ? "לא אושר לביצוע" : "");
+                String filterTxt = (isSent ? getString(R.string.priceOfferSent)+ " |" : "") +
+                        (isApproved ? getString(R.string.priceOfferApproved)+" " : "") +
+                        (isNotApproved ? getString(R.string.priceOfferNotApproved)+" " : "");
                 if (filterTxt.substring(filterTxt.length() - 1).equals("|")) // last character is |
                     filterTxt = filterTxt.substring(0, filterTxt.length() - 1);
 
@@ -116,7 +117,7 @@ public class PriceOffersActivity extends AppCompatActivity {
                 initListPriceOffers(isSent, isApproved, isNotApproved);
             }
             if (resultCode == RESULT_CLEAN) {
-                txtDetails.setText("ללא פילטר");
+                txtDetails.setText(getString(R.string.noFilter));
                 dataRefHandling();
             }
             /*if (resultCode == Activity.RESULT_CANCELED) {
@@ -148,16 +149,18 @@ public class PriceOffersActivity extends AppCompatActivity {
             }
         });
 
+        // click: edit price offer
         lvPriceOffer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PriceOffer priceOffer = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
                 Intent intent = new Intent(PriceOffersActivity.this, InsertPriceOfferActivity.class);
-                intent.putExtra("PriceOfferId", priceOffer.getIdNum());
+                intent.putExtra(getString(R.string.PriceOfferId), priceOffer.getIdNum());
                 startActivityForResult(intent, REQ_UPD_CUSTOMER);
             }
         });
 
+        //long click on item: approve price offer in order to create a new work out of it
         lvPriceOffer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
@@ -171,7 +174,7 @@ public class PriceOffersActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(PriceOffersActivity.this,
-                            "הצעה אושרה בעבר",
+                            getString(R.string.priceOfferIsApproved),
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -179,6 +182,7 @@ public class PriceOffersActivity extends AppCompatActivity {
             }
         });
 
+        // bar month- next,prev,current- set view according to it
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,14 +218,18 @@ public class PriceOffersActivity extends AppCompatActivity {
     /**********************************************************************************
      * FireBase
      **********************************************************************************/
+    // find all price offers and its customers
+    // show in list through adapter
     private void dataRefHandling() {
 
         dialog = ProgressDialog.show(PriceOffersActivity.this,
-                "", "טוען נתונים..", true);
+                "",
+                getString(R.string.loadMsg),
+                true);
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormat));
         final String dueDate = dateFormat.format(date);
-        dbRef.orderByChild("dueDate")
+        dbRef.orderByChild(getString(R.string.dueDateDB))
                 .startAt(dueDate)
                 .endAt(dueDate + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
@@ -240,8 +248,11 @@ public class PriceOffersActivity extends AppCompatActivity {
 
                                //get Customer of current priceOffer
                                final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
-                                       .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                                               firebaseAuth.getCurrentUser().getUid() + "/Customers/"+priceOffer.getCustomerIdNum());
+                                       .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                                               firebaseAuth.getCurrentUser().getUid() +
+                                               getString(R.string.customersLink)+
+                                               priceOffer.getCustomerIdNum());
+
                                currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                    public void onDataChange(DataSnapshot dataSnapshot) {
                                         Customer customer= new Customer();
@@ -257,7 +268,9 @@ public class PriceOffersActivity extends AppCompatActivity {
                                    }
                                    @Override
                                    public void onCancelled(DatabaseError firebaseError) {
-                                       Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                       Toast.makeText(getBaseContext(),
+                                               getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                               Toast.LENGTH_LONG).show();
                                        dialog.dismiss();
                                    }
                                });
@@ -265,7 +278,9 @@ public class PriceOffersActivity extends AppCompatActivity {
 
 
                            } catch (Exception ex) {
-                               Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                               Toast.makeText(getBaseContext(),
+                                       getString(R.string.errorMsg) + ex.toString(),
+                                       Toast.LENGTH_LONG).show();
                            }
                        }
                        if(pendingLoadCount[0] == 0) {
@@ -277,7 +292,9 @@ public class PriceOffersActivity extends AppCompatActivity {
 
                    @Override
                    public void onCancelled(DatabaseError firebaseError) {
-                       Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                       Toast.makeText(getBaseContext(),
+                               getString(R.string.errorMsg) + firebaseError.getMessage(),
+                               Toast.LENGTH_LONG).show();
                        dialog.dismiss();
                    }
                }
@@ -296,7 +313,7 @@ public class PriceOffersActivity extends AppCompatActivity {
         Work work = new Work();
         work.setCustomerIdNum(priceOfferToWork.getCustomerIdNum());
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
         Date date = new Date();
         work.setDateInsertion(dateFormat.format(date));
 
@@ -325,7 +342,7 @@ public class PriceOffersActivity extends AppCompatActivity {
     }
 
     private void setCurrentDateBarMonth() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatMonthBar));
         txtDate.setText(dateFormat.format(date));
     }
 

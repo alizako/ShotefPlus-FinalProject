@@ -163,7 +163,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
     }
 
     private void setReceipts(int position, View convertView) {
-        Toast.makeText(context, "receiptList.size()"+receiptList.size(), Toast.LENGTH_LONG).show();
+     //   Toast.makeText(context, "receiptList.size()"+receiptList.size(), Toast.LENGTH_LONG).show();
 
         final Receipt receipt = receiptList.get(position);
         TextView txtName = (TextView) convertView.findViewById(R.id.txtName);

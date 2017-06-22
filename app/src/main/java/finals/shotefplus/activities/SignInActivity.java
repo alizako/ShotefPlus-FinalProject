@@ -109,4 +109,10 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        SignInActivity.this.finish();
+    }
 }

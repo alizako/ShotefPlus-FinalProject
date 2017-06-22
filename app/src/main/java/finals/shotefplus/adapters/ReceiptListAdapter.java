@@ -122,12 +122,12 @@ public class ReceiptListAdapter extends BaseAdapter {
             //events with customer:
             handleMenu(receipt, customer, convertView, position);
 
-            txtName.setText("לקוח " + customer.getName());
+            txtName.setText(activity.getString(R.string.customer) + " " + customer.getName());
             txtName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, InsertCustomerActivity.class);
-                    intent.putExtra("customerIdNum", customer.getIdNum());
+                    intent.putExtra(activity.getString(R.string.customerIdNum), customer.getIdNum());
                     activity.startActivityForResult(intent, REQ_UPD_CUSTOMER);
                 }
             });
@@ -136,12 +136,12 @@ public class ReceiptListAdapter extends BaseAdapter {
                 tvInitials.setText(customer.getName().substring(0, 1).toUpperCase());
         }
 
-        txtReceipt.setText("קבלה " + receipt.getReceiptNum());
+        txtReceipt.setText(activity.getString(R.string.receiptNum)+ " " + receipt.getReceiptNum());
         loReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, InsertReceiptActivity.class);
-                intent.putExtra("receiptIdNum", receipt.getIdNum());
+                intent.putExtra(activity.getString(R.string.receiptIdNum), receipt.getIdNum());
                 activity.startActivityForResult(intent, REQ_UPD_RECEIPT);
             }
         });
@@ -164,7 +164,7 @@ public class ReceiptListAdapter extends BaseAdapter {
         Uri uri = Uri.parse("package:" + activity.getPackageName());
         intent.setData(uri);
         activity.startActivity(intent);
-        Toast.makeText(activity, "Please Allow Calling Permissions for this Application",
+        Toast.makeText(activity, activity.getString(R.string.allowPermissionMsg),
                 Toast.LENGTH_LONG).show();
     }
 
@@ -210,26 +210,30 @@ public class ReceiptListAdapter extends BaseAdapter {
                             receipt.setPaymentType(EnumPaymentType.CHEQUE.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity,
+                                    activity.getString(R.string.receiptUpdated),
+                                    Toast.LENGTH_LONG).show();
                         }
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidTrans))) {
                             receipt.setPaid(true);
                             receipt.setPaymentType(EnumPaymentType.TRANS.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity,
+                                    activity.getString(R.string.receiptUpdated),
+                                    Toast.LENGTH_LONG).show();
                         }
                         //open receipt
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rReceipt))) {
                             if (receipt.isPicReceiptExist()) {
                                 Intent intent = new Intent(activity, ReceiptImageActivity.class);
-                                intent.putExtra("isFromStorage", true);
-                                intent.putExtra("receiptPictureIdNum", receipt.getIdNum());
-                                intent.putExtra("receiptNum", receipt.getReceiptNum());
+                                intent.putExtra(activity.getString(R.string.isFromStorage), true);
+                                intent.putExtra(activity.getString(R.string.receiptPictureIdNum), receipt.getIdNum());
+                                intent.putExtra(activity.getString(R.string.receiptNumIntent), receipt.getReceiptNum());
                                 activity.startActivityForResult(intent, REQ_OPEN_RECEIPT);
                             } else
                                 Toast.makeText(activity,
-                                        "לא נשמרה תמונה עבור קבלה זו",
+                                        activity.getString(R.string.picNotSave),
                                         Toast.LENGTH_LONG).show();
                         }
 
@@ -260,8 +264,8 @@ public class ReceiptListAdapter extends BaseAdapter {
                             Intent callIntent = new Intent(Intent.ACTION_CALL);
                             callIntent.setData(Uri.parse("tel:" + customer.getPhoneNum()));
                             dialog = ProgressDialog.show(activity,
-                                    "בודק הרשאות",
-                                    "אנא המתן בזמן קבלת הרשאות..",
+                                    activity.getString(R.string.permissionMsg),
+                                    activity.getString(R.string.waitForPermission),
                                     true);
                             if (ActivityCompat.checkSelfPermission(activity,
                                     android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -296,12 +300,13 @@ public class ReceiptListAdapter extends BaseAdapter {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/EmailTemplate/");
+                .getReferenceFromUrl(activity.getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        activity.getString(R.string.emailTemplateLink));
 
         dialog = ProgressDialog.show(activity,
                 "",
-                "אנא המתן",
+                activity.getString(R.string.loadMsg),
                 true);
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -317,9 +322,11 @@ public class ReceiptListAdapter extends BaseAdapter {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
                 try {
-                    activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    activity.startActivity(Intent.createChooser(emailIntent, activity.getString(R.string.chooseClientEmail)));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,
+                            activity.getString(R.string.noEmailClients),
+                            Toast.LENGTH_SHORT).show();
                 }
                // activity.startActivity(emailIntent);
                 dialog.dismiss();
@@ -327,7 +334,9 @@ public class ReceiptListAdapter extends BaseAdapter {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(activity, "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity,
+                        activity.getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
@@ -337,10 +346,10 @@ public class ReceiptListAdapter extends BaseAdapter {
     /* ************************************************************************************************ */
     private AlertDialog openConfirmationDialog(final Receipt receipt) {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity)
-                .setTitle("מחיקה")
-                .setMessage("האם אתה בטוח כי ברצונך למחוק קבלה זו?")
+                .setTitle(activity.getString(R.string.delete))
+                .setMessage(activity.getString(R.string.wantDeleteReceipt))
                 .setIcon(R.drawable.alert_32)
-                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                .setPositiveButton(activity.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                 .deleteReceipt(receipt, receipt.getIdNum());
@@ -348,14 +357,19 @@ public class ReceiptListAdapter extends BaseAdapter {
                         //delete picture if exist in firebase storage
                         if (receipt.isPicReceiptExist()) {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
-                            StorageReference storageRef = storage.getReferenceFromUrl("gs://shotefplus-72799.appspot.com/" + firebaseAuth.getCurrentUser().getUid());
+                            StorageReference storageRef =
+                                    storage.getReferenceFromUrl(
+                                            activity.getString(R.string.storageLink) +
+                                                    firebaseAuth.getCurrentUser().getUid());
 
                             storageRef.child(receipt.getIdNum() + ".jpg").delete();
                         }
-                        Toast.makeText(activity, "הקבלה נמחקה", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity,
+                                activity.getString(R.string.receiptDeleted),
+                                Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                .setNegativeButton(activity.getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

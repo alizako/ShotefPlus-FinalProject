@@ -63,7 +63,7 @@ public class CustomerListAdapter extends BaseAdapter {
     //ImageLoader imageLoader ;
     //ImageView menu;
     Random rand;
-    String subject = "retype subject", body = "insert content";
+    String subject = "retype subject", body = "insert content";//initial values
 
     public CustomerListAdapter(Activity activity, List<Customer> customers) {
         this.activity = activity;
@@ -110,16 +110,6 @@ public class CustomerListAdapter extends BaseAdapter {
 
         handleMenu(customer, convertView);
 
-        // picture
-        /*final ImageView imgVwPic = (ImageView) convertView.findViewById(id.imgVwPic);
-        imgVwPic.setTag(position);
-        imgVwPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                //TODO: open camera/gallery
-            }
-        });*/
-
         // name
         name.setText(customer.getName());
 
@@ -148,19 +138,25 @@ public class CustomerListAdapter extends BaseAdapter {
 
     /* ************************************************************************************************ */
 
+    // check permission:
     private void goToSettings() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.parse("package:" + activity.getPackageName());
         intent.setData(uri);
         activity.startActivity(intent);
-        Toast.makeText(activity, "Please Allow Calling Permissions for this Application",
+        Toast.makeText(activity,
+                activity.getString(R.string.allowPermissionMsg),
                 Toast.LENGTH_LONG).show();
     }
 
 
+    /* *****************************************************************************
+    * side menu of each row allows the user to connect the customer
+    * it uses the class IconizedMenu that allows inserting icons near each menu item
+    * ***************************************************************************** */
     private void handleMenu(final Customer customer, View convertView) {
-//popup menu:
+        //popup menu:
         final ImageView menu = (ImageView) convertView.findViewById(id.imgVwMenu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,15 +171,13 @@ public class CustomerListAdapter extends BaseAdapter {
 
                 popupMenu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        //TODO: redirect the user to call/msg/email
-
                         // call number:
                         if (item.getTitle().equals(activity.getResources().getString(string.cCall))) {
                             Intent callIntent = new Intent(Intent.ACTION_CALL);
                             callIntent.setData(Uri.parse("tel:" + customer.getPhoneNum()));
                             dialog = ProgressDialog.show(activity,
-                                    "בודק הרשאות",
-                                    "אנא המתן בזמן קבלת הרשאות..",
+                                    activity.getString(R.string.permissionMsg),
+                                    activity.getString(R.string.waitForPermission),
                                     true);
                             if (ActivityCompat.checkSelfPermission(activity,
                                     android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -218,14 +212,16 @@ public class CustomerListAdapter extends BaseAdapter {
 
     private void getMailTemplateFromFirebase(final Customer customer) {
 
+        //get email template of firebase
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/EmailTemplate/");
+                .getReferenceFromUrl(activity.getString(string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                activity.getString(R.string.emailTemplateLink));
 
         dialog = ProgressDialog.show(activity,
                 "",
-                "אנא המתן",
+                activity.getString(string.wait),
                 true);
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -235,15 +231,18 @@ public class CustomerListAdapter extends BaseAdapter {
                 subject = emailTemplate.getSubject();
                 body = emailTemplate.getBody();
 
+                //send mail
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("message/rfc822");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{customer.getEmail()});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
                 try {
-                    activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    activity.startActivity(Intent.createChooser(emailIntent,activity.getString(R.string.chooseClientEmail)));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,
+                    activity.getString(R.string.noEmailClients),
+                    Toast.LENGTH_SHORT).show();
                 }
                // activity.startActivity(emailIntent);
                 dialog.dismiss();
@@ -251,7 +250,9 @@ public class CustomerListAdapter extends BaseAdapter {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(activity, "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity,
+                activity.getString(string.errorMsg) + firebaseError.getMessage(),
+                Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });

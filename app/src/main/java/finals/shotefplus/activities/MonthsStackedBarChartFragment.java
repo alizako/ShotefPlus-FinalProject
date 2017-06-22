@@ -63,6 +63,7 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
     View view, barYear;
     int year;
      boolean flagIsValExists = false;
+    static final String TITLE ="תצוגה חודשית   |   שנת ";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,7 +98,7 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
             year = args.getInt("yearFragment",2017);*/
         Calendar now = Calendar.getInstance();   // Gets the current date and time
         year = now.get(Calendar.YEAR);
-        txtYear.setText("תצוגה חודשית   |   שנת "+ year);
+        txtYear.setText(TITLE + year);
         getValuesFireBaseIncome();
 
         setEvents();
@@ -122,7 +123,7 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 year = now.get(Calendar.YEAR);
-                txtYear.setText("תצוגה חודשית   |   שנת " + year);
+                txtYear.setText(TITLE + year);
                 resetMonthsArrays();
                 getValuesFireBaseIncome();
             }
@@ -131,7 +132,7 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
             @Override
             public void onClick(View v) {
                 year += 1;
-                txtYear.setText("תצוגה חודשית   |   שנת " + year);
+                txtYear.setText(TITLE + year);
                 resetMonthsArrays();
                 getValuesFireBaseIncome();
             }
@@ -140,7 +141,7 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
             @Override
             public void onClick(View v) {
                 year -= 1;
-                txtYear.setText("תצוגה חודשית   |   שנת " + year);
+                txtYear.setText(TITLE + year);
                 resetMonthsArrays();
                 getValuesFireBaseIncome();
             }
@@ -276,8 +277,9 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
                 "", "טוען נתונים..", true);
 
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.receiptsLink));
 
         flagIsValExists = false;//only here needed!
 
@@ -305,7 +307,9 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
                                        }*/
 
                                    } catch (Exception ex) {
-                                       Toast.makeText(getActivity(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                       Toast.makeText(getActivity(),
+                                               getString(R.string.errorMsg) + ex.toString(),
+                                               Toast.LENGTH_LONG).show();
                                        dialog.dismiss();
                                    }
                                }
@@ -316,7 +320,9 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
 
                            @Override
                            public void onCancelled(DatabaseError firebaseError) {
-                               Toast.makeText(getActivity(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                               Toast.makeText(getActivity(),
+                                       getString(R.string.errorMsg)+ firebaseError.getMessage(),
+                                       Toast.LENGTH_LONG).show();
                                dialog.dismiss();
                            }
                        }
@@ -327,8 +333,9 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
     private void getValuesFireBaseExpense() {
         //get Expenses:
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.expensesLink));
 
         dbRef.orderByChild("yearPay").equalTo(year)
                 .addValueEventListener(new ValueEventListener() {
@@ -358,7 +365,9 @@ public class MonthsStackedBarChartFragment extends Fragment implements OnChartVa
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getActivity(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),
+                                getString(R.string.errorMsg)+ firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
 

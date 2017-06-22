@@ -1,5 +1,89 @@
 <resources>
     <string name="app_name">ShotefPlus</string>
+    <string name="firebaseLink">https://shotefplus-72799.firebaseio.com/Users/</string>
+    <string name="storageLink">gs://shotefplus-72799.appspot.com/</string>
+    <string name="customersLink">/Customers/</string>
+    <string name="worksLink">/Works/</string>
+    <string name="emailTemplateLink">/EmailTemplate/</string>
+    <string name="expensesLink">/Expenses/</string>
+    <string name="priceOfferLink">/PriceOffers/</string>
+    <string name="receiptsLink">/Receipts/</string>
+
+    <string name="dateFormatMonthBar">MMM | yyyy</string>
+    <string name="dateFormat">yyyyMM</string>
+    <string name="dateFormatFull">dd/MM/yyyy</string>
+
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+
+    <!-- Intent Strings-->
+    <string name="customerIdNum">customerIdNum</string>
+    <string name="customerAddedIdNum">customerAddedIdNum</string>
+    <string name="customerAddedName">customerAddedName</string>
+    <string name="cbWorkDone">cbWorkDone</string>
+    <string name="cbWorkCancelled">cbWorkCancelled</string>
+    <string name="expenseIdNum">expenseIdNum</string>
+    <string name="workIdNum">workIdNum</string>
+    <string name="cbSent">cbSent</string>
+    <string name="rbApproved">rbApproved</string>
+    <string name="rbNotApproved">rbNotApproved</string>
+    <string name="PriceOfferId">PriceOfferId</string>
+    <string name="rbPaid">rbPaid</string>
+    <string name="rbNotPaid">rbNotPaid</string>
+    <string name="cbCash">cbCash</string>
+    <string name="cbCheque">cbCheque</string>
+    <string name="cbTrans">cbTrans</string>
+    <string name="cbCredit">cbCredit</string>
+    <string name="receiptIdNum">receiptIdNum</string>
+<string name="isFromStorage">isFromStorage</string>
+    <string name="receiptPictureIdNum">receiptPictureIdNum</string>
+<string name="receiptNumIntent">receiptNum</string>
+
+
+
+    <!-- Dialog -->
+    <string name="loadMsg">טוען נתונים..</string>
+    <string name="permissionMsg">בודק הרשאות..</string>
+    <string name="wait">אנא המתן</string>
+    <string name="saving">שומר נתונים..</string>
+
+    <!-- DB Reference fields -->
+    <string name="dueDateDB">dueDate</string>
+    <string name="name">name</string>
+    <string name="idNum">idNum</string>
+    <string name="dateDB">date</string>
+    <string name="dateReceiptDB">dateReceipt</string>
+
+    <!-- Toast Msg -->
+    <string name="errorMsg">שגיאה: </string>
+    <string name="allowPermissionMsg">אנא אפשר הרשאות התקשרות</string>
+    <string name="waitForPermission">אנא המתן בזמן קבלת הרשאות..</string>
+    <string name="noEmailClients">אין תוכנות מותקנות לשליחת מיילים</string>
+    <string name="chooseClientEmail">שלח מייל דרך...</string>
+    <string name="customerUpdated">לקוח התעדכן</string>
+    <string name="customerAdded">לקוח התווסף</string>
+    <string name="requiredFieldsCustomers">יש למלא שדות חובה: שם עסק, טלפון, דואל</string>
+    <string name="approveWorkDone">לא ניתן לאשר ביצוע עבודה שבוטלה</string>
+    <string name="cancelWorkDone">לא ניתן לבטל עבודה שבוצעה</string>
+    <string name="workIsCancelled">העבודה כבר מבוטלת</string>
+    <string name="wantCancelWork">האם אתה בטוח כי ברצונך לבטל את העבודה?</string>
+    <string name="errorWorkMsg">הוספת עבודה לרשימה</string>
+    <string name="expenseUpdated">הוצאה התעדכנה</string>
+    <string name="expenseAdded">הוצאה התווספה</string>
+    <string name="requiredFieldsExpenses">יש למלא שדות חובה: תאריך, סכום</string>
+    <string name="priceOfferIsApproved">הצעה אושרה בעבר</string>
+    <string name="errorPOMsg">הוספת עבודה לרשימה</string>
+    <string name="requiredFieldsPO">יש למלא שדות חובה: תאריך, סכום, פרטי עסקה</string>
+    <string name="priceOfferAdded">הצעת מחיר התווספה</string>
+    <string name="priceOfferUpdated">הצעת מחיר התעדכנה</string>
+    <string name="picNotSave">לא נשמרה תמונה עבור קבלה זו</string>
+    <string name="wantDeleteReceipt">האם אתה בטוח כי ברצונך למחוק קבלה זו?</string>
+    <string name="receiptDeleted">הקבלה נמחקה</string>
+    <string name="receiptUpdated">קבלה התעדכנה</string>
+    <string name="receiptAdded">קבלה התווספה</string>
+    <string name="choosePic">בחר תמונה..</string>
+    <string name="requiredFieldsReceipt">יש למלא שדות חובה: תאריך, סכום, לקוח, עבודה</string>
+
 
     <!-- Buttons-->
     <string name="signIn">התחבר</string>
@@ -58,6 +142,7 @@
     <string name="sumPayment">סהכ לתשלום</string>
     <string name="sumPaymentMaam">סהכ לתשלום כולל מעמ</string>
     <string name="paid">שולם</string>
+    <string name="txtWorkStatus">שים לב - עבודה בוטלה</string>
 
     <string name="customerName">שם לקוח</string>
     <string name="contactName">שם איש קשר</string>
@@ -70,7 +155,10 @@
     <string name="strReceipt">מספר קבלה</string>
     <string name="notFound">לא הוכנס מלל</string>
     <string name="filter">סינון</string>
+    <string name="noFilter">ללא סינון</string>
 
+
+    <!-- Contact info-->
     <string name="connectTitle">אפליקציית שוטף פלוס</string>
     <string name="linkConnect">
         <a href="mailto:shotef.plus.app@gmail.com?Subject=Lost%20Password" target="_top">shotef.plus.app@gmail.com</a>
@@ -88,6 +176,26 @@
     <string name="rPaidTrans">סמן שולם העברה</string>
     <string name="rPaidCheque">סמן שולם המחאה</string>
     <string name="rReceipt">פתח קבלה</string>
+
+
+    <!-- Work-->
+    <string name="workDone">עבודה בוצעה</string>
+    <string name="workCancelled">עבודה בוטלה</string>
+
+    <!-- Price Offer -->
+    <string name="priceOfferSent">נשלח ללקוח</string>
+    <string name="priceOfferApproved">אושר לביצוע</string>
+    <string name="priceOfferNotApproved">לא אושר לביצוע</string>
+    <string name="customerNotSet">לא נבחר לקוח</string>
+
+    <!-- Receipts  -->
+    <string name="delete">מחיקה</string>
+
+    <!-- Spinners Prompts -->
+    <string name="promptWork">-בחר עבודה-</string>
+    <string name="promptPaymentType">-בחר צורת תשלום-</string>
+    <string name="promptMethodType">-בחר סוג תשלום-</string>
+    <string name="promptCustomer">-בחר לקוח-</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">

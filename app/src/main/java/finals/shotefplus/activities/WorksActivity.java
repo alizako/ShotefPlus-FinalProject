@@ -40,6 +40,7 @@ public class WorksActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     DatabaseReference dbRef;
     Date date;
+    static final int REQ_FILTER = 1;
     static final int RESULT_CLEAN = 2;
 
     @Override
@@ -47,11 +48,15 @@ public class WorksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_works);
 
+        //set firebase link to works
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(
+                        getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.worksLink));
 
+        //set fields
         barMonth = findViewById(R.id.barMonth);
         filter = findViewById(R.id.barFilter);
         lvWorks = (ListView) findViewById(R.id.listViewWorks);
@@ -64,6 +69,7 @@ public class WorksActivity extends AppCompatActivity {
         initFilter();
 
         try {
+            //get records of firebase
             dataRefHandling();
 
         } catch (Exception e) {
@@ -80,22 +86,22 @@ public class WorksActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         TextView txtDetails = (TextView) filter.findViewById(R.id.txtDetails);
 
-        if (requestCode == 1) {
+        if (requestCode == REQ_FILTER) {
             if (resultCode == Activity.RESULT_OK) {
-                boolean isWorkDone = data.getBooleanExtra("cbWorkDone", false);
-                boolean isWorkCancelled = data.getBooleanExtra("cbWorkCancelled", false);
+                boolean isWorkDone = data.getBooleanExtra(getString(R.string.cbWorkDone), false);
+                boolean isWorkCancelled = data.getBooleanExtra(getString(R.string.cbWorkCancelled), false);
 
                 // get from DB
                 //set Filter text:
 
                 txtDetails.setText(
-                        (isWorkDone ? "עבודה בוצעה | " : "") +
-                                (isWorkCancelled ? "עבודה בוטלה | " : "")
+                        (isWorkDone ? getString(R.string.workDone)+ " | "  : "") +
+                                (isWorkCancelled ? getString(R.string.workCancelled)+" | " : "")
                 );
                 initListWorks(isWorkDone, isWorkCancelled);
             }
             if (resultCode == RESULT_CLEAN) {
-                txtDetails.setText("ללא פילטר");
+                txtDetails.setText(R.string.noFilter);
                 dataRefHandling();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -111,13 +117,13 @@ public class WorksActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WorksActivity.this, FilterWorkActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, REQ_FILTER);
             }
         });
     }
 
     private void setCurrentDateBarMonth() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatMonthBar));
         txtDate.setText(dateFormat.format(date));
     }
 
@@ -139,33 +145,7 @@ public class WorksActivity extends AppCompatActivity {
      **********************************************************************************/
     private void setEvents() {
 
-       /* lvWorks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Work work = (Work) lvWorks.getAdapter().getItem(position);
-              *//*  Intent intent = new Intent(WorksActivity.this, InsertPriceOfferActivity.class);
-                intent.putExtra("WorkId", work.getIdNum());
-                startActivityForResult(intent,REQ_UPD_WORK);*//*
-            }
-        });
-
-        lvWorks.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id)
-            {
-                *//*w = (PriceOffer) lvPriceOffer.getAdapter().getItem(position);
-
-                if (!priceOfferToWork.isPriceOfferApproved())//only price offer that didn't approved can get approve
-                {
-                    Intent intent = new Intent(PriceOffersActivity.this, PriceOfferToWork.class);
-                    //  intent.putExtra("PriceOfferId", priceOfferToWork.getIdNum());
-                    startActivityForResult(intent,REQ_UPD_WORK);
-                }*//*
-
-                return true;
-            }
-        });*/
-
+        //set events of clicking prev,next,current date
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,11 +184,15 @@ public class WorksActivity extends AppCompatActivity {
     private void dataRefHandling() {
 
         dialog = ProgressDialog.show(WorksActivity.this,
-                "", "טוען נתונים..", true);
+                "", getString(R.string.loadMsg), true);
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormat));
         final String dueDate = dateFormat.format(date);
-        dbRef.orderByChild("dueDate").startAt(dueDate).endAt(dueDate + "\uf8ff")
+
+
+        //find records with the right date (chosen in bar-month)
+        dbRef.orderByChild(getString(R.string.dueDateDB))
+                .startAt(dueDate).endAt(dueDate + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -220,9 +204,12 @@ public class WorksActivity extends AppCompatActivity {
                                 work = postSnapshot.getValue(Work.class);
                                 workList.add(work);
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg)+ ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
+                        //generate list to view through adapter
                         adapter = new WorkListAdapter(WorksActivity.this, workList, getBaseContext());
                         lvWorks.setAdapter(adapter);
                         dialog.dismiss();
@@ -230,7 +217,9 @@ public class WorksActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });

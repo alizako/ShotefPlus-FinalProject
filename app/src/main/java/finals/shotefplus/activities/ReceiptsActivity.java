@@ -61,8 +61,9 @@ public class ReceiptsActivity extends AppCompatActivity {
         //init vars:
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.receiptsLink));
 
 
         // initList();
@@ -100,12 +101,12 @@ public class ReceiptsActivity extends AppCompatActivity {
 
         if (requestCode == REQ_FILTER) {
             if (resultCode == Activity.RESULT_OK) {
-                boolean isPaid = data.getBooleanExtra("rbPaid", false);
-                boolean isNotPaid = data.getBooleanExtra("rbNotPaid", false);
-                boolean isCash = data.getBooleanExtra("cbCash", false);
-                boolean isCheque = data.getBooleanExtra("cbCheque", false);
-                boolean isTrans = data.getBooleanExtra("cbTrans", false);
-                boolean isCredit = data.getBooleanExtra("cbCredit", false);
+                boolean isPaid = data.getBooleanExtra(getString(R.string.rbPaid), false);
+                boolean isNotPaid = data.getBooleanExtra(getString(R.string.rbNotPaid), false);
+                boolean isCash = data.getBooleanExtra(getString(R.string.cbCash), false);
+                boolean isCheque = data.getBooleanExtra(getString(R.string.cbCheque), false);
+                boolean isTrans = data.getBooleanExtra(getString(R.string.cbTrans), false);
+                boolean isCredit = data.getBooleanExtra(getString(R.string.cbCredit), false);
 
                 String filterTxt = (isPaid ? "שולם | " : "") +
                         (isNotPaid ? "לא שולם | " : "") +
@@ -120,7 +121,7 @@ public class ReceiptsActivity extends AppCompatActivity {
             }
 
             if (resultCode == RESULT_CLEAN) {
-                txtDetails.setText("ללא פילטר");
+                txtDetails.setText(getString(R.string.noFilter));
                 dataRefHandling();
             }
         }
@@ -188,11 +189,14 @@ public class ReceiptsActivity extends AppCompatActivity {
     private void dataRefHandling() {
 
         dialog = ProgressDialog.show(ReceiptsActivity.this,
-                "", "טוען נתונים..", true);
+                "",
+                getString(R.string.loadMsg)
+                , true);
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormat));
         final String dateReceipt = dateFormat.format(date);
-        dbRef.orderByChild("dateReceipt")
+
+        dbRef.orderByChild(getString(R.string.dateReceiptDB))
                 .startAt(dateReceipt)
                 .endAt(dateReceipt + "\uf8ff")
                 .addValueEventListener(new ValueEventListener() {
@@ -211,8 +215,11 @@ public class ReceiptsActivity extends AppCompatActivity {
 
                                    //get Customer of current Receipts
                                    final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
-                                           .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                                                   firebaseAuth.getCurrentUser().getUid() + "/Customers/" + receipt.getCustomerIdNum());
+                                           .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                                                   firebaseAuth.getCurrentUser().getUid() +
+                                                   getString(R.string.customersLink) +
+                                                   receipt.getCustomerIdNum());
+
                                    currentDdbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                        public void onDataChange(DataSnapshot dataSnapshot) {
                                            Customer customer = new Customer();
@@ -229,7 +236,9 @@ public class ReceiptsActivity extends AppCompatActivity {
 
                                        @Override
                                        public void onCancelled(DatabaseError firebaseError) {
-                                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                           Toast.makeText(getBaseContext(),
+                                                   getString(R.string.errorMsg)+ firebaseError.getMessage(),
+                                                   Toast.LENGTH_LONG).show();
                                            dialog.dismiss();
                                        }
                                    });
@@ -237,7 +246,9 @@ public class ReceiptsActivity extends AppCompatActivity {
 
 
                                } catch (Exception ex) {
-                                   Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                   Toast.makeText(getBaseContext(),
+                                           getString(R.string.errorMsg) + ex.toString(),
+                                           Toast.LENGTH_LONG).show();
                                    dialog.dismiss();
                                }
                            }
@@ -250,7 +261,9 @@ public class ReceiptsActivity extends AppCompatActivity {
 
                        @Override
                        public void onCancelled(DatabaseError firebaseError) {
-                           Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                           Toast.makeText(getBaseContext(),
+                                   getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                   Toast.LENGTH_LONG).show();
                            dialog.dismiss();
                        }
 
@@ -263,6 +276,7 @@ public class ReceiptsActivity extends AppCompatActivity {
     /**********************************************************************************
      * private functions
      **********************************************************************************/
+    //filter list of receipts
     private void initListReceipts(boolean isPaid, boolean isNotPaid, boolean isCash,
                                   boolean isCheque, boolean isTrans, boolean isCredit) {
         boolean tmpIsPaid = isPaid ? true : (isNotPaid ? false : false);
@@ -342,7 +356,7 @@ public class ReceiptsActivity extends AppCompatActivity {
     }
 
     private void setCurrentDateBarMonth() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatMonthBar));
         txtDate.setText(dateFormat.format(date));
     }
 

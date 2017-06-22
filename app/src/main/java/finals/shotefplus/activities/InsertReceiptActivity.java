@@ -83,7 +83,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReferenceFromUrl("gs://shotefplus-72799.appspot.com/" + firebaseAuth.getCurrentUser().getUid());
+        storageRef = storage.getReferenceFromUrl(getString(R.string.storageLink) + firebaseAuth.getCurrentUser().getUid());
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         imgBtnAddReceipt = (ImageView) findViewById(R.id.imgBtnAddReceipt);
@@ -110,7 +110,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String receiptId = intent.getStringExtra("receiptIdNum");
+        String receiptId = intent.getStringExtra(getString(R.string.receiptIdNum));
         if (receiptId != null)//has value
         {
             isUpdateMode = true;
@@ -131,10 +131,12 @@ public class InsertReceiptActivity extends AppCompatActivity {
         }
         if (requestCode == REQ_ADD_CUSTOMER) {
             if (resultCode == Activity.RESULT_OK) {
-                customerAddedIdNum = data.getStringExtra("customerAddedIdNum");
+                customerAddedIdNum = data.getStringExtra(getString(R.string.customerAddedIdNum));
                 setSelectionCustomerSpinner(customerAddedIdNum);//set selection to added customer
             } else {
-                Toast.makeText(getBaseContext(), "ERROR: adding customer", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg)+getString(R.string.customerNotSet),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -156,7 +158,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 //updateLabel();
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
                 final String dueDate = dateFormat.format(calendar.getTime());
                 etDate.setText(dueDate);
             }
@@ -213,7 +215,8 @@ public class InsertReceiptActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+                startActivityForResult(Intent.createChooser(intent,
+                        getString(R.string.choosePic)), PICK_IMAGE_REQUEST);
             }
         });
 
@@ -223,19 +226,19 @@ public class InsertReceiptActivity extends AppCompatActivity {
                 Intent intent = new Intent(InsertReceiptActivity.this, ReceiptImageActivity.class);
                 if (!isUpdateMode ||
                         (isUpdateMode && filePath != null)) {
-                    intent.putExtra("isFromStorage", false);
+                    intent.putExtra(getString(R.string.isFromStorage), false);
                     intent.setData(filePath);
                     startActivityForResult(intent, REQ_OPEN_RECEIPT);
                 } else //updateMode or re-chosen pic
                 {
                     if (receipt.isPicReceiptExist()) {
-                        intent.putExtra("isFromStorage", true);
-                        intent.putExtra("receiptPictureIdNum", receipt.getIdNum());
-                        intent.putExtra("receiptNum", receipt.getReceiptNum());
+                        intent.putExtra(getString(R.string.isFromStorage), true);
+                        intent.putExtra(getString(R.string.receiptPictureIdNum), receipt.getIdNum());
+                        intent.putExtra(getString(R.string.receiptNum), receipt.getReceiptNum());
                         startActivityForResult(intent, REQ_OPEN_RECEIPT);
                     } else {
                         Toast.makeText(InsertReceiptActivity.this,
-                                "לא נשמרה תמונה עבור קבלה זו",
+                                getString(R.string.picNotSave),
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -252,14 +255,16 @@ public class InsertReceiptActivity extends AppCompatActivity {
     private void setValuesToFields(final String receiptId) {
         dialog = ProgressDialog.show(InsertReceiptActivity.this,
                 "",
-                "טוען נתונים..",
+                getString(R.string.loadMsg),
                 true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Receipts/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.receiptsLink));
 
-        dbRef.orderByChild("idNum").startAt(receiptId).endAt(receiptId)
+        dbRef.orderByChild(getString(R.string.idNum))
+                .startAt(receiptId).endAt(receiptId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -269,6 +274,8 @@ public class InsertReceiptActivity extends AppCompatActivity {
                             try {
                                 receipt = new Receipt();
                                 receipt = postSnapshot.getValue(Receipt.class);
+
+                                btnAdd.setText(getString(R.string.update));
 
                                 etReceiptNum.setText(receipt.getReceiptNum());
                                 etDate.setText(receipt.dateReceiptToString());
@@ -280,17 +287,20 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
                                 setSpinners(receipt);
 
-                                btnAdd.setText("עדכן");
                                 dialog.dismiss();
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg) + ex.toString()
+                                        , Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         // dialog.dismiss();
                     }
                 });
@@ -307,7 +317,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
             receipt.setSumPayment(Double.parseDouble(etSum.getText().toString()));
             receipt.setSumPaymentMaam(cbSumMaam.isChecked());
             receipt.setPaymentWithMaam();
-            receipt.setDateReceipt(etDate.getText().toString());//TODO:CHECK!
+            receipt.setDateReceipt(etDate.getText().toString());
             receipt.setDueDatePayment();
             receipt.setReceiptNum(etReceiptNum.getText().toString());
             receipt.setDealDetails(etDetails.getText().toString());
@@ -320,7 +330,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
             String strReceipt = "";
             dialog = ProgressDialog.show(InsertReceiptActivity.this,
                     "",
-                    "שומר נתונים..",
+                    getString(R.string.saving),
                     true);
 
             if (isUpdateMode) {
@@ -330,13 +340,13 @@ public class InsertReceiptActivity extends AppCompatActivity {
                 if (filePath != null)
                     storageRef.child(currentKey + ".jpg").delete(); //delete pic from storage before save new one
 
-                strReceipt = "קבלה התעדכנה";
+                strReceipt = getString(R.string.receiptUpdated);
             } else {//add new price offer
 
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertReceipt(receipt);
 
-                strReceipt = "קבלה התווספה";
+                strReceipt =getString(R.string.receiptAdded);
             }
 
             if (currentKey != null && filePath != null) {
@@ -347,7 +357,9 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
             finish(); //back to list
         } catch (Exception ex) {
-            Toast.makeText(v.getContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(v.getContext(),
+                    getString(R.string.errorMsg) + ex.toString(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -355,14 +367,16 @@ public class InsertReceiptActivity extends AppCompatActivity {
     private void initCustomerSpinnerFromDB() {
         //       spnrCustomer
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.customersLink));
+
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 customerList = new ArrayList<Customer>();
                 strTitleList = new ArrayList<String>();
-                strTitleList.add("-בחר לקוח-");
+                strTitleList.add(getString(R.string.promptCustomer));
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
                         Customer customer = new Customer();
@@ -375,14 +389,18 @@ public class InsertReceiptActivity extends AppCompatActivity {
                         spnrCustomer.setAdapter(spinnerAdapterCustomer);
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + ex.toString(),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -391,8 +409,9 @@ public class InsertReceiptActivity extends AppCompatActivity {
     private void initWorkSpinnerFromDB() {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.worksLink));
 
 
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -401,7 +420,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
                 worksList = new ArrayList<Work>();
                 strTitleList = new ArrayList<String>();
-                strTitleList.add("-בחר עבודה-");
+                strTitleList.add(getString(R.string.promptWork));
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     try {
@@ -416,14 +435,18 @@ public class InsertReceiptActivity extends AppCompatActivity {
 
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + ex.toString(),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -435,11 +458,13 @@ public class InsertReceiptActivity extends AppCompatActivity {
         boolean flagErr = false;
         if (etDate.getText().toString().equals("")) flagErr = true;
         if (etSum.getText().toString().equals("")) flagErr = true;
-        if (spnrCustomer.getSelectedItem().equals("-בחר לקוח-")) flagErr = true;
-        if (spnrWork.getSelectedItem().equals("-בחר עבודה-")) flagErr = true;
+        if (spnrCustomer.getSelectedItem().equals(getString(R.string.promptCustomer))) flagErr = true;
+        if (spnrWork.getSelectedItem().equals(getString(R.string.promptWork))) flagErr = true;
 
         if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום, לקוח, עבודה", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.requiredFieldsReceipt),
+                    Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -498,15 +523,15 @@ public class InsertReceiptActivity extends AppCompatActivity {
     /* ------------------------------------------------------------------------------------------- */
     private void setSpinnerValuesToReceipt() {
         //Title of spinner in position 0
-        if (!spnrCustomer.getSelectedItem().equals("-בחר לקוח-")) {
+        if (!spnrCustomer.getSelectedItem().equals(getString(R.string.promptCustomer))) {
             int pos = spnrCustomer.getSelectedItemPosition();
             receipt.setCustomerIdNum(customerList.get(pos - 1).getIdNum());
         }
-        if (!spnrWork.getSelectedItem().equals("-בחר עבודה-")) {
+        if (!spnrWork.getSelectedItem().equals(getString(R.string.promptWork))) {
             int pos = spnrWork.getSelectedItemPosition();
             receipt.setWorkIdNum(worksList.get(pos - 1).getIdNum());
         }
-        if (!spnrPaymentMethod.getSelectedItem().equals("-בחר סוג תשלום-")) {
+        if (!spnrPaymentMethod.getSelectedItem().equals(getString(R.string.promptMethodType))) {
             int pos = spnrPaymentMethod.getSelectedItemPosition();
             int paymentMethod = 0;
             switch (pos) {
@@ -526,7 +551,7 @@ public class InsertReceiptActivity extends AppCompatActivity {
             receipt.setPaymentMethod(paymentMethod);
         }
 
-        if (!spnrPaymentType.getSelectedItem().equals("-בחר צורת תשלום-")) {
+        if (!spnrPaymentType.getSelectedItem().equals(getString(R.string.promptPaymentType))) {
             int pos = spnrPaymentType.getSelectedItemPosition();
             receipt.setPaymentType(pos);
         }

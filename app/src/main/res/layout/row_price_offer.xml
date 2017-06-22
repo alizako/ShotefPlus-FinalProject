@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
             android:layoutDirection="rtl"
-            android:text="נשלח ללקוח"
+            android:text="@string/priceOfferSent"
             android:textColor="@color/summary"/>
 
         <!-- Summary -->

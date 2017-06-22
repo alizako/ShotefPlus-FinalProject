@@ -44,8 +44,9 @@ public class MailTemplateActivity extends AppCompatActivity {
 
     private void retrieveSavedMsg() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/EmailTemplate/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.emailTemplateLink));
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -63,7 +64,9 @@ public class MailTemplateActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
                 // dialog.dismiss();
             }
         });

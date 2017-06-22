@@ -113,7 +113,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         // String priceOfferId = "";
-        String priceOfferId = intent.getStringExtra("PriceOfferId");
+        String priceOfferId = intent.getStringExtra(getString(R.string.PriceOfferId));
         if (priceOfferId != null)//has value
         {
             isUpdateMode = true;
@@ -129,10 +129,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
         if (requestCode == REQ_ADD_CUSTOMER) {
             if (resultCode == Activity.RESULT_OK) {
-                customerAddedIdNum = data.getStringExtra("customerAddedIdNum");
+                customerAddedIdNum = data.getStringExtra(getString(R.string.customerAddedIdNum));
                 setSpinners(customerAddedIdNum);//set selection to added customer
             } else {
-                Toast.makeText(getBaseContext(), "ERROR: adding customer", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg)+ " " +getString(R.string.errorPOMsg),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -150,7 +152,9 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
         if (etDetails.getText().toString().equals("")) flagErr = true;
 
         if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: תאריך, סכום, פרטי עסקה", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.requiredFieldsPO),
+                    Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -172,14 +176,14 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     /* ------------------------------------------------------------------------------------------- */
     private void setSpinnerValuesToPriceOffer() {
         //Title of spinner in position 0
-        if (!spnrCustomer.getSelectedItem().equals("-בחר לקוח-")) {
+        if (!spnrCustomer.getSelectedItem().equals(getString(R.string.promptCustomer))) {
             int pos = spnrCustomer.getSelectedItemPosition();
             priceOffer.setCustomerIdNum(customerList.get(pos - 1).getIdNum());
         }
     }
 
     private void sendPriceOfferByMail() {
-        String subject = "הצעת מחיר";
+        String subject = getString(R.string.insertPriceOffer);
         String body = "";
         body += "תאריך: " + etDate.getText() + "\n";
         body += "מיקום: " + etLocation.getText() + "\n";
@@ -196,9 +200,11 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
             emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
             try {
-                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                startActivity(Intent.createChooser(emailIntent, getString(R.string.chooseClientEmail)));
             } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(getBaseContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.noEmailClients),
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -232,7 +238,7 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 //updateLabel();
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
                 final String dueDate = dateFormat.format(calendar.getTime());
                 etDate.setText(dueDate);
             }
@@ -259,40 +265,12 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
             }
         });
 
+        //this version doesn't use pdf, but email
         btnSendPdf.setOnClickListener(new View.OnClickListener() {
             //open gmail to edit the msg before sending
             @Override
             public void onClick(View v) {
                 //TODO send pdf to customer
-               /* if (!isUpdateMode) {//will update db only in add mode. in update mode clicking on btn Update will update the db
-                    FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
-                            .updatePriceOffer(priceOffer, currentKey);
-                }*/
-                // create a new document
-                /*PdfDocument document = new PdfDocument();
-
-                // crate a page description
-                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(500, 500, 1).create();
-
-                // start a page
-                PdfDocument.Page page = document.startPage(pageInfo);
-
-                // draw something on the page
-                //   View content = getContentView();
-                View content = (ViewGroup) getWindow().getDecorView();
-                content.draw(page.getCanvas());
-
-                // finish the page
-                document.finishPage(page);
-                // . . .
-                // add more pages
-                // . . .
-                // write the document content
-                //  document.writeTo(getOutputStream());
-
-                // close the document
-                document.close();*/
-
 
                 if (!isUpdateMode)//in case sending pdf pre-saving new record
                     priceOffer = new PriceOffer();
@@ -302,13 +280,14 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                         sendPriceOfferByMail();
                         addPriceOfferToFireBase(true);
                     } else
-                        Toast.makeText(getBaseContext(), "יש לבחור לקוח", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.customerNotSet), Toast.LENGTH_SHORT).show();
                 }
 //                Toast.makeText(v.getContext(), "הצעת מחיר נשלחה ללקוח במייל", Toast.LENGTH_LONG).show();
                 //Toast.makeText(v.getContext(), "כרגע לא בשימוש", Toast.LENGTH_LONG).show();
             }
         });
 
+        //add new customer
         imgBtnCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,10 +301,13 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
     /**********************************************************************************
      * FireBase
      **********************************************************************************/
+    //get current price offer from firebase
     private void setValuesToFields(final String priceOfferId) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/" + priceOfferId);
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.priceOfferLink)
+                        + priceOfferId);
 
         dbRef/*.orderByChild("idNum")
                 .startAt(priceOfferId).endAt(priceOfferId)*/
@@ -338,6 +320,9 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                         try {
                             priceOffer = new PriceOffer();
                             priceOffer = snapshot.getValue(PriceOffer.class);
+
+                            btnAdd.setText(getString(R.string.update));
+
                             etDate.setText(priceOffer.dueDateToString());
                             etLocation.setText(priceOffer.getLocation());
 
@@ -352,16 +337,19 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                             if (priceOffer.getCustomerIdNum() != null && priceOffer.getCustomerIdNum().length() > 0)
                                 setSpinners(priceOffer.getCustomerIdNum());
 
-                            btnAdd.setText("עדכן");
                         } catch (Exception ex) {
-                            Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),
+                                    getString(R.string.errorMsg) + ex.toString(),
+                                    Toast.LENGTH_LONG).show();
                         }
                         // }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         // dialog.dismiss();
                     }
                 });
@@ -402,31 +390,37 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                 //  Toast.makeText(v.getContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
             } else {//add new price offer
 
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
                 Date date = new Date();
                 priceOffer.setDateInsertion(dateFormat.format(date));
 
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertPriceOffer(priceOffer);
-                Toast.makeText(getBaseContext(), "הצעת מחיר התווספה", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.priceOfferAdded)
+                        , Toast.LENGTH_LONG).show();
             }
 
             finish(); //back to list
         } catch (Exception ex) {
-            Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.errorMsg) + ex.toString(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
     /* ------------------------------------------------------------------------------------------- */
+    // in case this price offer is already saved as a Work- needs to update work as well
     private void updateWorkInDB() {
 
         final String priceOfferId = priceOffer.getIdNum();
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.worksLink));
 
-        dbRef.orderByChild("idNum")
+        dbRef.orderByChild(getString(R.string.idNum))
                 // .startAt(priceOfferId).endAt(priceOfferId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -454,49 +448,65 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                                 }
 
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg)+ ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
 
                         if (pendingLoadCount[0] == 0) {
 
                             try {
+                                //update price offer
                                 final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
-                                        .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                                                firebaseAuth.getCurrentUser().getUid() + "/Works/" + workPO.getIdNum());
+                                        .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                                                firebaseAuth.getCurrentUser().getUid() +
+                                                getString(R.string.worksLink) +
+                                                workPO.getIdNum());
 
                                 currentDdbRef.setValue(workPO);
 
-                                Toast.makeText(getBaseContext(), "הצעת מחיר התעדכנה", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.priceOfferUpdated)
+                                        , Toast.LENGTH_LONG).show();
 
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg)+ ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         // dialog.dismiss();
                     }
                 });
     }
 
     /* ------------------------------------------------------------------------------------------- */
+    //get all customers from firebase- set in spinner through adapter
     private void initSpinnersFromDB() {
         dialog = ProgressDialog.show(InsertPriceOfferActivity.this,
-                "", "טוען נתונים..", true);
+                "",
+                getString(R.string.loadMsg),
+                true);
         //       spnrCustomer
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.customersLink));
+
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 customerList = new ArrayList<Customer>();
                 strTitleList = new ArrayList<String>();
-                strTitleList.add("-בחר לקוח-");
+                strTitleList.add(getString(R.string.promptCustomer));
 
                 final long[] pendingLoadCount = {snapshot.getChildrenCount()};
 
@@ -513,7 +523,9 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
                         spnrCustomer.setAdapter(spinnerAdapterCustomer);
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg)+ ex.toString(),
+                                Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 }
@@ -525,7 +537,9 @@ public class InsertPriceOfferActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg)+ firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
 
             }
         });

@@ -44,7 +44,7 @@ RadioButton rbPatur,rbMurshe;
 
     private void retrieveSavedType() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
                         firebaseAuth.getCurrentUser().getUid());
 
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -64,7 +64,9 @@ RadioButton rbPatur,rbMurshe;
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
                 // dialog.dismiss();
             }
         });

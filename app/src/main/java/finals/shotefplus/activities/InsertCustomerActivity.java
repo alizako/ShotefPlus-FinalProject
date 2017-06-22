@@ -62,7 +62,7 @@ public class InsertCustomerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String customerId = intent.getStringExtra("customerIdNum");
+        String customerId = intent.getStringExtra(getString(R.string.customerIdNum));
         if (customerId != null)//has value
         {
             isUpdateMode = true;
@@ -98,14 +98,19 @@ public class InsertCustomerActivity extends AppCompatActivity {
     /**********************************************************************************
      * FireBase
      **********************************************************************************/
-
+    /*
+    * exist customer- set values
+    * get id of chosen row in list to look for it in firebase
+    */
     private void setValuesToFields(final String customerId) {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.customersLink));
 
-        dbRef.orderByChild("idNum").startAt(customerId).endAt(customerId)
+        dbRef.orderByChild(getString(R.string.idNum))
+                .startAt(customerId).endAt(customerId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -115,6 +120,9 @@ public class InsertCustomerActivity extends AppCompatActivity {
                             try {
                                 customer = new Customer();
                                 customer = postSnapshot.getValue(Customer.class);
+
+                                btnAdd.setText(getString(R.string.update));
+
                                 etName.setText(customer.getName());
                                 etContactName.setText(customer.getCustomerContactName());
                                 etPhone.setText(customer.getPhoneNum());
@@ -132,24 +140,26 @@ public class InsertCustomerActivity extends AppCompatActivity {
                                     rbBsns.setChecked(false);
                                     rbPrivate.setChecked(false);
                                 }
-
-                                btnAdd.setText("עדכן");
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg) + ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         // dialog.dismiss();
                     }
                 });
 
     }
 
-
+// update or insert customer to firebase
     private void addCustomerToFireBase(View v) {
 
         try {
@@ -174,27 +184,33 @@ public class InsertCustomerActivity extends AppCompatActivity {
                 FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .updateCustomer(customer, currentKey);
 
-                Toast.makeText(v.getContext(), "לקוח התעדכן", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(),
+                        getString(R.string.customerUpdated),
+                        Toast.LENGTH_LONG).show();
             } else {//add new Customer
 
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatFull));
                 Date date = new Date();
                 customer.setDateInsertion(dateFormat.format(date));
 
                 currentKey = FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                         .insertCustomer(customer);
                 Intent intent= new Intent();
-                intent.putExtra("customerAddedIdNum", currentKey);
-                intent.putExtra("customerName", customer.getName());
+                intent.putExtra(getString(R.string.customerAddedIdNum), currentKey);
+                intent.putExtra(getString(R.string.customerAddedName), customer.getName());
                 setResult(RESULT_OK, intent);
 
-                Toast.makeText(v.getContext(), "לקוח התווסף", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(),
+                        getString(R.string.customerAdded),
+                        Toast.LENGTH_LONG).show();
                 finish();
             }
 
             finish(); //back to list
         } catch (Exception ex) {
-            Toast.makeText(v.getContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(v.getContext(),
+                    getString(R.string.errorMsg) + ex.toString(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -213,7 +229,9 @@ public class InsertCustomerActivity extends AppCompatActivity {
         if (etEmail.getText().toString().equals("")) flagErr = true;
 
         if (flagErr) {
-            Toast.makeText(getBaseContext(), "יש למלא שדות חובה: שם עסק, טלפון, דואל", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.requiredFieldsCustomers),
+                    Toast.LENGTH_LONG).show();
             return false;
         }
         return true;

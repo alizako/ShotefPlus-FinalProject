@@ -84,7 +84,9 @@ public class WorkListAdapter extends BaseAdapter {
                 work = workList.get(pos);
                 if (work.isWorkCanceled()) {
                     cbIsWorkDone.setChecked(false);
-                    Toast.makeText(context, "לא ניתן לאשר ביצוע עבודה שבוטלה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            context.getString(R.string.approveWorkDone),
+                            Toast.LENGTH_LONG).show();
                 } else {
                     work.setWorkDone(cbIsWorkDone.isChecked());
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
@@ -99,9 +101,13 @@ public class WorkListAdapter extends BaseAdapter {
                 work = workList.get(pos);
 
                 if (work.isWorkDone())
-                    Toast.makeText(context, "לא ניתן לבטל עבודה שבוצעה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            context.getString(R.string.cancelWorkDone),
+                            Toast.LENGTH_LONG).show();
                 else if (work.isWorkCanceled())
-                    Toast.makeText(context, "העבודה כבר מבוטלת", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            context.getString(R.string.workIsCancelled),
+                            Toast.LENGTH_LONG).show();
                 else {
                   /*  work.setWorkCanceled(true);
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
@@ -116,7 +122,7 @@ public class WorkListAdapter extends BaseAdapter {
 
         //set values in rows:
         if (work.isWorkCanceled()) {
-            txtWorkID.setText("שים לב - עבודה בוטלה");
+            txtWorkID.setText(context.getString(R.string.txtWorkStatus));
             imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
             rowLayout.setBackgroundColor(ResourcesCompat.getColor(context.getResources(), R.color.lightGrey, null));
         } else {
@@ -138,21 +144,24 @@ public class WorkListAdapter extends BaseAdapter {
 
     private AlertDialog openConfirmationDialog(final ImageView imgCancelWork) {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity)
-                .setTitle("מחיקה")
-                .setMessage("האם אתה בטוח כי ברצונך לבטל את העבודה?")
+                .setTitle(context.getString(R.string.cancel))
+                .setMessage(context.getString(R.string.wantCancelWork))
                 .setIcon(R.drawable.alert_32)
-                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                .setPositiveButton(context.getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         work.setWorkCanceled(true);
                         FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                 .updateWork(work, work.getIdNum());
                         imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
-                        Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,
+                                context.getString(R.string.workCancelled),
+                                Toast.LENGTH_LONG).show();
 
                     }
                 })
-                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

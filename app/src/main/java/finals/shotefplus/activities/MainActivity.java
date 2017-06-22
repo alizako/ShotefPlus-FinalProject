@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         btnReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ReportsActivity.class));
+               // startActivity(new Intent(MainActivity.this, ReportsActivity.class));
+                Toast.makeText(getBaseContext(), "לא בשימוש בשלב זה", Toast.LENGTH_LONG).show();
             }
         });
         btnSettings.setOnClickListener(new View.OnClickListener() {

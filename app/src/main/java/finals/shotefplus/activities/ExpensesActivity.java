@@ -60,8 +60,10 @@ public class ExpensesActivity extends AppCompatActivity {
         //init vars:
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.expensesLink));
+
         barMonth = findViewById(R.id.barMonth);
         txtNext = (TextView) barMonth.findViewById(R.id.txtNext);
         txtPrev = (TextView) barMonth.findViewById(R.id.txtPrev);
@@ -75,7 +77,7 @@ public class ExpensesActivity extends AppCompatActivity {
         try {
             dialog = ProgressDialog.show(ExpensesActivity.this,
                     "",
-                    "טוען נתונים..",
+                    getString(R.string.loadMsg),
                     true);
 
             dataRefHandling();
@@ -101,62 +103,42 @@ public class ExpensesActivity extends AppCompatActivity {
      * Private Functions
      **********************************************************************************/
     private void setCurrentDateBarMonth() {
-        DateFormat dateFormat = new SimpleDateFormat("MMM | yyyy");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormatMonthBar));
         txtDate.setText(dateFormat.format(date));
     }
-
-  /*  private void initExpensesList() {
-
-        lvExpenses = (ListView) findViewById(R.id.listViewExpenses);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        Expense expense1= new Expense(dateFormat.format(date),new Work(), 3000, "הדפסת 1000 עותקים פלייר","1");
-        Expense expense2= new Expense(dateFormat.format(date),new Work(),  200, "משלוח חו''ל","2");
-        Expense expense3= new Expense(dateFormat.format(date),new Work(),  302, "הדפסת הזמנות","3");
-        Expense expense4= new Expense(dateFormat.format(date),new Work(),  1000, "קניית תוכנה חדשה לביצוע דרישות לקוח","4");
-
-        expenseList = new ArrayList<Expense>();
-        expenseList.add(expense1);
-        expenseList.add(expense2);
-        expenseList.add(expense3);
-        expenseList.add(expense4);
-
-
-        adapter = new ExpenseListAdapter(ExpensesActivity.this,expenseList);
-        lvExpenses.setAdapter(adapter);
-    }*/
 
     /**********************************************************************************
      * Events
      **********************************************************************************/
     private void setEvents() {
+        //add expense
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ExpensesActivity.this,InsertExpenseActivity.class));
             }
         });
+        //edit expense
         lvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Expense expense = (Expense) lvExpenses.getAdapter().getItem(position);
 
                 Intent intent = new Intent(ExpensesActivity.this, InsertExpenseActivity.class);
-                intent.putExtra("expenseIdNum", expense.getIdNum());
+                intent.putExtra(getString(R.string.expenseIdNum), expense.getIdNum());
                 startActivityForResult(intent,REQ_UPD_WORK);
-                //????
             }
         });
 
-        lvExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+       /* lvExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
             {
-                //TODO- ???
                 return true;
             }
-        });
+        });*/
 
+        //bar month clicks- next, prev, current: changes the view
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,9 +177,10 @@ public class ExpensesActivity extends AppCompatActivity {
      **********************************************************************************/
     private void dataRefHandling() {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.dateFormat));
         final String dateFormated = dateFormat.format(date);
-        dbRef.orderByChild("date").startAt(dateFormated).endAt(dateFormated + "\uf8ff") //!!!!!
+        dbRef.orderByChild(getString(R.string.dateDB))
+                .startAt(dateFormated).endAt(dateFormated + "\uf8ff") //!!!!!
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -209,7 +192,9 @@ public class ExpensesActivity extends AppCompatActivity {
                                 expense = postSnapshot.getValue(Expense.class);
                                 expenseList.add(expense);
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        getString(R.string.errorMsg) + ex.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                         adapter = new ExpenseListAdapter(ExpensesActivity.this, expenseList);
@@ -219,7 +204,9 @@ public class ExpensesActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg) + firebaseError.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });

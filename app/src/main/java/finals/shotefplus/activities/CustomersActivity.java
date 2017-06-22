@@ -45,8 +45,9 @@ public class CustomersActivity extends AppCompatActivity {
         //init vars:
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                firebaseAuth.getCurrentUser().getUid() +
+                getString(R.string.customersLink));
 
         lvCustomers = (ListView) findViewById(R.id.listViewCustomers);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
@@ -55,9 +56,10 @@ public class CustomersActivity extends AppCompatActivity {
         try {
             dialog = ProgressDialog.show(CustomersActivity.this,
                     "",
-                    "טוען נתונים..",
+                    getString(R.string.loadMsg),
                     true);
 
+            //get records from firebase
             dataRefHandling();
 
         } catch (Exception e) {
@@ -70,16 +72,11 @@ public class CustomersActivity extends AppCompatActivity {
         setEvents();
     }
 
-  /*  @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_ADD_CUSTOMER && resultCode == RESULT_OK) {
-            //dataRefHandling();
-        }
-    }*/
     /**********************************************************************************
      * Events
      **********************************************************************************/
     private void setEvents() {
+        //add new customer
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,12 +86,13 @@ public class CustomersActivity extends AppCompatActivity {
             }
         });
 
+        //click on one row leads to edit the customer
         lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Customer customer = (Customer) lvCustomers.getAdapter().getItem(position);
                 Intent intent = new Intent(CustomersActivity.this, InsertCustomerActivity.class);
-                intent.putExtra("customerIdNum", customer.getIdNum());
+                intent.putExtra(getString(R.string.customerIdNum), customer.getIdNum());
                 startActivityForResult(intent,REQ_UPD_CUSTOMER);
             }
         });
@@ -105,7 +103,9 @@ public class CustomersActivity extends AppCompatActivity {
      **********************************************************************************/
     private void dataRefHandling() {
 
-        dbRef.orderByChild("name").addValueEventListener(new ValueEventListener() {
+        //get customers ordered by name
+        dbRef.orderByChild(getString(R.string.name))
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 customerList = new ArrayList<Customer>();
@@ -116,9 +116,12 @@ public class CustomersActivity extends AppCompatActivity {
                         customer = postSnapshot.getValue(Customer.class);
                         customerList.add(customer);
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.errorMsg)+ ex.toString(),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
+                //set list view through adapter
                 adapter = new CustomerListAdapter(CustomersActivity.this, customerList);
                 lvCustomers.setAdapter(adapter);
                 dialog.dismiss();
@@ -126,7 +129,9 @@ public class CustomersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.errorMsg) + firebaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
