@@ -35,17 +35,20 @@
     <string name="cbTrans">cbTrans</string>
     <string name="cbCredit">cbCredit</string>
     <string name="receiptIdNum">receiptIdNum</string>
-<string name="isFromStorage">isFromStorage</string>
+    <string name="isFromStorage">isFromStorage</string>
     <string name="receiptPictureIdNum">receiptPictureIdNum</string>
-<string name="receiptNumIntent">receiptNum</string>
+    <string name="receiptNumIntent">receiptNum</string>
 
 
 
     <!-- Dialog -->
+    <string name="connecting">מתחבר לשרת</string>
     <string name="loadMsg">טוען נתונים..</string>
     <string name="permissionMsg">בודק הרשאות..</string>
     <string name="wait">אנא המתן</string>
+    <string name="waitConnecting">אנא המתן בזמן ההתחברות</string>
     <string name="saving">שומר נתונים..</string>
+
 
     <!-- DB Reference fields -->
     <string name="dueDateDB">dueDate</string>
@@ -55,6 +58,13 @@
     <string name="dateReceiptDB">dateReceipt</string>
 
     <!-- Toast Msg -->
+    <string name="signUpToast">רישום בוצע בהצלחה</string>
+    <string name="signInToast">התחברות בוצעה בהצלחה</string>
+    <string name="registrationErr">שגיאה בהתחברות</string>
+    <string name="signOutOk">התנתקת מהמערכת בהצלחה</string>
+    <string name="signout">התנתקות</string>
+    <string name="signOutMsg">האם אתה בטוח כי ברצונך לצאת מהמערכת?</string>
+    <string name="setEmail">אנא הכנס כתובת מייל</string>
     <string name="errorMsg">שגיאה: </string>
     <string name="allowPermissionMsg">אנא אפשר הרשאות התקשרות</string>
     <string name="waitForPermission">אנא המתן בזמן קבלת הרשאות..</string>
@@ -83,7 +93,24 @@
     <string name="receiptAdded">קבלה התווספה</string>
     <string name="choosePic">בחר תמונה..</string>
     <string name="requiredFieldsReceipt">יש למלא שדות חובה: תאריך, סכום, לקוח, עבודה</string>
+    <string name="selectionMsg">לא בוצעה בחירה</string>
+    <string name="priceOfferNotFound">לא נמצאו הצעות מחיר</string>
+    <string name="workNotFound">לא נמצאו עבודות</string>
+    <string name="receiptNotFound">לא נמצאו קבלות</string>
+    <string name="expenseNotFound">לא נמצאו הוצאות</string>
 
+<!-- Settings -->
+    <string name="profileUpdateMsg">פרופיל התעדכן בהצלחה!</string>
+    <string name="err1">מצטערים, משהו קרה :(</string>
+    <string name="err2">אנא נסו שוב מאוחר יותר</string>
+    <string name="registrationUpdateMsg">פרטי הרישום התעדכנו בהצלחה!</string>
+    <string name="messageMsg">תוכן הודעה התעדכן בהצלחה!</string>
+    <string name="emailMsg">תוכן אימייל התעדכן בהצלחה!</string>
+    <string name="businessMsg">סוג עסק התעדכן בהצלחה!</string>
+    <string name="dissmisedMsg">פרטי כניסה למערכת נמחקו ממכשיר זה</string>
+<!--  -->
+    <string name="pswrdMsg">אנא הכנס סיסמה קודמת</string>
+    <string name="pswrdCorrectMsg">אנא הכנס סיסמה תקינה בעלת לפחות 6 תווים</string>
 
     <!-- Buttons-->
     <string name="signIn">התחבר</string>
@@ -196,6 +223,8 @@
     <string name="promptPaymentType">-בחר צורת תשלום-</string>
     <string name="promptMethodType">-בחר סוג תשלום-</string>
     <string name="promptCustomer">-בחר לקוח-</string>
+    <string name="promptWorkExpenses">-בחר עבודה עם הוצאות-</string>
+    <string name="promptPO">-בחר הצעת מחיר-</string>
 
     <!-- Spinners -->
     <string-array name="spinnerPaymentType">
@@ -236,8 +265,7 @@
     </string-array>
 
     <!--Toasts-->
-    <string name="signUpToast">רישום בוצע בהצלחה</string>
-    <string name="signInToast">התחברות בוצעה בהצלחה</string>
+
 
 
     <!-- Firebase -->

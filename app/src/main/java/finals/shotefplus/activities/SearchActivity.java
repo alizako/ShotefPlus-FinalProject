@@ -84,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
         etDateReceipt.setShowSoftInputOnFocus(false);
         etDueDateWorkPO = (EditText) findViewById(R.id.etDueDateWorkPO);
         etDueDateWorkPO.setShowSoftInputOnFocus(false);
-        etDateExpense=(EditText) findViewById(R.id.etDateExpense);
+        etDateExpense = (EditText) findViewById(R.id.etDateExpense);
         etDateExpense.setShowSoftInputOnFocus(false);
 
         spnrPaymentType = (Spinner) findViewById(R.id.spnrPaymentType);
@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
         spnrWork = (Spinner) findViewById(R.id.spnrWork);
         spnrCustomer = (Spinner) findViewById(R.id.spnrCustomer);
         spnrPriceOffer = (Spinner) findViewById(R.id.spnrPriceOffer);
-        spnrWorkExpenses=(Spinner) findViewById(R.id.spnrWorkExpenses);
+        spnrWorkExpenses = (Spinner) findViewById(R.id.spnrWorkExpenses);
 
         rdCustomer = (RadioButton) findViewById(R.id.rdCustomer);
         rdWork = (RadioButton) findViewById(R.id.rdWork);
@@ -251,7 +251,7 @@ public class SearchActivity extends AppCompatActivity {
         btnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  setSpinners();
+                //  setSpinners();
                 etDateReceipt.setText("");
                 etDueDateWork.setText("");
                 etDueDateWorkPO.setText("");
@@ -259,7 +259,7 @@ public class SearchActivity extends AppCompatActivity {
                 etReceiptNum.setText("");
                 disableLayouts();
                 rdGrp.clearCheck();
-                if(dialog!=null)
+                if (dialog != null)
                     dialog.dismiss();
             }
         });
@@ -293,24 +293,27 @@ public class SearchActivity extends AppCompatActivity {
 
                 if (!rdCustomer.isChecked() && !rdWork.isChecked() && !rdPriceOffer.isChecked()
                         && !rdReceipt.isChecked() && !rdExpense.isChecked())
-                    Toast.makeText(getBaseContext(), "לא בוצעה בחירה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.selectionMsg), Toast.LENGTH_LONG).show();
                 else {
                     /* Customer */
-                    if (rdCustomer.isChecked()){
+                    if (rdCustomer.isChecked()) {
                         if (spnrCustomer.getSelectedItemPosition() > 0) {
                             //intent.putExtra("customerIdNum", getCustomerIdNum());
                             Intent intent2 = new Intent(SearchActivity.this, InsertCustomerActivity.class);
                             intent2.putExtra("customerIdNum", getCustomerIdNum());
                             startActivity(intent2);
-                        }else
-                            Toast.makeText(getBaseContext(), "לא נבחר לקוח", Toast.LENGTH_LONG).show();
-                        }
+                        } else
+                            Toast.makeText(getBaseContext(), getString(R.string.customerNotSet), Toast.LENGTH_LONG).show();
+                    }
                     /* Work */
-                    if (rdWork.isChecked() &&
-                            (etDueDateWork.getText().toString().length() > 0 || spnrWork.getSelectedItemPosition() > 0)) {
-                        intent.putExtra("dueDateWork", etDueDateWork.getText().toString());
-                        intent.putExtra("workIdNum", getWorkIdNum());
-                        startActivity(intent);
+                    if (rdWork.isChecked()) {
+                        if (etDueDateWork.getText().toString().length() > 0 || spnrWork.getSelectedItemPosition() > 0) {
+                            intent.putExtra("dueDateWork", etDueDateWork.getText().toString());
+                            intent.putExtra("workIdNum", getWorkIdNum());
+                            startActivity(intent);
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), getString(R.string.selectionMsg), Toast.LENGTH_LONG).show();
                     }
                     /* Price Offer */
                     if (rdPriceOffer.isChecked()) {
@@ -333,85 +336,93 @@ public class SearchActivity extends AppCompatActivity {
                             intent.putExtra("PriceOfferId", getPOIdNum());
                             startActivity(intent);
                         }
+                    } else {
+                        Toast.makeText(getBaseContext(), getString(R.string.selectionMsg), Toast.LENGTH_LONG).show();
+
                     }
                     /* Receipt */
                     if (rdReceipt.isChecked()) {
-                      /*  if (etReceiptNum.getText().toString().length() > 0
+                        if (etReceiptNum.getText().toString().equals("")
                                 && etDateReceipt.getText().toString().equals("")
                                 && spnrPaymentType.getSelectedItemPosition() <= 0
                                 && spnrPaymentMethod.getSelectedItemPosition() <= 0) {
-                            Intent intent2 = new Intent(SearchActivity.this, InsertReceiptActivity.class);
-                            intent2.putExtra("receiptNum", etReceiptNum.getText().toString());
-                            startActivity(intent2);
-                        } else if (etDateReceipt.getText().toString().length() > 0
-                                || spnrPaymentType.getSelectedItemPosition() > 0
-                                || spnrPaymentMethod.getSelectedItemPosition() > 0) {*/
+
+                            Toast.makeText(getBaseContext(), getString(R.string.selectionMsg), Toast.LENGTH_LONG).show();
+
+                        } else {
                             intent.putExtra("receiptNum", etReceiptNum.getText().toString());
                             intent.putExtra("dateReceipt", etDateReceipt.getText().toString());
                             intent.putExtra("paymentType", getPaymentType());
                             intent.putExtra("paymentMethod", getPaymentMethod());
                             startActivity(intent);
-                       // }
+                        }
                     }
                     /* Expense */
-                    if(rdExpense.isChecked()){
-                        if(spnrWorkExpenses.getSelectedItemPosition() > 0){
-                            Work work=getWorkExpense();
-                            intent.putExtra("expenseWorkIdNum", work.getIdNum()+"");
-                            intent.putExtra("expenseWorkName", work.getWorkDetails()+"");
+                    if (rdExpense.isChecked()) {
+                        if (spnrWorkExpenses.getSelectedItemPosition() > 0) {
+                            Work work = getWorkExpense();
+                            intent.putExtra("expenseWorkIdNum", work.getIdNum() + "");
+                            intent.putExtra("expenseWorkName", work.getWorkDetails() + "");
                             startActivity(intent);
-                        }else if (etDateExpense.getText().toString().length() > 0 &&
+                        } else if (etDateExpense.getText().toString().length() > 0 &&
                                 spnrWorkExpenses.getSelectedItemPosition() <= 0) {
                             intent.putExtra("dateExpense", etDateExpense.getText().toString());
                             startActivity(intent);
                         }
+                    } else {
+                        Toast.makeText(getBaseContext(), getString(R.string.selectionMsg), Toast.LENGTH_LONG).show();
+
                     }
                     // startActivity(intent);
                 }
             }
         });
 
-        rdGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                disableLayouts();
-                if (checkedId == rdReceipt.getId()) {
-                    objectType = EnumObjectType.RECEIPT.getValue();
-                    loReceipt.setVisibility(View.VISIBLE);
-                    setViewAndChildrenEnabled(loReceipt, true);
-                    etReceiptNum.requestFocus();
-                }
-                if (checkedId == rdWork.getId()) {
-                    objectType = EnumObjectType.WORK.getValue();
-                    initWorkSpinnerFromDB();
-                    loWork.setVisibility(View.VISIBLE);
-                    setViewAndChildrenEnabled(loWork, true);
-                    spnrWork.requestFocus();
-                }
-                if (checkedId == rdPriceOffer.getId()) {
-                    objectType = EnumObjectType.PRICE_OFFER.getValue();
-                    initPriceOfferSpinnerFromDB();
-                    loPriceOffer.setVisibility(View.VISIBLE);
-                    setViewAndChildrenEnabled(loPriceOffer, true);
-                    spnrPriceOffer.requestFocus();
-                }
-                if (checkedId == rdCustomer.getId()) {
-                    objectType = EnumObjectType.CUSTOMER.getValue();
-                    initCustomerSpinnerFromDB();
-                    loCustomer.setVisibility(View.VISIBLE);
-                    setViewAndChildrenEnabled(loCustomer, true);
-                    spnrCustomer.requestFocus();
-                }
-                if (checkedId == rdExpense.getId()) {
-                    objectType = EnumObjectType.EXPENSE.getValue();
-                    initWorkSpinnerFromDB(); //sets work expenses as well
-                    loExpense.setVisibility(View.VISIBLE);
-                    setViewAndChildrenEnabled(loExpense, true);
-                    spnrWorkExpenses.requestFocus();
-                }
-            }
-        });
+        rdGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+
+                                         {
+                                             @Override
+                                             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                                 // checkedId is the RadioButton selected
+                                                 disableLayouts();
+                                                 if (checkedId == rdReceipt.getId()) {
+                                                     objectType = EnumObjectType.RECEIPT.getValue();
+                                                     loReceipt.setVisibility(View.VISIBLE);
+                                                     setViewAndChildrenEnabled(loReceipt, true);
+                                                     etReceiptNum.requestFocus();
+                                                 }
+                                                 if (checkedId == rdWork.getId()) {
+                                                     objectType = EnumObjectType.WORK.getValue();
+                                                     initWorkSpinnerFromDB();
+                                                     loWork.setVisibility(View.VISIBLE);
+                                                     setViewAndChildrenEnabled(loWork, true);
+                                                     spnrWork.requestFocus();
+                                                 }
+                                                 if (checkedId == rdPriceOffer.getId()) {
+                                                     objectType = EnumObjectType.PRICE_OFFER.getValue();
+                                                     initPriceOfferSpinnerFromDB();
+                                                     loPriceOffer.setVisibility(View.VISIBLE);
+                                                     setViewAndChildrenEnabled(loPriceOffer, true);
+                                                     spnrPriceOffer.requestFocus();
+                                                 }
+                                                 if (checkedId == rdCustomer.getId()) {
+                                                     objectType = EnumObjectType.CUSTOMER.getValue();
+                                                     initCustomerSpinnerFromDB();
+                                                     loCustomer.setVisibility(View.VISIBLE);
+                                                     setViewAndChildrenEnabled(loCustomer, true);
+                                                     spnrCustomer.requestFocus();
+                                                 }
+                                                 if (checkedId == rdExpense.getId()) {
+                                                     objectType = EnumObjectType.EXPENSE.getValue();
+                                                     initWorkSpinnerFromDB(); //sets work expenses as well
+                                                     loExpense.setVisibility(View.VISIBLE);
+                                                     setViewAndChildrenEnabled(loExpense, true);
+                                                     spnrWorkExpenses.requestFocus();
+                                                 }
+                                             }
+                                         }
+
+        );
 
         /*spnrCustomer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -428,7 +439,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private Work getWorkExpense() {
-        if (!spnrWorkExpenses.getSelectedItem().equals("-בחר עבודה עם הוצאות-")) {
+        if (!spnrWorkExpenses.getSelectedItem().equals(getString(R.string.promptWorkExpenses))) {
             int pos = spnrWorkExpenses.getSelectedItemPosition();
             return worksList.get(pos - 1);
         }
@@ -442,7 +453,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private String getCustomerIdNum() {
-        if (!spnrCustomer.getSelectedItem().equals("-בחר לקוח-")) {
+        if (!spnrCustomer.getSelectedItem().equals(getString(R.string.promptCustomer))) {
             int pos = spnrCustomer.getSelectedItemPosition();
             return customerList.get(pos - 1).getIdNum();
         }
@@ -451,7 +462,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private String getWorkIdNum() {
-        if (!spnrWork.getSelectedItem().equals("-בחר עבודה-")) {
+        if (!spnrWork.getSelectedItem().equals(getString(R.string.promptWork))) {
             int pos = spnrWork.getSelectedItemPosition();
             return worksList.get(pos - 1).getIdNum();
         }
@@ -460,7 +471,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private String getPOIdNum() {
-        if (!spnrPriceOffer.getSelectedItem().equals("-בחר הצעת מחיר-")) {
+        if (!spnrPriceOffer.getSelectedItem().equals(getString(R.string.promptPO))) {
             int pos = spnrPriceOffer.getSelectedItemPosition();
             return priceOffersList.get(pos - 1).getIdNum();
         }
@@ -469,7 +480,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /* ------------------------------------------------------------------------------------------- */
     private int getPaymentType() {
-        if (!spnrPaymentType.getSelectedItem().equals("-בחר צורת תשלום-")) {
+        if (!spnrPaymentType.getSelectedItem().equals(getString(R.string.promptPaymentType))) {
             int pos = spnrPaymentType.getSelectedItemPosition();
             return pos;
         }
@@ -479,7 +490,7 @@ public class SearchActivity extends AppCompatActivity {
     /* ------------------------------------------------------------------------------------------- */
     private int getPaymentMethod() {
         int paymentMethod = 0;
-        if (!spnrPaymentMethod.getSelectedItem().equals("-בחר סוג תשלום-")) {
+        if (!spnrPaymentMethod.getSelectedItem().equals(getString(R.string.promptMethodType))) {
             int pos = spnrPaymentMethod.getSelectedItemPosition();
             switch (pos) {
                 case 1:
@@ -506,7 +517,7 @@ public class SearchActivity extends AppCompatActivity {
         initWorkSpinnerFromDB();
         initCustomerSpinnerFromDB();
         initPriceOfferSpinnerFromDB();
-     //   initWorkExpenseSpinnerFromDB();
+        //   initWorkExpenseSpinnerFromDB();
         dialog.dismiss();
     }
 
@@ -519,8 +530,9 @@ public class SearchActivity extends AppCompatActivity {
                 true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.priceOfferLink));
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -548,7 +560,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 }
@@ -556,7 +568,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
@@ -569,12 +581,13 @@ public class SearchActivity extends AppCompatActivity {
 
         dialog = ProgressDialog.show(SearchActivity.this,
                 "",
-                "טוען נתונים..",
+                getString(R.string.loadMsg),
                 true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.worksLink));
 
 
         dbRef.orderByChild("customerIdNum").startAt(customerIdNum).endAt(customerIdNum)
@@ -599,7 +612,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }
                         }
@@ -607,7 +620,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -617,12 +630,13 @@ public class SearchActivity extends AppCompatActivity {
     private void initWorkSpinnerFromDB() {//all works
         dialog = ProgressDialog.show(SearchActivity.this,
                 "",
-                "טוען נתונים..",
+                getString(R.string.loadMsg),
                 true);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Works/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.worksLink));
 
 
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -631,9 +645,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 worksList = new ArrayList<Work>();
                 strTitleList = new ArrayList<String>();
-                strTitleList.add("-בחר עבודה-");
+                strTitleList.add(getString(R.string.promptWork));
                 strTitleWorkExpenseList = new ArrayList<String>();
-                strTitleWorkExpenseList.add("-בחר עבודה עם הוצאות-");
+                strTitleWorkExpenseList.add(getString(R.string.promptWorkExpenses));
 
                 final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -661,7 +675,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 }
@@ -669,7 +683,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
@@ -678,11 +692,12 @@ public class SearchActivity extends AppCompatActivity {
     /* ------------------------------------------------------------------------------------------- */
     private void initCustomerSpinnerFromDB() {
         dialog = ProgressDialog.show(SearchActivity.this,
-                "", "טוען נתונים..", true);
+                "", getString(R.string.loadMsg), true);
         //       spnrCustomer
         DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
-                        firebaseAuth.getCurrentUser().getUid() + "/Customers/");
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
+                        firebaseAuth.getCurrentUser().getUid() +
+                        getString(R.string.customersLink));
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -707,7 +722,7 @@ public class SearchActivity extends AppCompatActivity {
                         }
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 }
@@ -715,7 +730,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });

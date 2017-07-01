@@ -65,14 +65,14 @@ public class ChangeRegistrationInfoActivity extends AppCompatActivity {
                 //if no new password and no new email OR no old password
                 if ((TextUtils.isEmpty(oldPassword) || oldPassword.length() < 6)) {
                     Toast.makeText(ChangeRegistrationInfoActivity.this,
-                            "Please enter your old password",
+                            getString(R.string.pswrdMsg),
                             Toast.LENGTH_LONG).show();
                     return;
                 }
                 if ((TextUtils.isEmpty(newPassword) || newPassword.length() < 6)
                         && TextUtils.isEmpty(newEmail)) {
                     Toast.makeText(ChangeRegistrationInfoActivity.this,
-                            "Please enter correct password",
+                            getString(R.string.pswrdCorrectMsg),
                             Toast.LENGTH_LONG).show();
                     return;
                 }

@@ -72,12 +72,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         //checking if email and passwords are empty
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter  email", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.setEmail), Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(password) || password.length() < PSWD_LEN) {
-            Toast.makeText(this, "Please enter correct password", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.pswrdCorrectMsg), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                             } else {
                                 //FirebaseCrash.report(exce);//report(new Exception(Exc));
                                 //display some message here
-                                Toast.makeText(SignUpActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignUpActivity.this, getString(R.string.registrationErr), Toast.LENGTH_LONG).show();
                             }
                             //  progressDialog.dismiss();
                         }

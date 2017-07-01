@@ -84,7 +84,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 strQuery += "הצעות מחיר\n לפי " + (dueDateWorkPO != null ? "תאריך: " + dueDateWorkPO + "\n" : "");
                 txtQuery.setText(strQuery);
             } else
-                Toast.makeText(this, "Price Offer Not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.priceOfferNotFound), Toast.LENGTH_LONG).show();
         }
          /* Work */
         else if (EnumObjectType.WORK.getValue() == searchType) {
@@ -95,7 +95,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                         (workIdNum != null ? " עבודה נבחרת" : "");
                 txtQuery.setText(strQuery);
             } else
-                Toast.makeText(this, "Work Not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.workNotFound), Toast.LENGTH_LONG).show();
         }
         /* Receipt */
         else if (EnumObjectType.RECEIPT.getValue() == searchType) {
@@ -110,7 +110,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                         (paymentMethod > 0 ? "סוג תשלום: שוטף+" + paymentMethod : "");
                 txtQuery.setText(strQuery);
             } else
-                Toast.makeText(this, "Receipts Not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.receiptNotFound), Toast.LENGTH_LONG).show();
         }
         /* Expense */
         else if (EnumObjectType.EXPENSE.getValue() == searchType) {
@@ -123,7 +123,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                                 " הוצאות עבור עבודה נבחרת" + "\n" + expenseWorkName : "");
                 txtQuery.setText(strQuery);
             } else
-                Toast.makeText(this, "Expenses Not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.expenseNotFound), Toast.LENGTH_LONG).show();
         }
 
         setEvents();
@@ -183,7 +183,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                                                                    startActivityForResult(intent, REQ_UPD_WORK);
                                                                } else {
                                                                    Toast.makeText(SearchResultsActivity.this,
-                                                                           "הצעה אושרה בעבר",
+                                                                           getString(R.string.priceOfferIsApproved),
                                                                            Toast.LENGTH_LONG).show();
                                                                }
                                                            }
@@ -315,7 +315,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                         if (pendingLoadCount[0] == 0) {
-                            Toast.makeText(SearchResultsActivity.this, "Expenses Not Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchResultsActivity.this, getString(R.string.expenseNotFound), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
 
@@ -338,7 +338,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -346,10 +346,10 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private void searchExpenseByWorkId() {
         dialog = ProgressDialog.show(SearchResultsActivity.this,
-                "", "טוען נתונים..", true);
+                "", getString(R.string.loadMsg), true);
 
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
                         firebaseAuth.getCurrentUser().getUid() + "/Expenses/");
 
         dbRef.orderByChild("workIdNum").startAt(expenseWorkIdNum).endAt(expenseWorkIdNum)
@@ -358,7 +358,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                         if (pendingLoadCount[0] == 0) {
-                            Toast.makeText(SearchResultsActivity.this, "Expenses Not Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchResultsActivity.this, getString(R.string.expenseNotFound), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
 
@@ -381,7 +381,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -390,10 +390,10 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private void searchPOByDate() {
         dialog = ProgressDialog.show(SearchResultsActivity.this,
-                "", "טוען נתונים..", true);
+                "", getString(R.string.loadMsg), true);
 
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
                         firebaseAuth.getCurrentUser().getUid() + "/PriceOffers/");
 
         final String dueDate = getDateAsDBtoString(dueDateWorkPO);
@@ -405,7 +405,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         final long[] pendingLoadCountPO = {snapshot.getChildrenCount()};
                         if (pendingLoadCountPO[0] == 0) {
-                            Toast.makeText(SearchResultsActivity.this, "Price Offer Not Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchResultsActivity.this, getString(R.string.priceOfferNotFound), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
 
@@ -420,7 +420,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                             //get Customer of current priceOffer
                             final DatabaseReference currentDdbRef = FirebaseDatabase.getInstance()
-                                    .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                                    .getReferenceFromUrl(getString(R.string.firebaseLink) +
                                             firebaseAuth.getCurrentUser().getUid() + "/Customers/"
                                             + priceOffer.getCustomerIdNum());
 
@@ -442,7 +442,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError firebaseError) {
-                                    Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 }
                             });
@@ -454,7 +454,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -477,7 +477,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         final long[] pendingLoadCountWork = {snapshot.getChildrenCount()};
                         if (pendingLoadCountWork[0] == 0) {
-                            Toast.makeText(SearchResultsActivity.this, "Work Not Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchResultsActivity.this, getString(R.string.workNotFound), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
 
@@ -499,7 +499,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -530,7 +530,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -579,13 +579,13 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onCancelled(DatabaseError firebaseError) {
-                                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                         dialog.dismiss();
                                     }
                                 });
                                 //END of get Customer of current Receipts
                             } catch (Exception ex) {
-                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }
                         }
@@ -593,7 +593,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -616,7 +616,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         final long[] pendingLoadCount = {snapshot.getChildrenCount()};
                         if (pendingLoadCount[0] == 0) {
-                            Toast.makeText(SearchResultsActivity.this, "Receipts Not Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchResultsActivity.this, getString(R.string.receiptNotFound), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
 
@@ -649,7 +649,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError firebaseError) {
-                                    Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 }
                             }); //END of get Customer of current Receipts
@@ -658,7 +658,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
                 });
@@ -761,7 +761,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                                                                              @Override
                                                                              public void onCancelled
                                                                                      (DatabaseError firebaseError) {
-                                                                                 Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                                                                 Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                                                                  dialog.dismiss();
                                                                              }
                                                                          });
@@ -797,7 +797,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                                                              @Override
                                                                              public void onCancelled(DatabaseError firebaseError) {
-                                                                                 Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                                                                 Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                                                                  dialog.dismiss();
                                                                              }
                                                                          });*//**//*
@@ -807,7 +807,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                                          @Override
                                                          public void onCancelled(DatabaseError firebaseError) {
-                                                             Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                                             Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                                              dialog.dismiss();
                                                          }
                                                      });
@@ -818,13 +818,13 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                      @Override
                                      public void onCancelled(DatabaseError firebaseError) {
-                                         Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                          dialog.dismiss();
                                      }
                                  });*//*
 
                                                             } catch (Exception ex) {
-                                                                Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                                                                Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                                                                 dialog.dismiss();
                                                             }
                                                         }
@@ -832,7 +832,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                                                     @Override
                                                     public void onCancelled(DatabaseError firebaseError) {
-                                                        Toast.makeText(getBaseContext(), "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                                                         dialog.dismiss();
                                                     }
                                                 }

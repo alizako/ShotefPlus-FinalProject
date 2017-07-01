@@ -43,16 +43,19 @@ public class SettingsActivity extends AppCompatActivity {
     static final int RESULT_EXP = 2;
     private static final String PREFS_NAME = "SIGNING-IN";
     UserProfile userProfile;
+    String errMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        errMsg = getString(R.string.err1)+ "\n"+ getString(R.string.err2);
+
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://shotefplus-72799.firebaseio.com/Users/" +
+                .getReferenceFromUrl(getString(R.string.firebaseLink) +
                         firebaseAuth.getCurrentUser().getUid() + "/UserProfile/");
 
 
@@ -116,47 +119,49 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         if (requestCode == REQ_PROFILE) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,getString(R.string.profileUpdateMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,errMsg ,Toast.LENGTH_LONG).show();
             }
         }
         if (requestCode == REQ_REGISTER) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Credential updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.registrationUpdateMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             }
         }
 
         if (requestCode == REQ_MSG) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Message updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.messageMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             }
         }
 
         if (requestCode == REQ_MAIL) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Email message updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.emailMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             }
         }
 
         if (requestCode == REQ_BSN) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Business Type updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.businessMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something weng wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -173,7 +178,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQ_PROFILE);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -187,7 +192,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQ_REGISTER);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -203,10 +208,10 @@ public class SettingsActivity extends AppCompatActivity {
                     sharedPref.edit().remove("mail").commit();
                     sharedPref.edit().remove("password").commit();
                     sharedPref.edit().remove("isCheckedToSave").commit();
-                    Toast.makeText(SettingsActivity.this, "Credential dismissed from this device", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.dissmisedMsg), Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -221,7 +226,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQ_MSG);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -235,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQ_MAIL);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -249,7 +254,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQ_BSN);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -266,7 +271,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(intent);
                 } catch (Exception ex) {
                     Toast.makeText(SettingsActivity.this,
-                            "Sorry, Something weng wrong. Please try again later",
+                            errMsg,
                             Toast.LENGTH_LONG).show();
                 }
             }

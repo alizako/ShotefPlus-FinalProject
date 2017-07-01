@@ -93,8 +93,8 @@ public class EntranceActivity extends AppCompatActivity {
             if (!sharedPrefEmail.equals("0") && !sharedPrefPassword.equals("0")) {
 
                 dialog = ProgressDialog.show(EntranceActivity.this,
-                        "מתחבר לשרת",
-                        "אנא המתן בזמן ההתחברות..",
+                        getString(R.string.connecting),
+                        getString(R.string.waitConnecting),
                         true);
 
                 firebaseAuth.signInWithEmailAndPassword(sharedPrefEmail, sharedPrefPassword)
@@ -105,14 +105,14 @@ public class EntranceActivity extends AppCompatActivity {
                                 //checking if success
                                 if (task.isSuccessful()) {
                                     dialog.dismiss();
-                                    Toast.makeText(EntranceActivity.this, R.string.signInToast, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EntranceActivity.this, getString(R.string.signInToast), Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
                                     //FirebaseCrash.report(exce);//report(new Exception(Exc));
                                     //display some message here
                                     dialog.dismiss();
-                                    Toast.makeText(EntranceActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EntranceActivity.this, getString(R.string.registrationErr), Toast.LENGTH_LONG).show();
                                 }
                                 //  progressDialog.dismiss();
                             }

@@ -310,7 +310,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
                 work = workList.get(pos);
                 if (work.isWorkCanceled()) {
                     cbIsWorkDone.setChecked(false);
-                    Toast.makeText(context, "לא ניתן לאשר ביצוע עבודה שבוטלה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, activity.getString(R.string.approveWorkDone), Toast.LENGTH_LONG).show();
                 } else {
                     work.setWorkDone(cbIsWorkDone.isChecked());
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
@@ -325,15 +325,15 @@ public class SearchResultsListAdapter extends BaseAdapter {
                 work = workList.get(pos);
 
                 if (work.isWorkDone())
-                    Toast.makeText(context, "לא ניתן לבטל עבודה שבוצעה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, activity.getString(R.string.cancelWorkDone), Toast.LENGTH_LONG).show();
                 else if (work.isWorkCanceled())
-                    Toast.makeText(context, "העבודה כבר מבוטלת", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, activity.getString(R.string.workIsCancelled), Toast.LENGTH_LONG).show();
                 else {
                     work.setWorkCanceled(true);
                     FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                             .updateWork(work, work.getIdNum());
                     imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
-                    Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, activity.getString(R.string.workCancelled), Toast.LENGTH_LONG).show();
                     AlertDialog confirmationDialog = openConfirmationDialog(imgCancelWork);
                     confirmationDialog.show();
                 }
@@ -373,7 +373,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
                         FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                 .updateWork(work, work.getIdNum());
                         imgCancelWork.setBackgroundResource(R.drawable.disabled_cancel32); //set image to be disabled
-                        Toast.makeText(context, "העבודה בוטלה", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, activity.getString(R.string.workCancelled), Toast.LENGTH_LONG).show();
 
                     }
                 })
@@ -395,7 +395,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
         Uri uri = Uri.parse("package:" + activity.getPackageName());
         intent.setData(uri);
         activity.startActivity(intent);
-        Toast.makeText(activity, "Please Allow Calling Permissions for this Application",
+        Toast.makeText(activity, activity.getString(R.string.allowPermissionMsg),
                 Toast.LENGTH_LONG).show();
     }
 
@@ -427,28 +427,28 @@ public class SearchResultsListAdapter extends BaseAdapter {
                             receipt.setPaymentType(EnumPaymentType.CASH.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, activity.getString(R.string.receiptUpdated), Toast.LENGTH_LONG).show();
                         }
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCredit))) {
                             receipt.setPaid(true);
                             receipt.setPaymentType(EnumPaymentType.CREDIT.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, activity.getString(R.string.receiptUpdated), Toast.LENGTH_LONG).show();
                         }
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidCheque))) {
                             receipt.setPaid(true);
                             receipt.setPaymentType(EnumPaymentType.CHEQUE.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, activity.getString(R.string.receiptUpdated), Toast.LENGTH_LONG).show();
                         }
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rPaidTrans))) {
                             receipt.setPaid(true);
                             receipt.setPaymentType(EnumPaymentType.TRANS.getValue());
                             FirebaseHandler.getInstance(firebaseAuth.getCurrentUser().getUid())
                                     .updateReceipt(receipt, receipt.getIdNum());
-                            Toast.makeText(activity, "הקבלה עודכנה", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, activity.getString(R.string.receiptUpdated), Toast.LENGTH_LONG).show();
                         }
                         //open receipt
                         if (item.getTitle().equals(activity.getResources().getString(R.string.rReceipt))) {
@@ -548,9 +548,9 @@ public class SearchResultsListAdapter extends BaseAdapter {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject); //"retype subject");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, body);//"insert body\n");
                 try {
-                    activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    activity.startActivity(Intent.createChooser(emailIntent, activity.getString(R.string.chooseClientEmail)));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, activity.getString(R.string.noEmailClients), Toast.LENGTH_SHORT).show();
                 }
                 // activity.startActivity(emailIntent);
                 dialog.dismiss();
@@ -558,7 +558,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 
             @Override
             public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(activity, "ERROR: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.errorMsg) + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
@@ -583,7 +583,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 
                             storageRef.child(receipt.getIdNum() + ".jpg").delete();
                         }
-                        Toast.makeText(activity, "הקבלה נמחקה", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, activity.getString(R.string.receiptDeleted), Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("לא", new DialogInterface.OnClickListener() {

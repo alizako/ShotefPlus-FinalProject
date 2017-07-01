@@ -38,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;//defining firebaseauth object
     static final int REQ_PROFILE = 1;
     static final int RESULT_EXP = 2;
+    String errMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Toast.makeText(this,"ERROR:" , Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        errMsg = getString(R.string.err1)+ "\n"+ getString(R.string.err2);
 
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
@@ -158,16 +161,16 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog openConfirmationDialog() {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-                .setTitle("התנתקות")
-                .setMessage("האם אתה בטוח כי ברצונך לצאת מהמערכת?")
+                .setTitle(getString(R.string.signout))
+                .setMessage(getString(R.string.signOutMsg))
                 .setIcon(R.drawable.alert_32)
-                .setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         signOut();
                         finish();
                     }
                 })
-                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
@@ -187,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
             firebaseAuth.signOut();
             startActivity(new Intent(MainActivity.this, EntranceActivity.class)); //Go back to home page
             finish();
-            Toast.makeText(this, "התנתקת מהמערכת בהצלחה", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.signOutOk), Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
-            Toast.makeText(this, "שגיאה במערכת", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             System.exit(0);
         }
 
@@ -199,10 +202,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_PROFILE) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.profileUpdateMsg), Toast.LENGTH_LONG).show();
             }
             if (resultCode == RESULT_EXP) {
-                Toast.makeText(this, "Sorry, Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
             }
         }
     }

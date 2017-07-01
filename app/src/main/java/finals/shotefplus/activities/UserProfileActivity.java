@@ -180,7 +180,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         isTextChanged=false;//only when the user types it counts
 
                     } catch (Exception ex) {
-                        Toast.makeText(getBaseContext(), "ERROR: " + ex.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.errorMsg) + ex.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
                 dialog.dismiss();
